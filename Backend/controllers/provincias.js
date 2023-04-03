@@ -1,6 +1,7 @@
 const { response } = require('express');
 const mongoose = require('mongoose');
 const Provincia = require('../models/provincias');
+const { infoToken } = require('../helpers/infoToken');
 
 const getProvincias = async(req, res = response) => {
     const id = req.query.id;
@@ -9,14 +10,13 @@ const getProvincias = async(req, res = response) => {
 
     try {
 
-        /*const token = req.header('x-token');
-
-        if (!((infoToken(token).rol === 'ROL_ADMIN') || (infoToken(token).uid === id))) {
+        const token = req.header('x-token');
+        if ((infoToken(token).rol !== 'ROL_ADMIN')) {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',
             });
-        }*/
+        }
 
         let provincias = [];
 
@@ -31,7 +31,7 @@ const getProvincias = async(req, res = response) => {
                 Provincia.countDocuments(query)
             ]);
         } else {
-            [provincias, total] = await Promise.all([Provincia.find({}).sort({ name: 1 }),
+            [provincias, total] = await Promise.all([Provincia.find({}).sort({ nombre: 1 }),
                 Provincia.countDocuments()
             ]);
         }
@@ -40,6 +40,34 @@ const getProvincias = async(req, res = response) => {
             ok: true,
             message: 'Aquí están las provincias',
             provincias,
+            total
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error obteniendo las provincias'
+        });
+    }
+}
+
+const getProvinciasPorColegio = async(req, res = response) => {
+    try {
+
+        const token = req.header('x-token');
+        if ((infoToken(token).rol !== 'ROL_ADMIN')) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        const provincias = await Provincia.find({}, {"codigo": 0}).sort({num_colegios: -1}).limit(5);
+
+        res.json({
+            ok: true,
+            message: 'Aquí están las provincias',
+            provincias
         });
     } catch (error) {
         console.log(error);
@@ -54,13 +82,13 @@ const crearProvincia = async(req, res = response) => {
     const { nombre, codigo } = req.body;
 
     try {
-        /*const token = req.header('x-token');
+        const token = req.header('x-token');
         if (infoToken(token).rol !== 'ROL_ADMIN') {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',
             });
-        }*/
+        }
         // Comrprobar que no existe una provincia con ese nombre
         const exists_province = await Provincia.findOne({ nombre: nombre, codigo: codigo });
 
@@ -95,13 +123,13 @@ const updateProvincia = async(req, res = response) => {
     const id = req.params.id || '';
 
     try {
-        /*const token = req.header('x-token');
+        const token = req.header('x-token');
         if (infoToken(token).rol !== 'ROL_ADMIN') {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',
             });
-        }*/
+        }
         //comprobar identificador de provincia
         const exists_prov = await Provincia.findById(id);
 
@@ -145,13 +173,13 @@ const borrarProvincia = async(req, res = response) => {
     const id = req.params.id || '';
 
     try {
-        /*const token = req.header('x-token');
+        const token = req.header('x-token');
         if (infoToken(token).rol !== 'ROL_ADMIN') {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',
             });
-        }*/
+        }
         //comprobar identificador de provincia
         const exists_prov = await Provincia.findById(id);
 
@@ -180,4 +208,4 @@ const borrarProvincia = async(req, res = response) => {
 
 }
 
-module.exports = { getProvincias, crearProvincia, updateProvincia, borrarProvincia }
+module.exports = { getProvincias, getProvinciasPorColegio, crearProvincia, updateProvincia, borrarProvincia }

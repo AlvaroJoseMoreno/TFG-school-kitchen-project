@@ -3,12 +3,11 @@ const { getUsuarios, crearAdmin } = require('../controllers/usuario');
 const { check } = require('express-validator');
 const { validar_rol } = require('../middlewares/validar_rol');
 const { validarCampos } = require('../middlewares/validar-campos');
-//const { validateJWT } = require('../middleware/validate_jwt');
-//const { validate_rol } = require('../middleware/validate_rol');
+const { validarJWT } = require('../middlewares/validar_jwt');
 const router = Router();
 
 router.get('/', [
-    //validateJWT,
+    validarJWT,
     //check('id', 'El id de usuario debe ser válido').optional().isMongoId(),
     //check('since', 'El desde debe ser un número').optional().isNumeric(),
     //check('text', 'La busqueda debe contener texto').optional().trim(),
@@ -16,9 +15,14 @@ router.get('/', [
 ], getUsuarios);
 
 router.post('/admin', [
+    validarJWT,
     validar_rol,
     check('email', 'El argumento email es obligatorio').not().isEmpty(),
     check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
+    check('password', 'El argumento password es obligatorio').not().isEmpty(),
+    check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
+    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
+    //check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
     validarCampos
 ], crearAdmin);
 

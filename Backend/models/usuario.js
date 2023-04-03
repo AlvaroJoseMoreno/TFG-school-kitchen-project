@@ -1,12 +1,4 @@
-// Id: Id (O)
-// Email: string (U)
-// Password: string (O)
-// Nombre: string (O)
-// Teléfono: string
-// Rol: string (O)
-// Tipo proveedor: string
-// Ciudad: string
-// Imagen: File
+
 // Colegio: Colegio
 
 const { Schema, model } = require('mongoose');
@@ -48,11 +40,11 @@ const UsuarioSchema = Schema({
         type: String,
         require: true
     },
-    /*colegio: {
+    colegio: {
         type: Schema.Types.ObjectId,
         ref: 'Colegio',
         require: true
-    }*/
+    }
 }, { collection: 'usuarios' });
 
 UsuarioSchema.method('toJSON', function() {

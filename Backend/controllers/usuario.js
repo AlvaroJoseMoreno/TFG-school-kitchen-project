@@ -50,13 +50,12 @@ const crearAdmin = async(req, res = response) => {
         }
 
         // Cifrar la contraseña, obtenemos el salt y ciframos
-        //const salt = bcrypt.genSaltSync();
-        //const cpassword = bcrypt.hashSync(password, salt);
+        const salt = bcrypt.genSaltSync();
+        const cpassword = bcrypt.hashSync(password, salt);
         //Creamos nuevo usuario
         const usuario = new Usuario(req.body);
-        //usuario.password = cpassword;
+        usuario.password = cpassword;
         // Almacenar en BD
-        //const token = await generarJWT(user._id, user.rol);
         await usuario.save();
 
         res.json({

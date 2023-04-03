@@ -23,4 +23,4 @@ ProvinciasSchema.method('toJSON', function() {
     return object;
 })
 
-module.exports = model('Provincias', ProvinciasSchema);
+module.exports = model('Provincia', ProvinciasSchema);
