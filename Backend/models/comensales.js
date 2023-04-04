@@ -17,12 +17,12 @@ const comensalesSchema = Schema({
     },
     usuario: {
         type: Schema.Types.ObjectId,
-        ref: 'usuario',
+        ref: 'Usuario',
         require: true
     },
     colegio: {
         type: Schema.Types.ObjectId,
-        ref: 'colegio',
+        ref: 'Colegio',
         require: true
     }
 }, { collection: 'comensales' });

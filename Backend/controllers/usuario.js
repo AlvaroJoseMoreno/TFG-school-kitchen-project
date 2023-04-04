@@ -2,6 +2,7 @@ const { response } = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
+const { infoToken } = require('../helpers/infoToken');
 
 const getUsuarios = async(req, res = response) => {
     try {
@@ -24,7 +25,7 @@ const crearAdmin = async(req, res = response) => {
     const { email, password, nombre, rol } = req.body;
 
     try {
-        /*const token = req.header('x-token');
+        const token = req.header('x-token');
         
         if (!((infoToken(token).rol === 'ROL_ADMIN'))) {
             return res.status(400).json({
@@ -32,7 +33,7 @@ const crearAdmin = async(req, res = response) => {
                 msg: 'No tienes permisos para realizar esta acción',
             });
         }
-        */
+        
         if (rol != 'ROL_ADMIN') {
             return res.status(400).json({
                 ok: false,

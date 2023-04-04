@@ -1,33 +1,43 @@
 const { Router } = require('express');
-const { getColegios, crearColegio, updateColegio, borrarColegio } = require('../controllers/colegios');
+const { getComensales, crearComensales, borrarComensales, updateComensales } = require('../controllers/comensales');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
 const router = Router();
 
-router.get('/', validarJWT, getColegios);
+router.get('/', validarJWT, getComensales);
 
 router.post('/', [
     validarJWT,
-    check('nombre', 'El nombre no puede estar vacío').not().isEmpty(),
-    check('direccion', 'Los colegios deben tener una dirección').not().isEmpty(),
-    check('direccion', 'La dirección debe tener como mínimo 20 caracteres').isLength({ min: 20 }),
-    check('telefono', 'Los colegios deben tener un telefono').not().isEmpty(),
-    check('telefono', 'Los telefonos deben de ser de 9 caracteres').isLength({ min: 9, max: 9 }),
-    check('provincia', 'Debe ser un identificador de provincia válido').isMongoId(),
+    check('fecha', 'La fecha es obligatoria').notEmpty(),
+    check('fecha', 'La fecha tiene que ser un tipo date').toDate(),
+    check('num_comensales', 'El número de comensales debe ser un número').toInt(),
+    check('num_comensales', 'El número de comensales debe ser mayor que 0').not().isEmpty(),
+    check('colegio', 'El colegio es obligatorio').notEmpty(),
+    check('colegio', 'El colegio debe ser válido').isMongoId(),
+    check('usuario', 'El usuario es obligatorio').notEmpty(),
+    check('usuario', 'El usuario que registra los comensales debe ser válido').isMongoId(),
     validarCampos
-], crearColegio);
+], crearComensales);
 
 router.put('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
+    check('fecha', 'La fecha es obligatoria').notEmpty(),
+    check('fecha', 'La fecha tiene que ser un tipo date').toDate(),
+    check('num_comensales', 'El número de comensales debe ser un número').toInt(),
+    check('num_comensales', 'El número de comensales debe ser mayor que 0').not().isEmpty(),
+    check('colegio', 'El colegio es obligatorio').notEmpty(),
+    check('colegio', 'El colegio debe ser válido').isMongoId(),
+    check('usuario', 'El usuario es obligatorio').notEmpty(),
+    check('usuario', 'El usuario que registra los comensales debe ser válido').isMongoId(),
     validarCampos
-], updateColegio);
+], updateComensales);
 
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos
-], borrarColegio);
+], borrarComensales);
 
 module.exports = router;

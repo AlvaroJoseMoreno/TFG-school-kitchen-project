@@ -82,7 +82,7 @@ const crearColegio = async(req, res = response) => {
         exist_provincia.num_colegios += 1;
         await exist_provincia.save();
         
-        //Creamos nuevo provincia
+        //Creamos nuevo colegio
         const colegio = new Colegio(req.body);
         // Almacenar en BD
         await colegio.save();
@@ -97,7 +97,7 @@ const crearColegio = async(req, res = response) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando la provincia'
+            msg: 'Error creando el colegio'
         });
     }
 } 
@@ -163,7 +163,7 @@ const updateColegio = async(req, res = response) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error modificando la provincia'
+            msg: 'Error modificando el colegio'
         });
     }
 }
