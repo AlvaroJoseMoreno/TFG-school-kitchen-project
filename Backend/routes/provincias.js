@@ -5,7 +5,12 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
 const router = Router();
 
-router.get('/', validarJWT, getProvincias);
+router.get('/', [
+    validarJWT,
+    check('id', 'El id de provincia debe ser válido').optional().isMongoId(),
+    check('text', 'La busqueda debe contener texto').optional().trim(),
+    validarCampos
+], getProvincias);
 
 router.get('/provinciasporcolegio', validarJWT, getProvinciasPorColegio);
 

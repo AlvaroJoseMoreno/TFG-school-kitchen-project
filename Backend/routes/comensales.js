@@ -5,7 +5,12 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
 const router = Router();
 
-router.get('/', validarJWT, getComensales);
+router.get('/', [
+    validarJWT,
+    check('id', 'El id de comensales debe ser válido').optional().isMongoId(),
+    check('text', 'La busqueda debe contener texto').optional().trim(),
+    validarCampos
+], getComensales);
 
 router.post('/', [
     validarJWT,

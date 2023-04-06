@@ -22,7 +22,7 @@ const getProvincias = async(req, res = response) => {
 
         if (id) {
             [provincias, total] = await Promise.all([Provincia.findById(id),
-                Provincia.countDocuments()
+                Provincia.countDocuments({_id: id})
             ]);
         } else if (name) {
             query = { nombre: { $regex: ".*" + name + ".*", $options: 'i' } };

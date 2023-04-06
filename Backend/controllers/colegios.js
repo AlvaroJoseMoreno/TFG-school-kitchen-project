@@ -25,24 +25,27 @@ const getColegios = async(req, res = response) => {
         let colegios = [];
 
         if (id) {
-            colegios = await Colegio.findById(id);
-            total = colegios.length; 
-        } else if (nombre != '') {
-            texto = new RegExp(nombre, 'i');
-            if(provincia != ''){
-                query = { provincia: provincia, $or: [{ nombre: texto }] }
-            } else {
-                query = { $or: [{ nombre: texto }] }
-            }
+            [colegios, total] = await Promise.all([Colegio.findById(id),
+                Colegio.countDocuments({_id: id})
+            ]); 
         } else {
-            if(provincia != ''){
-                query = { provincia: provincia }
+            if (nombre != '') {
+                texto = new RegExp(nombre, 'i');
+                if(provincia != ''){
+                    query = { provincia: provincia, $or: [{ nombre: texto }] }
+                } else {
+                    query = { $or: [{ nombre: texto }] }
+                }
+            } else {
+                if(provincia != ''){
+                    query = { provincia: provincia }
+                }
             }
-        }
 
-        [colegios, total] = await Promise.all([Colegio.find(query).sort({ nombre: 1 }).populate('provincia', '-__v'),
-            Colegio.countDocuments(query)
-        ]);
+            [colegios, total] = await Promise.all([Colegio.find(query).sort({ nombre: 1 }).populate('provincia', '-__v'),
+                Colegio.countDocuments(query)
+            ]);
+        }
 
         res.json({
             ok: true,

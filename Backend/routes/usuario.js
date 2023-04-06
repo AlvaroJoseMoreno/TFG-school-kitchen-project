@@ -4,14 +4,14 @@ const { check } = require('express-validator');
 const { validar_rol } = require('../middlewares/validar_rol');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
+const { validar_tipo_proveedor } = require('../middlewares/validar_tipo_proveedor');
 const router = Router();
 
 router.get('/', [
     validarJWT,
-    //check('id', 'El id de usuario debe ser válido').optional().isMongoId(),
-    //check('since', 'El desde debe ser un número').optional().isNumeric(),
-    //check('text', 'La busqueda debe contener texto').optional().trim(),
-    //validarCampos
+    check('id', 'El id de usuario debe ser válido').optional().isMongoId(),
+    check('text', 'La busqueda debe contener texto').optional().trim(),
+    validarCampos
 ], getUsuarios);
 
 router.post('/admin', [
@@ -26,16 +26,17 @@ router.post('/admin', [
     validarCampos
 ], crearAdmin);
 
-/*router.post('/super', [
+router.post('/super', [
     validar_rol
 ]);
 
 router.post('/prov', [
-    validar_rol
+    validar_rol,
+    validar_tipo_proveedor
 ]);
 
 router.post('/cocinero', [
     validar_rol
-]);*/
+]);
 
 module.exports = router;

@@ -26,24 +26,28 @@ const getComensales = async(req, res = response) => {
         let comensales = [];
 
         if (id) {
-            comensales = await Comensal.findById(id);
-            total = comensales.length; 
-        } else if (colegio != '') {
-            if(date != ''){
-                query = { colegio: colegio,  fecha: date  }
+            [comensales, total] = await Promise.all([Comensal.findById(id),
+                Comensal.countDocuments({_id: id})
+            ]); 
+        } else {  
+            if (colegio != '') {
+                if(date != ''){
+                    query = { colegio: colegio,  fecha: date  }
+                } else {
+                    query = { colegio: colegio }
+                }
             } else {
-                query = { colegio: colegio }
+                if(date != ''){
+                    query = { fecha: date }
+                }
             }
-        } else {
-            if(date != ''){
-                query = { fecha: date }
-            }
-        }
 
-        [comensales, total] = await Promise.all([Comensal.find(query).sort({ date: 1 })
-            .populate('colegio', '-__v').populate('usuario', '-__v -password'),
-            Comensal.countDocuments(query)
-        ]);
+            [comensales, total] = await Promise.all([Comensal.find(query).sort({ date: 1 })
+                .populate('colegio', '-__v').populate('usuario', '-__v -password'),
+                Comensal.countDocuments(query)
+            ]);
+
+        }  
 
         res.json({
             ok: true,
@@ -170,7 +174,6 @@ const updateComensales = async(req, res = response) => {
         // Comprobar que para la fecha que se registran los comensales, no exista ya un 
         // registro en el mismo colegio.
         const exist_reg = await Comensal.findOne({ fecha: fecha, colegio: colegio });
-        console.log(exist_reg);
         if(exist_reg && exist_reg._id.toString() !== exists_comensales._id.toString()){
             return res.status(400).json({
                 ok: false,

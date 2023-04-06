@@ -21,8 +21,8 @@ app.use('/api/usuarios', require('./routes/usuario'));
 app.use('/api/provincias', require('./routes/provincias'));
 app.use('/api/colegios', require('./routes/colegios'));
 app.use('/api/comensales', require('./routes/comensales'));
+app.use('/api/ingredientes', require('./routes/ingredientes'));
 
 app.listen(process.env.PORT, () => {
-    console.log('conectado');
     console.log('Servidor corriendo en el puerto ', process.env.PORT);
 });

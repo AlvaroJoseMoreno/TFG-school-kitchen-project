@@ -5,10 +5,54 @@ const Usuario = require('../models/usuario');
 const { infoToken } = require('../helpers/infoToken');
 
 const getUsuarios = async(req, res = response) => {
+    const id = req.query.id
+    const text = req.query.texto || '';
+    const rol = req.query.rol || '';
+    const colegio = req.query.colegio || '';
+    let query = "{";
+    let total = 0;
     try {
+        const token = req.header('x-token');
+        if (!infoToken(token)) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        let usuarios = [];
+        if(id){
+            [usuarios, total] = await Promise.all([Usuario.findById(id).populate('colegio', '-__v'),
+                                Usuario.countDocuments({_id: id})
+            ]);
+        } else {
+            if (rol != '') {
+                let roll =  `"${rol}"`;
+                query += `"rol":` + roll + ``;
+            }
+            if(colegio != ''){
+                let col = `"${colegio}"`;
+                if(rol != '') { query += ","};
+                query += `"colegio":` + col +``;
+            }
+            if(text != ''){
+                if(rol != '' || colegio != '') { query += "," };
+                query += `"$or": [{"nombre": {"$regex": ".*${text}.*", "$options": "i"}},
+                                  {"email": {"$regex": ".*${text}.*", "$options": "i"}}]`;
+            }
+            query += "}";
+            const queryJSON = JSON.parse(query);
+            [usuarios, total] = await Promise.all([Usuario.find(queryJSON).sort({ nombre: 1 })
+                .populate('colegio', '-__v'),
+                Usuario.countDocuments(queryJSON)
+            ]);
+        }
+
         res.json({
             ok: true,
-            msg: 'Usuarios obtenidos con exito'
+            msg: 'Usuarios obtenidos con exito',
+            usuarios,
+            total
         })
         
     } catch (error) {
