@@ -108,7 +108,7 @@ const crearColegio = async(req, res = response) => {
 //queda por hacer esto y el get provinces by num colegios
 
 const updateColegio = async(req, res = response) => {
-    const { nombre, provincia } = req.body;
+    const { provincia } = req.body;
     const id = req.params.id || '';
 
     try {
@@ -151,7 +151,7 @@ const updateColegio = async(req, res = response) => {
         }   
 
         // Modificamos el objeto en base de datos
-        const colegio = await Colegio.findByIdAndUpdate(id, req.body, { new: true })
+        const colegio = await Colegio.findByIdAndUpdate(id, req.body, { new: true });
         //guardamos los cambios de las provincias en la base de datos
         await exist_provincia.save();
         await exist_prov_colegio.save();

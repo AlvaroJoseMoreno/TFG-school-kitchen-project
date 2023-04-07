@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getUsuarios, crearAdmin } = require('../controllers/usuario');
+const { getUsuarios, crearAdmin, crearSuper, crearProveedor, crearCocinero, borrarUsuario, updateUsuario } = require('../controllers/usuario');
 const { check } = require('express-validator');
 const { validar_rol } = require('../middlewares/validar_rol');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -16,27 +16,76 @@ router.get('/', [
 
 router.post('/admin', [
     validarJWT,
-    validar_rol,
     check('email', 'El argumento email es obligatorio').not().isEmpty(),
     check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
     check('password', 'El argumento password es obligatorio').not().isEmpty(),
     check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
-    //check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
+    check('tipo_proveedor', 'El argumento tipo proveedor debe estar vacío').isEmpty(),
+    validar_rol,
     validarCampos
 ], crearAdmin);
 
 router.post('/super', [
-    validar_rol
-]);
-
-router.post('/prov', [
+    validarJWT,
+    check('email', 'El argumento email es obligatorio').not().isEmpty(),
+    check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
+    check('password', 'El argumento password es obligatorio').not().isEmpty(),
+    check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
+    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
+    check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
+    check('colegio', 'El colegio debe ser un identificador válido').isMongoId(),
+    check('tipo_proveedor', 'El argumento tipo proveedor debe estar vacío').isEmpty(),
     validar_rol,
-    validar_tipo_proveedor
-]);
+    validarCampos
+], crearSuper);
+
+router.post('/proveedor', [
+    validarJWT,
+    check('email', 'El argumento email es obligatorio').not().isEmpty(),
+    check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
+    check('password', 'El argumento password es obligatorio').not().isEmpty(),
+    check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
+    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
+    check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
+    check('colegio', 'El colegio debe ser un identificador válido').isMongoId(),
+    check('tipo_proveedor', 'El argumento tipo proveedor es obligatorio').not().isEmpty(),
+    validar_tipo_proveedor,
+    validar_rol,
+    validarCampos
+], crearProveedor);
 
 router.post('/cocinero', [
-    validar_rol
-]);
+    validarJWT,
+    check('email', 'El argumento email es obligatorio').not().isEmpty(),
+    check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
+    check('password', 'El argumento password es obligatorio').not().isEmpty(),
+    check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
+    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
+    check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
+    check('colegio', 'El colegio debe ser un identificador válido').isMongoId(),
+    validar_rol,
+    validarCampos
+], crearCocinero);
+
+router.put('/:id', [
+    validarJWT,
+    check('id', 'El identificador no es válido').isMongoId(),
+    check('email', 'El argumento email es obligatorio').not().isEmpty(),
+    check('email', 'El email debe ser un email válido, ejemplo: xxxxxx@xxxx.xx').isEmail(),
+    check('password', 'El password no se modifica aquí').isEmpty(),
+    check('rol', 'El argumento rol es obligatorio').not().isEmpty(),
+    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
+    check('colegio', 'El argumento colegio es obligatorio').not().isEmpty(),
+    check('colegio', 'El colegio debe ser un identificador válido').isMongoId(),
+    validar_tipo_proveedor,
+    validarCampos
+], updateUsuario);
+
+router.delete('/:id', [
+    validarJWT,
+    check('id', 'El identificador no es válido').isMongoId(),
+    validarCampos
+], borrarUsuario);
 
 module.exports = router;

@@ -49,7 +49,6 @@ const login = async(req, res = response) => {
     const { email, password } = req.body;
 
     try {
-        console.log('Entor');
         const userBD = await Usuario.findOne({ email });
         if (!userBD) {
             return res.status(400).json({
