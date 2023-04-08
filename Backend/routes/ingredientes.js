@@ -18,7 +18,7 @@ router.post('/', [
     check('unidad_medida', 'La unidad de medida es obligatoria').not().isEmpty(),
     check('proveedor', 'El proveedor es obligatorio').notEmpty(),
     check('precio', 'El precio es obligatorio').notEmpty(),
-    check('precio', 'El precio debe ser un número').toFloat(),
+    check('precio', 'El precio debe ser un número').isNumeric(),
     check('proveedor', 'El proveedor debe tener un identificador válido').isMongoId(),
     validarCampos
 ], crearIngredientes);
@@ -29,7 +29,7 @@ router.put('/:id', [
     check('unidad_medida', 'La unidad de medida es obligatoria').not().isEmpty(),
     check('proveedor', 'El proveedor es obligatorio').notEmpty(),
     check('precio', 'El precio es obligatorio').notEmpty(),
-    check('precio', 'El precio debe ser un número').toFloat(),
+    check('precio', 'El precio debe ser un número').isNumeric(),
     check('proveedor', 'El proveedor debe tener un identificador válido').isMongoId(),
     validarCampos
 ], updateIngredientes);
