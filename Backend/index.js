@@ -23,6 +23,7 @@ app.use('/api/colegios', require('./routes/colegios'));
 app.use('/api/comensales', require('./routes/comensales'));
 app.use('/api/ingredientes', require('./routes/ingredientes'));
 app.use('/api/pedidos', require('./routes/pedido'));
+app.use('/api/platos', require('./routes/platos'));
 
 app.listen(process.env.PORT, () => {
     console.log('Servidor corriendo en el puerto ', process.env.PORT);

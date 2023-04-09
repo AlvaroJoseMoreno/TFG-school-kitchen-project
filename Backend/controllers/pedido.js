@@ -58,7 +58,7 @@ const getPedidos = async(req, res = response) => {
             const queryJSON = JSON.parse(query);
             [pedidos, total] = await Promise.all([Pedido.find(queryJSON).sort({ nombre: -1 })
                 .populate('proveedor', '-__v -password').populate('colegio', '-__v')
-                .populate('usuario_pedido', '-__v -password'),
+                .populate('usuario_pedido', '-__v -password').populate('ingredientes', '-__v'),
                 Pedido.countDocuments(queryJSON)
             ]);
         }

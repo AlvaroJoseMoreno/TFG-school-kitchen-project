@@ -10,7 +10,7 @@ const PlatoSchema = Schema({
     },
     categoria: {
         type: String,
-        //require: true    
+        require: true    
     },
     receta: {
         type: String,
@@ -18,16 +18,15 @@ const PlatoSchema = Schema({
     },
     ingredientes: [{
         type: Schema.Types.ObjectId,
-        ref: 'ingrediente',
+        ref: 'Ingrediente',
         require: true
     }],
     cantidad_ingredientes: [{
         type: Number,
         require: true
     }],
-    coste: {
-        type: Number,
-        require: true
+    coste_racion: {
+        type: Number
     },
     colegio: {
         type: Schema.Types.ObjectId,

@@ -24,7 +24,7 @@ const PedidoSchema = Schema({
     },
     ingredientes: [{
         type: Schema.Types.ObjectId,
-        ref: 'ingrediente',
+        ref: 'Ingrediente',
         require: true
     }],
     cantidad: [{
