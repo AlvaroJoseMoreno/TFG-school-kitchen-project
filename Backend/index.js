@@ -1,15 +1,11 @@
-/*
-@Author: Alvaro Jose Moreno Carreras.
-
-Fecha de creacion de fichero: 31-03-2023
-*/
+/*@Author: Alvaro Jose Moreno Carreras.
+Fecha de creacion de fichero: 31-03-2023*/
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { dbConnection } = require('./database/configdb');
 const bodyParser = require('body-parser');
 const app = express();
-
 dbConnection();
 
 app.use(cors());
@@ -24,6 +20,7 @@ app.use('/api/comensales', require('./routes/comensales'));
 app.use('/api/ingredientes', require('./routes/ingredientes'));
 app.use('/api/pedidos', require('./routes/pedido'));
 app.use('/api/platos', require('./routes/platos'));
+app.use('/api/menus', require('./routes/menu'));
 
 app.listen(process.env.PORT, () => {
     console.log('Servidor corriendo en el puerto ', process.env.PORT);
