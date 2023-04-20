@@ -1,0 +1,34 @@
+<section class="main">
+  <div class="wrapper">
+      <div class="card">
+          <div class="title">
+            <h1 style="text-align: center;">Iniciar Sesión</h1>
+          </div>
+          <div>
+            <p>Identifíquese para hacer uso de las funcionalidades</p>
+          </div>
+          <form class="form" method="post" id="loginForm" (ngSubmit)="login()" [formGroup]="loginForm">
+              <div class="form-group input-css">
+                  <input type="email" name="email" placeholder="Email" class="form-control css_input" formControlName="email" [ngClass]="{'is-invalid' : !campoValidoLogin('email')}" id="email">
+                  <div class="invalid-feedback">
+                      El email es obligatorio y debe ser válido
+                  </div>
+              </div>
+              <div class="form-group input-css">
+                  <input type="password" name="password" placeholder="Contraseña" class="form-control css_input" formControlName="password" [ngClass]="{'is-invalid' : !campoValidoLogin('password')}" id="password" #passwordfield>
+                  <span (click)="passwordfield.type=passwordfield.type=='password' ? 'text':'password'" class="fa fa-fw field-icon toggle-password" [ngClass]="(passwordfield.type=='password') ? 'fa-eye' :' fa-eye-slash'"></span>
+                  <div class="invalid-feedback">
+                      La contraseña es obligatoria
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label><input type="checkbox" class="css_input input-css" name="remember" id="remember" formControlName="remember"> Recordar Usuario</label>
+              </div>
+              <div class="form-group flexing">
+                  <a routerLink="/login" routerLinkActive="not-active" class="linktext">Nueva contraseña</a>
+                  <button name="submit" class="input-submit" [disabled]="waiting"> <i *ngIf="waiting" style="min-width: 38px;" class="fas fa-circle-notch fa-spin"></i> <div *ngIf="!waiting">Login</div></button>
+              </div>
+          </form>
+      </div>
+  </div>
+</section>
