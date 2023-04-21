@@ -6,8 +6,13 @@ import { UsuariosLayoutComponent } from '../layouts/usuarios-layout/usuarios-lay
 const routes: Routes = [
   { path: 'admin', component: UsuariosLayoutComponent,
     children: [
-      { path: '', component: DashboardComponent },
-      { path: 'dashboard', component: DashboardComponent }
+      { path: '', component: DashboardComponent, data: {
+        rol: 'ROL_ADMIN',
+        titulo: 'Dashboard Admin'
+      } },
+      { path: 'dashboard', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'dashboard' } },
+      { path: 'usuarios', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'Usuarios' } },
+      { path: 'platos', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'Platos' } }
     ]
   }
 ];

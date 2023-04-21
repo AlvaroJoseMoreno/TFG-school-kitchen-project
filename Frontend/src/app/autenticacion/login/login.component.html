@@ -16,7 +16,7 @@
               </div>
               <div class="form-group input-css">
                   <input type="password" name="password" placeholder="Contraseña" class="form-control css_input" formControlName="password" [ngClass]="{'is-invalid' : !campoValidoLogin('password')}" id="password" #passwordfield>
-                  <span (click)="passwordfield.type=passwordfield.type=='password' ? 'text':'password'" class="fa fa-fw field-icon toggle-password" [ngClass]="(passwordfield.type=='password') ? 'fa-eye' :' fa-eye-slash'"></span>
+                  <span (click)="passwordfield.type=passwordfield.type=='password'?'text':'password'" class="fa fa-fw field-icon toggle-password" [ngClass]="(passwordfield.type=='password')?' fa-eye':' fa-eye-slash'"></span>
                   <div class="invalid-feedback">
                       La contraseña es obligatoria
                   </div>

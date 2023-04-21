@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CommonsModule } from './commons/commons.module';
 import { AutenticacionModule } from './autenticacion/autentication.module';
 import { PagesModule } from './pages/pages.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PagesModule } from './pages/pages.module';
     AppRoutingModule,
     AutenticacionModule,
     PagesModule,
-    CommonsModule
+    CommonsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

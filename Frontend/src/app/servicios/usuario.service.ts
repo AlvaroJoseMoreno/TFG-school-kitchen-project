@@ -34,7 +34,7 @@ export class UsuarioService {
   }
 
   get token(): string {
-    return  localStorage.getItem('x-token') || sessionStorage.getItem('x-token') || '';
+    return localStorage.getItem('x-token') || sessionStorage.getItem('x-token') || '';
   }
 
  get uid(): string {

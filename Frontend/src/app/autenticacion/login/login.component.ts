@@ -6,7 +6,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -33,10 +33,11 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get('password')?.value,
       remember: this.loginForm.get('remember')?.value
     }
-
+    this.formSubmint = true;
     this.usuarioservicio.login(loginFormValue).subscribe( res => {
       console.log(res);
         this.router.navigateByUrl('/admin');
+        this.formSubmint = false;
     }, (err) => {
       console.log(err);
     });
