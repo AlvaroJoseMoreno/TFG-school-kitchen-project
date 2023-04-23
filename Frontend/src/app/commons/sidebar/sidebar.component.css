@@ -1,20 +1,18 @@
 mat-sidenav {
   width: 200px;
   border-right: none;
-  background: #002b5c;
+  background: #940BAA;
   color: white;
-  padding: 16px;
   text-align: center;
 }
 
+app-navbar{
+  z-index: 20;
+  position: relative;
+}
+
 .content {
-  height: calc(100vh - 130px);
-  border-radius: 10px;
-  margin: 16px;
-  margin-left: 32px;
-
-  padding: 16px;
-
+  /* height: calc(100vh - 80px); */
   overflow: auto;
 }
 
@@ -30,13 +28,6 @@ mat-sidenav-container {
   font-size: 1rem;
 }
 
-.avatar {
-  margin-top: 16px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-
 .name {
   margin-top: 8px;
   font-weight: normal;
@@ -46,4 +37,30 @@ mat-divider {
   margin-top: 16px;
   margin-bottom: 16px;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.menu-button {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.2rem;
+}
+
+svg {
+  margin-right: 20px;
+}
+
+button:focus{
+  outline: 0 !important;
+  background: gainsboro;
+  color: #940BAA;
+}
+
+.menu-button span{
+  margin-left: 20px;
+}
+.icons_menu{
+  width: 20px;
 }

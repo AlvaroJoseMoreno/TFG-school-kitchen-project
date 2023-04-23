@@ -13,13 +13,28 @@ export class UsuarioService {
   private usuario: Usuario = new Usuario('', '');
   constructor( private http: HttpClient ) { }
 
+  getUsuarios( texto?: string, rol?: string, colegio?: string ): Observable<object> {
+
+    let query = '';
+
+    if(texto != '' || rol != '' || colegio != ''){
+      query = '?params=true'
+    }
+
+    if (texto != '') {query += `&texto=${texto}`;}
+    if(rol != '') { query += `&rol=${rol}` };
+    if(colegio != '') { }
+
+    return this.http.get(`${environment.base_url}/usuarios/${query}`, this.cabeceras);
+  }
+
   login( formData: any) {
     console.log(formData);
     return this.http.post(`${environment.base_url}/login`, formData).pipe(
       tap( (res : any) => {
         console.log(res);
-        if(formData.remember)localStorage.setItem('x-token', res['token']);
-        else sessionStorage.setItem('x-token', res['token']);
+        if(formData.remember)localStorage.setItem('token', res['token']);
+        else sessionStorage.setItem('token', res['token']);
         const {uid, rol} = res;
         this.usuario = new Usuario(uid, rol);
       })
@@ -34,7 +49,7 @@ export class UsuarioService {
   }
 
   get token(): string {
-    return localStorage.getItem('x-token') || sessionStorage.getItem('x-token') || '';
+    return localStorage.getItem('token') || sessionStorage.getItem('token') || '';
   }
 
  get uid(): string {

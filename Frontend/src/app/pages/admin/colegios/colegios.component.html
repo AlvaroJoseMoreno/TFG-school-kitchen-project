@@ -1,0 +1,73 @@
+<div class="float-left form-filters">
+  <form [formGroup]="searchForm" (ngSubmit)="getColegios()">
+      <div class="form-row">
+          <div class="form-group col-sm-7">
+              <div class="input-group">
+                  <input #txtBuscar type="text" class="form-control round" formControlName="text" id="fname" placeholder="Buscar">
+                  <div class="input-group-append">
+                      <span class="input-group-text micursor round" (click)="borrar()"><i class="fa fa-times-circle"></i></span>
+                  </div>
+              </div>
+          </div>
+          <div style="margin-bottom: 0;" class="form-group col-sm-7">
+            <div class="input-group">
+            <input type="text" (input)="getProvincias()" class="form-control" style="border-radius: 5px;" placeholder="Provincia"
+                formControlName="provincia" [formControl]="filterProvince" [matAutocomplete]="auto">
+              <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre">
+                    {{option.nombre}}
+                  </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+      </div>
+  </form>
+</div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="Nombre">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Provincia">
+      <th mat-header-cell *matHeaderCellDef> Provincia </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.provincia">{{element.provincia.nombre}}</div>
+        <div *ngIf="!element.provincia">No hay provincia</div>
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Telefono">
+      <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+      <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Direccion">
+      <th mat-header-cell *matHeaderCellDef> Dirección </th>
+      <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+<mat-paginator #paginator
+               (page)="handlePageEvent($event)"
+               [length]="length"
+               [pageSize]="pageSize"
+               [disabled]="disabled"
+               [showFirstLastButtons]="showFirstLastButtons"
+               [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+               [hidePageSize]="hidePageSize"
+               [pageIndex]="pageIndex"
+               aria-label="Select page">
+</mat-paginator>

@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -22,7 +24,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class CommonsModule { }

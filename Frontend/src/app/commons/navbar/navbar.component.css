@@ -15,14 +15,10 @@
   align-items: center;
 }
 
-.fa-bars{
-  height: 50px;
-  width: 50px;
-}
-
 .divTitle{
   width: 60%;
-  margin-top: 20px;
+  display: grid;
+  align-items: center;
   height: 80px;
 }
 

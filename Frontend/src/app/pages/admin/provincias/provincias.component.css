@@ -1,0 +1,14 @@
+@import url('../usuarios/usuarios.component.css');
+
+td.mat-cell {
+  width: 33%;
+  text-align: center;
+}
+
+.mat-table{
+  overflow-x: hidden;
+}
+
+.form-group {
+  margin-bottom: 0;
+}

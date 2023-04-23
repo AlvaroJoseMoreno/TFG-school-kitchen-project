@@ -1,4 +1,5 @@
 import { environment } from '../../environments/environment';
+import { Colegio } from './colegio.model';
 
 export class Usuario {
 
@@ -12,7 +13,7 @@ export class Usuario {
                public imagen?: string,
                public tipo_proveedor?:string,
                public ciudad?: string,
-               //public colegio?: Colegio,
+               public colegio?: Colegio,
                public exists: boolean = false
                ) {}
 
