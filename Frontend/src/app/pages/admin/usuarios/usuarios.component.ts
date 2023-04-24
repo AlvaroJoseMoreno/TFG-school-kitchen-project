@@ -66,7 +66,6 @@ export class UsuariosComponent implements OnInit {
     const rol = this.searchForm.get('rol')?.value || '';
 
     this.usuarioservicio.getUsuarios(texto, rol).subscribe((res: any) => {
-      if(res['usuarios'].length > 0){
         this.usuarios = res['usuarios'];
         this.length = res['usuarios'].length;
         this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
@@ -80,7 +79,6 @@ export class UsuariosComponent implements OnInit {
 
           return `página ${start} - ${end} de ${length}`;
         };
-      }
       console.log(res);
     });
   }

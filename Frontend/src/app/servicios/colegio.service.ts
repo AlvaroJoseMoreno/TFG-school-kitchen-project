@@ -22,6 +22,8 @@ export class ColegioService {
     if (texto != '') {query += `&nombre=${texto}`;}
     if (provincia != '') { query += `&provincia=${provincia}` };
 
+    console.log('Query: ', `${environment.base_url}/colegios/${query}`);
+
     return this.http.get(`${environment.base_url}/colegios/${query}`, this.cabeceras);
   }
 

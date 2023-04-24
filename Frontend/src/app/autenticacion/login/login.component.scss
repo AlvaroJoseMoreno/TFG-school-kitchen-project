@@ -273,6 +273,10 @@ input:-webkit-autofill:active{
     background-color: var(--inputDisabled);
 }
 
+.main .wrapper .form-group .input-submit:disabled{
+  background: violet;
+}
+
   h1{
     text-align: center;
   }

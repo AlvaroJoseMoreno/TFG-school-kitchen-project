@@ -11,6 +11,9 @@ import { ColegiosComponent } from './colegios/colegios.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ProvinciasComponent } from './provincias/provincias.component';
+import { ComensalesComponent } from './comensales/comensales.component';
+import { IngredientesComponent } from './ingredientes/ingredientes.component';
+import { PlatosComponent } from './platos/platos.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,9 @@ import { ProvinciasComponent } from './provincias/provincias.component';
     UsuariosComponent,
     ColegiosComponent,
     ProvinciasComponent,
+    ComensalesComponent,
+    IngredientesComponent,
+    PlatosComponent,
   ],
   exports: [
     DashboardComponent,

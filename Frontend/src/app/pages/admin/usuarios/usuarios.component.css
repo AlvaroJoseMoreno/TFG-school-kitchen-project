@@ -2,7 +2,7 @@
   display: inline-block;
   width: 100%;
   box-shadow: none;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin-bottom: -5px;
 }
 

@@ -73,7 +73,7 @@ export class ColegiosComponent implements OnInit {
   }
 
   getProvincias() {
-    this.provinciaservicio.getProvincias().subscribe((res: any) => {
+    this.provinciaservicio.getProvincias('').subscribe((res: any) => {
       console.log(res);
       this.provincias = res['provincias'];
       this.filteredOptions = this.filterProvince.valueChanges.pipe(

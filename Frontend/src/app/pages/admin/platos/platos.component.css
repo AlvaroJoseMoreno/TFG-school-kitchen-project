@@ -1,0 +1,12 @@
+@import url('../usuarios/usuarios.component.css');
+td.mat-cell {
+  width: 33%;
+  text-align: center;
+}
+.ingredientes_table{
+  color: #940BAA;
+}
+.ingredientes_table:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}

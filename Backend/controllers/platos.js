@@ -13,6 +13,8 @@ const getPlatos = async(req, res = response) => {
     const id = req.query.id;
     const text = req.query.texto || '';
     const ingrediente = req.query.ingrediente || '';
+    const colegio = req.query.colegio || '';
+
     let query = {};
     let texto = '';
     let total = 0;
@@ -36,13 +38,27 @@ const getPlatos = async(req, res = response) => {
             if(text != ''){
                 texto = new RegExp(text, 'i');
                 if(ingrediente != ''){
-                    query = { ingredientes: ingrediente, $or: [{ nombre: texto }, { receta: texto }] };
+                        if(colegio != '') {
+                            query = { ingredientes: ingrediente, $or: [{ nombre: texto }, { receta: texto }], colegio: colegio };
+                        } else {
+                            query = { ingredientes: ingrediente, $or: [{ nombre: texto }, { receta: texto }] };
+                        }
                 } else {
-                    query = { $or: [{ nombre: texto }, { receta: texto }] };
+                    if(colegio != ''){
+                        query = { $or: [{ nombre: texto }, { receta: texto }], colegio: colegio };
+                    } else {
+                        query = { $or: [{ nombre: texto }, { receta: texto }] };
+                    }
                 }
             } else {
                 if(ingrediente != ''){
-                    query = { ingredientes: ingrediente };
+                    if(colegio != ''){
+                        query = { ingredientes: ingrediente, colegio: colegio };  
+                    } else {
+                        query = { ingredientes: ingrediente };
+                    }
+                } else if(colegio != '') {
+                    query = { colegio: colegio };
                 }
             }
             [platos, total] = await Promise.all([Plato.find(query).sort({ nombre: 1 })

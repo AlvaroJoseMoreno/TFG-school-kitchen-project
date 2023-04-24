@@ -34,11 +34,14 @@ export class LoginComponent implements OnInit {
       remember: this.loginForm.get('remember')?.value
     }
     this.formSubmint = true;
+    this.waiting = true;
     this.usuarioservicio.login(loginFormValue).subscribe( res => {
       console.log(res);
+        this.waiting = false;
         this.router.navigateByUrl('/admin');
         this.formSubmint = false;
     }, (err) => {
+      this.waiting = false;
       console.log(err);
     });
   }

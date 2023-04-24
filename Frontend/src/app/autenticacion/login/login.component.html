@@ -26,7 +26,7 @@
               </div>
               <div class="form-group flexing">
                   <a routerLink="/login" routerLinkActive="not-active" class="linktext">Nueva contraseña</a>
-                  <button name="submit" class="input-submit" [disabled]="waiting"> <i *ngIf="waiting" style="min-width: 38px;" class="fas fa-circle-notch fa-spin"></i> <div *ngIf="!waiting">Login</div></button>
+                  <button name="submit" class="input-submit" [disabled]="this.loginForm.invalid"> <i *ngIf="waiting" style="min-width: 38px;" class="fas fa-circle-notch fa-spin"></i> <div>Login</div></button>
               </div>
           </form>
       </div>
