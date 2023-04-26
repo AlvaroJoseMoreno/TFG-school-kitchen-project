@@ -1,0 +1,23 @@
+
+<div style="font-size: 16px; width: 100%; text-align: center; min-width: 95%;" >
+  <mat-tab-group>
+      <mat-tab label="Ingredientes">
+          <div class="columns">
+              <mat-list *ngFor="let item of data.pedido.ingredientes; let i = index" class="example-datos">
+                  <p class="mat-table-p"><b> Ingrediente {{i+1}} </b></p>
+                  <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Ingrediente: </b></span> <span>{{item.nombre}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br>
+                  <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Cantidad Pedida: </b></span><span>{{data.pedido.cantidad[i]}} {{item.unidad_medida}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br>
+                  <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Cantidad Recepcionada: </b></span><span>{{data.pedido.cantidad_recepcionada[i]}} {{item.unidad_medida}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br>
+              </mat-list>
+          </div>
+      </mat-tab>
+  </mat-tab-group>
+</div>
+
+

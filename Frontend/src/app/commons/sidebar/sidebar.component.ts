@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
               private usuarioServio: UsuarioService) { }
 
   ngOnInit(): void {
-    //this.menuItem = this.getMenu();<i class="fa-solid fa-school"></i>
+    //this.menuItem = this.getMenu();
     this.menuItem = [
       { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/admin'},
       { title: 'Usuarios', icon: 'fa fa-users', sub: false, url: '/admin/usuarios'},
@@ -29,7 +29,6 @@ export class SidebarComponent implements OnInit {
       { title: 'Platos', icon: 'fa fa-utensils', sub: false, url: '/admin/platos'},
       { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/admin/comensales'},
       { title: 'Provincias', icon: 'fas fa-route-interstate', sub: false, url: '/admin/provincias'}
-      // <i class="fa-sharp fa-solid fa-cart-minus"></i>
     ];
     console.log(this.menuItem);
     this.initComp();

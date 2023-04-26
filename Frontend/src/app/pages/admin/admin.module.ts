@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -14,8 +14,16 @@ import { ProvinciasComponent } from './provincias/provincias.component';
 import { ComensalesComponent } from './comensales/comensales.component';
 import { IngredientesComponent } from './ingredientes/ingredientes.component';
 import { PlatosComponent } from './platos/platos.component';
+import { MenusComponent } from './menus/menus.component';
+import { IngredientesPedidos, PedidosComponent } from './pedidos/pedidos.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
+  schemas:[NO_ERRORS_SCHEMA],
   declarations: [
     DashboardComponent,
     UsuariosComponent,
@@ -24,10 +32,22 @@ import { PlatosComponent } from './platos/platos.component';
     ComensalesComponent,
     IngredientesComponent,
     PlatosComponent,
+    MenusComponent,
+    PedidosComponent,
+    IngredientesPedidos
   ],
   exports: [
     DashboardComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    ColegiosComponent,
+    ProvinciasComponent,
+    ComensalesComponent,
+    IngredientesComponent,
+    PlatosComponent,
+    MenusComponent,
+    PedidosComponent,
+    MatListModule,
+    MatDividerModule,
   ],
   imports: [
     CommonModule,
@@ -38,7 +58,10 @@ import { PlatosComponent } from './platos/platos.component';
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatIconModule
   ]
 })
 export class AdminModule { }

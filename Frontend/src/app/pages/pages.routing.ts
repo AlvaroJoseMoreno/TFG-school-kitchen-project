@@ -8,6 +8,8 @@ import { ProvinciasComponent } from './admin/provincias/provincias.component';
 import { ComensalesComponent } from './admin/comensales/comensales.component';
 import { IngredientesComponent } from './admin/ingredientes/ingredientes.component';
 import { PlatosComponent } from './admin/platos/platos.component';
+import { MenusComponent } from './admin/menus/menus.component';
+import { PedidosComponent } from './admin/pedidos/pedidos.component';
 
 const routes: Routes = [
   { path: 'admin', component: UsuariosLayoutComponent,
@@ -19,9 +21,9 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'Administración' } },
       { path: 'usuarios', component: UsuariosComponent, data: { rol: 'ROL_ADMIN', titulo: 'Usuarios' } },
       { path: 'colegios', component: ColegiosComponent, data: { rol: 'ROL_ADMIN', titulo: 'Colegios' } },
-      { path: 'pedidos', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'Pedidos' } },
+      { path: 'pedidos', component: PedidosComponent, data: { rol: 'ROL_ADMIN', titulo: 'Pedidos' } },
       { path: 'ingredientes', component: IngredientesComponent, data: { rol: 'ROL_ADMIN', titulo: 'Ingredientes' } },
-      { path: 'menus', component: DashboardComponent, data: { rol: 'ROL_ADMIN', titulo: 'Menus' } },
+      { path: 'menus', component: MenusComponent, data: { rol: 'ROL_ADMIN', titulo: 'Menus' } },
       { path: 'platos', component: PlatosComponent, data: { rol: 'ROL_ADMIN', titulo: 'Platos' } },
       { path: 'comensales', component: ComensalesComponent, data: { rol: 'ROL_ADMIN', titulo: 'Comensales' } },
       { path: 'provincias', component: ProvinciasComponent, data: { rol: 'ROL_ADMIN', titulo: 'Provincias' } },

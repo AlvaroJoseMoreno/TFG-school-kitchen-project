@@ -30,7 +30,7 @@ const getPedidos = async(req, res = response) => {
         let pedidos = [];
 
         if (id) {
-            [pedidos, total] = await Promise.all([Pedido.findById(id),
+            [pedidos, total] = await Promise.all([Pedido.findById(id).populate('ingredientes', '-__v'),
                 Pedido.countDocuments({_id: id}),
             ]);
         } else{
@@ -335,7 +335,7 @@ const borrarPedido = async(req, res = response) => {
         // comprobamos la existencia del pedido y que el estado sea completado,
         // si no no se puede eliminar
         const exist_Pedido = await Pedido.findById(id);
-        if (!exist_Pedido || exist_Pedido.estado !== 'Completado') {
+        if (!exist_Pedido || exist_Pedido.estado !== 'Entregado') {
             return res.status(400).json({
                 ok: false,
                 msg: 'El identificador del pedido no es válido o no está completado'

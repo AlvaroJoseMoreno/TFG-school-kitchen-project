@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-
     let loginFormValue = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
@@ -41,7 +40,9 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/admin');
         this.formSubmint = false;
     }, (err) => {
+      this.loginForm.reset();
       this.waiting = false;
+      this.formSubmint = false;
       console.log(err);
     });
   }

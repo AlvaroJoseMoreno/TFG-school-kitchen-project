@@ -11,19 +11,22 @@ export class SidebarService {
   menuAdmin: sidebarItem [] = [
     { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/admin'},
     { title: 'Usuarios', icon: 'fa fa-users', sub: false, url: '/admin/usuarios'},
-    { title: 'Colegios', icon: 'fas fa-city', sub: false, url: '/admin/colegios'},
-    { title: 'Pedidos', icon: 'fas fa-route-interstate', sub: false, url: '/admin/pedidos'},
-    { title: 'Ingredientes', icon: 'fas fa-calendar-star', sub: false, url: '/admin/ingredientes'},
-    { title: 'Menus', icon: 'far fa-map-marker-times', sub: false, url: '/admin/menus'},
-    { title: 'Platos', icon: 'far fa-calendar-check', sub: false, url: '/admin/platos'},
-    { title: 'Comensales', icon: 'fas fa-star', sub: false, url: '/admin/comensales'},
-    { title: 'Provincias', icon: 'fa fa-route', sub: false, url: '/admin/provincias'}
+    { title: 'Colegios', icon: 'fa fa-school', sub: false, url: '/admin/colegios'},
+    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/admin/pedidos'},
+    { title: 'Ingredientes', icon: 'fa fa-carrot', sub: false, url: '/admin/ingredientes'},
+    { title: 'Menus', icon: 'fa fa-burger', sub: false, url: '/admin/menus'},
+    { title: 'Platos', icon: 'fa fa-utensils', sub: false, url: '/admin/platos'},
+    { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/admin/comensales'},
+    { title: 'Provincias', icon: 'fas fa-route-interstate', sub: false, url: '/admin/provincias'}
   ];
 
   menuSupervisor: sidebarItem [] = [
-    { title: 'Dashboard', icon: 'fa fa-tachometer-alt', sub: false, url: ''},
-    { title: 'Prueba pa que bien', icon: 'fas fa-cog', sub: false, url: ''},
-    { title: 'Configuración', icon: 'fas fa-cog', sub: false, url: '/admin/settings'}
+    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/super'},
+    { title: 'Usuarios', icon: 'fa fa-users', sub: false, url: '/super/usuarios'},
+    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/super/pedidos'},
+    { title: 'Menus', icon: 'fa fa-burger', sub: false, url: '/super/menus'},
+    { title: 'Platos', icon: 'fa fa-utensils', sub: false, url: '/super/platos'},
+    { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/super/comensales'}
   ];
 
   menuProveedor: sidebarItem [] = [

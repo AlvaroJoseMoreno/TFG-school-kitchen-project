@@ -2,13 +2,6 @@
 td.mat-cell {
   text-align: center;
 }
-.ingredientes_table{
-  color: #940BAA;
-}
-.ingredientes_table:hover{
-  text-decoration: underline;
-  cursor: pointer;
-}
 th.mat-header-cell{
   min-width: 130px;
 }
