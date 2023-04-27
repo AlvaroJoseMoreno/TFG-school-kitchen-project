@@ -48,7 +48,7 @@ const getUsuarios = async(req, res = response) => {
                 Usuario.countDocuments(queryJSON)
             ]);
         }
-
+        
         res.json({
             ok: true,
             msg: 'Usuarios obtenidos con exito',

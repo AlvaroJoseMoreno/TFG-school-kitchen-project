@@ -23,7 +23,7 @@ const UsuarioSchema = Schema({
     },
     imagen: {
         type: String,
-        //default: 'default_picture.jpg'
+        default: 'default_picture.jpg'
     },
     rol: {
         type: String,

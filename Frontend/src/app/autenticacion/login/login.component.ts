@@ -33,12 +33,28 @@ export class LoginComponent implements OnInit {
       remember: this.loginForm.get('remember')?.value
     }
     this.formSubmint = true;
+    if (!this.loginForm.valid) {
+      return;
+    }
     this.waiting = true;
     this.usuarioservicio.login(loginFormValue).subscribe( res => {
       console.log(res);
         this.waiting = false;
-        this.router.navigateByUrl('/admin');
         this.formSubmint = false;
+        switch (this.usuarioservicio.rol) {
+          case 'ROL_ADMIN':
+            this.router.navigateByUrl('/admin/dashboard');
+            break;
+          case 'ROL_SUPERVISOR':
+            this.router.navigateByUrl('/super/dashboard');
+            break;
+          case 'ROL_COCINERO':
+            this.router.navigateByUrl('/cocinero/dashboard');
+            break;
+          case 'ROL_PROVEEDOR':
+            this.router.navigateByUrl('/prov/dashboard');
+            break;
+        }
     }, (err) => {
       this.loginForm.reset();
       this.waiting = false;

@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router) {
     this.subs$ = this.cargarDatos()
                       .subscribe( data => {
-                        console.log(data);
                         this.titulo = data.titulo;
                       });
   }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { Observable, of } from 'rxjs';
 export class UsuarioService {
 
   private usuario: Usuario = new Usuario('', '');
-  constructor( private http: HttpClient ) { }
+  constructor( private http: HttpClient,
+               private router: Router ) { }
 
   getUsuarios( texto?: string, rol?: string, colegio?: string ): Observable<object> {
 
@@ -29,9 +31,8 @@ export class UsuarioService {
   }
 
   login( formData: any) {
-    console.log(formData);
     return this.http.post(`${environment.base_url}/login`, formData).pipe(
-      tap( (res : any) => {
+      tap((res : any) => {
         console.log(res);
         if(formData.remember)localStorage.setItem('token', res['token']);
         else sessionStorage.setItem('token', res['token']);
@@ -39,6 +40,55 @@ export class UsuarioService {
         this.usuario = new Usuario(uid, rol);
       })
     );
+  }
+
+  validar(correcto: boolean, incorrecto: boolean): Observable<boolean> {
+
+    if (this.token === '') {
+      this.limpiarLocalStore();
+      return of(incorrecto);
+    }
+
+    console.log(this.usuario);
+
+    return this.http.get(`${environment.base_url}/login/token`, this.cabeceras)
+      .pipe(
+        tap( (res: any) => {
+          const { uid, nombre, telefono, rol, registerDate, imagen, email, tipo_proveedor, ciudad, colegio, token} = res;
+          if (localStorage.getItem('token')){
+            localStorage.setItem('token', token);
+          } else if (sessionStorage.getItem('token')){
+            sessionStorage.setItem('token', token);
+          }
+          console.log('Res: ', res);
+          this.usuario = new Usuario(uid, rol, email, nombre, telefono, registerDate, imagen, tipo_proveedor, ciudad, colegio);
+        }),
+        map ( res => {
+          return correcto;
+        }),
+        catchError ( err => {
+          this.limpiarLocalStore();
+          return of(incorrecto);
+        })
+      );
+  }
+
+  logout(): void {
+    this.limpiarLocalStore();
+    this.router.navigateByUrl('/login');
+  }
+
+  limpiarLocalStore(): void{
+    localStorage.clear();
+    sessionStorage.clear();
+  }
+
+  validarToken(): Observable<boolean> {
+    return this.validar(true, false);
+  }
+
+  validarNoToken(): Observable<boolean> {
+    return this.validar(false, true);
   }
 
   get cabeceras() {

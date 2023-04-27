@@ -85,7 +85,7 @@ export class PlatosComponent implements OnInit {
   getPlatos(){
     const texto = this.searchForm.get('texto')?.value || '';
     const colegio = this.obtainColegioId() || '';
-    console.log(colegio);
+
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
 
     this.platoServicio.getPlatos(texto, colegio).subscribe((res: any) => {
