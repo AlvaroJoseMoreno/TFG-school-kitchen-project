@@ -25,7 +25,7 @@ export class UsuarioService {
 
     if (texto != '') {query += `&texto=${texto}`;}
     if(rol != '') { query += `&rol=${rol}` };
-    if(colegio != '') { }
+    if(colegio != '') { query += `&colegio=${colegio}` }
 
     return this.http.get(`${environment.base_url}/usuarios/${query}`, this.cabeceras);
   }

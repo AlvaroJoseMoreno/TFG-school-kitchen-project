@@ -31,7 +31,7 @@ const getPlatos = async(req, res = response) => {
         let platos = [];
 
         if (id) {
-            [platos, total] = await Promise.all([Plato.findById(id),
+            [platos, total] = await Promise.all([Plato.findById(id).populate('ingredientes', '-__v'),
                 Plato.countDocuments({_id: id}),
             ]);
         } else{

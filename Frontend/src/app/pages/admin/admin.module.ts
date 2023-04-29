@@ -13,14 +13,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ProvinciasComponent } from './provincias/provincias.component';
 import { ComensalesComponent } from './comensales/comensales.component';
 import { IngredientesComponent } from './ingredientes/ingredientes.component';
-import { PlatosComponent } from './platos/platos.component';
+import { IngredientesPlatos, PlatosComponent } from './platos/platos.component';
 import { MenusComponent } from './menus/menus.component';
 import { IngredientesPedidos, PedidosComponent } from './pedidos/pedidos.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
+import { MatDividerModule} from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -34,7 +34,8 @@ import {MatIconModule} from '@angular/material/icon';
     PlatosComponent,
     MenusComponent,
     PedidosComponent,
-    IngredientesPedidos
+    IngredientesPedidos,
+    IngredientesPlatos
   ],
   exports: [
     DashboardComponent,

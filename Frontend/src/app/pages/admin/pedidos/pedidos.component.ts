@@ -9,8 +9,6 @@ import { ColegioService } from 'src/app/servicios/colegio.service';
 import { Pedido } from 'src/app/modelos/pedido.model';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Ingrediente } from 'src/app/modelos/ingrediente.model';
-
 
 @Component({
   selector: 'app-pedidos',
@@ -92,7 +90,7 @@ export class PedidosComponent implements OnInit {
     const texto = this.searchForm.get('texto')?.value || '';
     const colegio = this.obtainColegioId() || '';
     const estado = this.searchForm.get('estado')?.value || '';
-    console.log(colegio);
+
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
 
     this.pedidosservicio.getPedidos(texto, colegio, estado).subscribe((res: any) => {

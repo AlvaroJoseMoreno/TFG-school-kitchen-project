@@ -55,3 +55,13 @@ th.mat-header-cell{
   background-color: #940BAA;
   border: 1px solid #940BAA;
 }
+
+.input-submit {
+  cursor: pointer;
+  color: #ffffff;
+  background: #940BAA;
+}
+
+.input-submit:hover{
+  background: violet;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormControl } from '@angular/forms';
@@ -8,6 +8,7 @@ import { Plato } from 'src/app/modelos/plato.model';
 import { PlatoService } from 'src/app/servicios/plato.service';
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { ColegioService } from 'src/app/servicios/colegio.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-platos',
@@ -52,7 +53,8 @@ export class PlatosComponent implements OnInit {
   constructor(private colegioservicio: ColegioService,
               private platoServicio: PlatoService,
               private paginator1: MatPaginatorIntl,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private dialog: MatDialog) {
                 this.paginator1.itemsPerPageLabel = "Registros por página";
                }
 
@@ -135,4 +137,31 @@ export class PlatosComponent implements OnInit {
     this.searchForm.controls['colegio'].setValue('');
   }
 
+  openDetails(id: string){
+
+    this.platoServicio.getPlato(id).subscribe((res:any) => {
+      const plato = res['platos'];
+      console.log(plato)
+      this.dialog.open(IngredientesPlatos, {
+        data: {
+          plato,
+          service: this,
+        },
+      });
+
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+}
+
+@Component({
+  selector: 'platos-ingredientes',
+  templateUrl: 'platos-ingredientes.html',
+  styleUrls: ['platos.component.css']
+})
+export class IngredientesPlatos {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

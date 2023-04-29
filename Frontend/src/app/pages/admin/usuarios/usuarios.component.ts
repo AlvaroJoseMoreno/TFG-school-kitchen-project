@@ -3,9 +3,11 @@ import { Usuario } from 'src/app/modelos/usuario.model';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { Colegio } from 'src/app/modelos/colegio.model';
+import { ColegioService } from 'src/app/servicios/colegio.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -14,16 +16,20 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class UsuariosComponent implements OnInit {
 
-  public usuarios: Usuario [] =  [];
+  public usuarios: Usuario [] = [];
+  public colegios: Colegio [] = [];
   public length = 0;
   public pageSize = 5;
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public filterColegio = new FormControl();
+  public filteredOptions!: Observable<Colegio[]>;
 
   public searchForm = this.fb.group({
     text: [''],
-    rol: ['']
+    rol: [''],
+    colegio: ['']
   });
 
   public subs$!: Subscription;
@@ -46,13 +52,14 @@ export class UsuariosComponent implements OnInit {
 
   constructor(private usuarioservicio: UsuarioService,
               private paginator1: MatPaginatorIntl,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private colegioservicio: ColegioService) {
                 this.paginator1.itemsPerPageLabel = "Registros por página";
-
                }
 
   ngOnInit(): void {
     this.getUsuarios();
+    this.getColegios();
     this.subs$ = this.searchForm.valueChanges
       .pipe(debounceTime(500),
             distinctUntilChanged())
@@ -61,11 +68,29 @@ export class UsuariosComponent implements OnInit {
       });
   }
 
+  private filtro(): Colegio[] {
+    return this.colegios.filter(option => option.nombre!.toLowerCase().includes(this.searchForm.value.colegio.toLowerCase()));
+  }
+
+  getColegios() {
+    this.colegioservicio.getColegios('', '').subscribe((res: any) => {
+      console.log(res);
+      this.colegios = res['colegios'];
+      this.filteredOptions = this.filterColegio.valueChanges.pipe(
+        startWith(''),
+        map(value => this.filtro()),
+      );
+    });
+  }
+
   getUsuarios(){
     const texto = this.searchForm.get('text')?.value || '';
     const rol = this.searchForm.get('rol')?.value || '';
+    const colegio = this.obtainColegioId() || '';
 
-    this.usuarioservicio.getUsuarios(texto, rol).subscribe((res: any) => {
+    if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
+
+    this.usuarioservicio.getUsuarios(texto, rol, colegio).subscribe((res: any) => {
         this.usuarios = res['usuarios'];
         this.length = res['usuarios'].length;
         this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
@@ -83,15 +108,34 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  obtainColegioId(): string {
+    let col = '';
+    let bool = false;
+    for(let x = 0; x < this.colegios.length; x++){
+      if(this.colegios[x].nombre === this.searchForm.get('colegio')?.value){
+        bool = true;
+        this.searchForm.value.colegio = this.colegios[x].uid;
+        break;
+      }
+    }
+    if(this.searchForm.get('colegio')?.value.length > 0 && !bool) { return ''; }
+
+    if(bool){
+      col = this.searchForm.value.colegio;
+    }
+    return col;
+  }
+
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => + str);
     }
   }
 
   borrar() {
     this.searchForm.controls['text'].reset();
     this.searchForm.controls['rol'].setValue('');
+    this.searchForm.controls['colegio'].setValue('');
   }
 
 }

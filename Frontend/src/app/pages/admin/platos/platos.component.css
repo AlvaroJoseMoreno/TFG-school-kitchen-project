@@ -12,3 +12,19 @@ td.mat-cell {
 th.mat-header-cell{
   min-width: 130px;
 }
+
+::ng-deep .mat-tab-labels{
+  display: block !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 95% !important;
+  max-height: 460px;
+}
+
+.mat-table-p{
+  font-size: 18px;
+  margin-top: 1em;
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 0.2em;
+}
