@@ -5,6 +5,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { Colegio } from '../modelos/colegio.model';
 
 @Injectable({
   providedIn: 'root'
@@ -138,8 +139,8 @@ export class UsuarioService {
     return this.usuario.imagen;
   }
 
-  // get colegio(): Colegio | undefined{
-  //   return this.usuario.colegio;
-  // }
+   get colegio(): string | undefined{
+     return this.usuario.colegio;
+   }
 
 }

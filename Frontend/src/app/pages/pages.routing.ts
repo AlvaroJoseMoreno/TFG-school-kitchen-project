@@ -11,6 +11,12 @@ import { PlatosComponent } from './admin/platos/platos.component';
 import { MenusComponent } from './admin/menus/menus.component';
 import { PedidosComponent } from './admin/pedidos/pedidos.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { DashboardSuperComponent } from './supervisor/dashboard-super/dashboard-super.component';
+import { UsuariosSuperComponent } from './supervisor/usuarios-super/usuarios-super.component';
+import { PedidosSuperComponent } from './supervisor/pedidos-super/pedidos-super.component';
+import { MenusSuperComponent } from './supervisor/menus-super/menus-super.component';
+import { PlatosSuperComponent } from './supervisor/platos-super/platos-super.component';
+import { ComensalesSuperComponent } from './supervisor/comensales-super/comensales-super.component';
 
 const routes: Routes = [
   { path: 'admin', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Administración' },
@@ -33,16 +39,16 @@ const routes: Routes = [
   },
   { path: 'super', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' },
     children: [
-      { path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {
+      { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
         rol: 'ROL_SUPERVISOR',
         titulo: 'Administración'
       } },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' } },
-      { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuarios' } },
-      { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedidos' } },
-      { path: 'menus', component: MenusComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
-      { path: 'platos', component: PlatosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
-      { path: 'comensales', component: ComensalesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
+      { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' } },
+      { path: 'usuarios', component: UsuariosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuarios' } },
+      { path: 'pedidos', component: PedidosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedidos' } },
+      { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
+      { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
+      { path: 'comensales', component: ComensalesSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   }

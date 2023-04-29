@@ -13,7 +13,7 @@ export class Usuario {
                public imagen?: string,
                public tipo_proveedor?:string,
                public ciudad?: string,
-               public colegio?: Colegio,
+               public colegio?: string,
                public exists: boolean = false
                ) {}
 

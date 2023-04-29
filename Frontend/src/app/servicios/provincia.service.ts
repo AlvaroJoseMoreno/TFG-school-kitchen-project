@@ -19,6 +19,10 @@ export class ProvinciaService {
     return this.http.get(`${environment.base_url}/provincias/${query}`, this.cabeceras);
   }
 
+  getProvinciasByColegio(): Observable<object> {
+    return this.http.get(`${environment.base_url}/provincias/provinciasporcolegio`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

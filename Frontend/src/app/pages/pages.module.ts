@@ -5,10 +5,11 @@ import { CommonsModule } from '../commons/commons.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosLayoutComponent } from '../layouts/usuarios-layout/usuarios-layout.component';
 import { AdminModule } from './admin/admin.module';
+import { SuperModule } from './supervisor/super.module';
 
 @NgModule({
   declarations: [
-    UsuariosLayoutComponent
+    UsuariosLayoutComponent,
   ],
   exports: [
     UsuariosLayoutComponent
@@ -19,7 +20,8 @@ import { AdminModule } from './admin/admin.module';
     CommonsModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminModule
+    AdminModule,
+    SuperModule
   ],
   entryComponents: []
 
