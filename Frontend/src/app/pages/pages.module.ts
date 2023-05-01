@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosLayoutComponent } from '../layouts/usuarios-layout/usuarios-layout.component';
 import { AdminModule } from './admin/admin.module';
 import { SuperModule } from './supervisor/super.module';
+import { ProveedorModule } from './proveedor/prov.module';
+import { CocineroModule } from './cocinero/cocinero.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { SuperModule } from './supervisor/super.module';
     FormsModule,
     ReactiveFormsModule,
     AdminModule,
-    SuperModule
+    SuperModule,
+    ProveedorModule,
+    CocineroModule
   ],
   entryComponents: []
 

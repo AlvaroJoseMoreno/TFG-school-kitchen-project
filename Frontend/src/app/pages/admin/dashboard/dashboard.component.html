@@ -7,14 +7,14 @@
               <div class="col-lg-8">
                   <div class="au-card recent-report">
                       <div class="au-card-inner">
-                          <h3 style="width: 170px;" class="title-2">Nº de visitas por lugar</h3>
-                          <div>
-                            <h2 style="text-align: center;"> No has creado ningún lugar todavía</h2>
-                            <h3 style="text-align: center;"> Pincha <a routerLink="/commerce/comercios/comercio/nuevo">aquí</a> para dar de alta uno</h3>
+                          <div id="divChart" style="height: 250px;">
+                            <canvas id="myChart"></canvas>
                           </div>
-                          <div id="divChart" style="height: 380px;">
-                            <canvas id="myChart" style="color: violet;"></canvas>
-                          </div>
+                      </div>
+                      <div style="margin-top: 1.5em" class="au-card-inner">
+                        <div id="divChart2" style="height: 250px;">
+                          <canvas id="myChart2"></canvas>
+                        </div>
                       </div>
                   </div>
               </div>

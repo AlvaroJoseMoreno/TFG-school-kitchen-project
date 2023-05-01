@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getComensales, crearComensales, borrarComensales, updateComensales } = require('../controllers/comensales');
+const { getComensales, crearComensales, borrarComensales, updateComensales, getComensalesByFecha } = require('../controllers/comensales');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
@@ -11,6 +11,13 @@ router.get('/', [
     check('text', 'La busqueda debe contener texto').optional().trim(),
     validarCampos
 ], getComensales);
+
+router.get('/getData', [
+    validarJWT,
+    check('fecha1', 'La fecha 1 debe ser valida').isDate(),
+    check('fecha2', 'La fecha 2 debe ser valida').isDate(),
+    validarCampos
+], getComensalesByFecha);
 
 router.post('/', [
     validarJWT,

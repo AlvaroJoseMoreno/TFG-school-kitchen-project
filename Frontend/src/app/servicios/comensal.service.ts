@@ -23,6 +23,18 @@ export class ComensalService {
     return this.http.get(`${environment.base_url}/comensales/${query}`, this.cabeceras);
   }
 
+  getComensalesPorDia( fecha1?: string, fecha2?: string ): Observable<object> {
+
+    let query = '';
+    if (fecha1 != undefined || fecha2 != undefined){
+      query = '?params=true'
+    }
+    if (fecha1 != undefined) { query += `&fecha1=${fecha1}`;}
+    if (fecha2 != undefined) { query += `&fecha2=${fecha2}`; }
+
+    return this.http.get(`${environment.base_url}/comensales/getData/${query}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

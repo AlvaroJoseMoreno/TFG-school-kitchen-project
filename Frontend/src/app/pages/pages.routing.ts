@@ -19,6 +19,7 @@ import { PlatosSuperComponent } from './supervisor/platos-super/platos-super.com
 import { ComensalesSuperComponent } from './supervisor/comensales-super/comensales-super.component';
 
 const routes: Routes = [
+  // path para administradores
   { path: 'admin', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Administración' },
     children: [
       { path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: '**', redirectTo: 'dashboard'}
     ]
   },
+  // path para supervisores
   { path: 'super', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' },
     children: [
       { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
@@ -49,6 +51,19 @@ const routes: Routes = [
       { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
       { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
       { path: 'comensales', component: ComensalesSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
+      { path: '**', redirectTo: 'dashboard'}
+    ]
+  },
+  // path para proveedores
+  { path: 'prov', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' },
+    children: [
+      { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
+        rol: 'ROL_SUPERVISOR',
+        titulo: 'Administración'
+      } },
+      { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' } },
+      { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedidos' } },
+      { path: 'ingredientes', component: IngredientesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingredientes' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   }
