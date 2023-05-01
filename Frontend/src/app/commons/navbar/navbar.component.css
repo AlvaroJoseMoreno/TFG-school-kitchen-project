@@ -89,3 +89,31 @@ nav {
 				nav ul li a:hover {
 					background: #0b76a6;
 				}
+
+  .imgLogout{
+    height: 45px;
+    width: 50px;
+    border-radius: 50%;
+    margin-left: auto;
+    display: block;
+    margin-right: auto;
+  }
+
+  .sign-out{
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+
+  .infoProf > p {
+    text-align: center;
+  }
+
+  button:focus{
+    outline: 0 !important;
+    background: white;
+  }
+
+  button {
+    background: white;
+  }

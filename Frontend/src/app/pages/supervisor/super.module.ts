@@ -9,15 +9,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatDividerModule} from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { DashboardSuperComponent } from './dashboard-super/dashboard-super.component';
 import { UsuariosSuperComponent } from './usuarios-super/usuarios-super.component';
 import { ComensalesSuperComponent } from './comensales-super/comensales-super.component';
-import { PlatosSuperComponent } from './platos-super/platos-super.component';
+import { IngredientesSuperPlatos, PlatosSuperComponent } from './platos-super/platos-super.component';
 import { MenusSuperComponent } from './menus-super/menus-super.component';
-import { PedidosSuperComponent } from './pedidos-super/pedidos-super.component';
+import { IngredientesSuperPedidos, PedidosSuperComponent } from './pedidos-super/pedidos-super.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -27,7 +25,9 @@ import { PedidosSuperComponent } from './pedidos-super/pedidos-super.component';
     ComensalesSuperComponent,
     PlatosSuperComponent,
     MenusSuperComponent,
-    PedidosSuperComponent
+    PedidosSuperComponent,
+    IngredientesSuperPlatos,
+    IngredientesSuperPedidos
   ],
   exports: [
     DashboardSuperComponent,

@@ -10,9 +10,24 @@
     </div>
     <!-- Datos de usuario -->
     <nav class="unacosa">
-      <ul>
-        <li><a href="#">Inicio</a></li>
-      </ul>
+      <div class="sign-out">
+        <img src="../../../assets/imagenes/default_picture.jpg" [matMenuTriggerFor]="menuuu" class="imgLogout" alt="Foto de perfil">
+        <div class="infoProf">
+
+        </div>
+        <!--[matMenuTriggerFor]="menu"-->
+        <mat-menu #menuuu="matMenu">
+            <div class="infoProf">
+              <p>{{nombre}}</p>
+              <p *ngIf="this.colegio">Colegio: {{colegio}}</p>
+              <p *ngIf="this.rol == 'ROL_ADMIN'">Administrador</p>
+            </div>
+            <button class="button-matMenu" mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Cerrar Sesión</span>
+            </button>
+        </mat-menu>
+    </div>
     </nav>
   </div>
 </header>

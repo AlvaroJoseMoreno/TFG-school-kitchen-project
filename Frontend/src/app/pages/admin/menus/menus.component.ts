@@ -106,7 +106,6 @@ export class MenusComponent implements OnInit {
 
           return `página ${start} - ${end} de ${length}`;
         };
-      console.log(res);
     });
   }
 

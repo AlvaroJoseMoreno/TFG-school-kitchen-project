@@ -52,6 +52,10 @@ const PedidoSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Colegio',
         require: true
+    },
+    visto_por: {
+        type: Boolean,
+        default: false
     }
 }, { collection: 'pedidos' });
 

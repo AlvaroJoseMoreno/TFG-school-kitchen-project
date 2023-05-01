@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,8 +15,12 @@ export class NavbarComponent implements OnInit {
 
   public titulo: string = '';
   private subs$: Subscription;
+  public colegio: string = '';
+  public nombre: string = '';
+  public rol: string = '';
   // https://www.youtube.com/watch?v=4CYuOiRHHA8
-  constructor(private router: Router) {
+  constructor(private usuarioservicio: UsuarioService,
+              private router: Router) {
     this.subs$ = this.cargarDatos()
                       .subscribe( data => {
                         this.titulo = data.titulo;
@@ -23,6 +28,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUser();
   }
 
   onPropagar(){
@@ -32,6 +38,19 @@ export class NavbarComponent implements OnInit {
 
   ngOnDestroy() {
     this.subs$.unsubscribe();
+  }
+
+  logout(){
+    this.usuarioservicio.logout();
+  }
+
+  getUser(){
+    this.usuarioservicio.getUsuario(this.usuarioservicio.uid).subscribe((res: any) => {
+      if(this.colegio = res['usuarios'].colegio) this.colegio = res['usuarios'].colegio.nombre;
+      this.nombre = res['usuarios'].nombre;
+      this.rol = res['usuarios'].rol;
+      console.log(res);
+    });
   }
 
   cargarDatos() {

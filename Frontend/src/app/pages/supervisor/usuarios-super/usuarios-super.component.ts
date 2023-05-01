@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-usuarios-super',
@@ -51,6 +52,12 @@ export class UsuariosSuperComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsuarios();
+    this.subs$ = this.searchForm.valueChanges
+      .pipe(debounceTime(500),
+            distinctUntilChanged())
+      .subscribe( event => {
+        this.getUsuarios();
+      });
   }
 
   getUsuarios(){
