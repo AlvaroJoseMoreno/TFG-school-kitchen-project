@@ -30,21 +30,16 @@ export class SidebarService {
   ];
 
   menuProveedor: sidebarItem [] = [
-    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/commerce'},
-    { title: 'Mis comercios', icon: 'zmdi zmdi-shopping-cart', sub: false, url: '/commerce/comercios'},
-    { title: 'Mis valoraciones', icon: 'fas fa-star', sub: false, url: '/commerce/reviews'},
-    { title: 'Suscripción', icon: 'zmdi zmdi-money', sub: false, url: '/commerce/payment'},
-    { title: 'Mis facturas', icon: 'fas fa-money-bill', sub: false, url: '/commerce/bill'},
-    { title: 'Mi perfil', icon: 'fa fa-users', sub: false, url: '/commerce/profile'},
+    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/prov'},
+    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/prov/pedidos'},
+    { title: 'Ingredientes', icon: 'fa fa-carrot', sub: false, url: '/prov/ingredientes'},
   ];
 
   menuCocinero: sidebarItem [] = [
-    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/commerce'},
-    { title: 'Mis comercios', icon: 'zmdi zmdi-shopping-cart', sub: false, url: '/commerce/comercios'},
-    { title: 'Mis valoraciones', icon: 'fas fa-star', sub: false, url: '/commerce/reviews'},
-    { title: 'Suscripción', icon: 'zmdi zmdi-money', sub: false, url: '/commerce/payment'},
-    { title: 'Mis facturas', icon: 'fas fa-money-bill', sub: false, url: '/commerce/bill'},
-    { title: 'Mi perfil', icon: 'fa fa-users', sub: false, url: '/commerce/profile'},
+    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/cocinero'},
+    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/cocinero/pedidos'},
+    { title: 'Calendario', icon: 'fa fa-calendar', sub: false, url: '/cocinero/calendario'},
+    { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/cocinero/comensales'}
   ];
 
   none: sidebarItem [] = [

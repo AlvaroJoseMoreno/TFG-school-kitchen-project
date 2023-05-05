@@ -73,7 +73,7 @@ export class IngredientesComponent implements OnInit {
   }
 
   getUsuarios() {
-    this.usuarioservicio.getUsuarios('', 'ROL_PROVEEDOR').subscribe((res: any) => {
+    this.usuarioservicio.getUsuarios('', 'ROL_PROVEEDOR', '').subscribe((res: any) => {
       console.log(res);
       this.proveedores = res['usuarios'];
       this.filteredOptions = this.filterProveedor.valueChanges.pipe(

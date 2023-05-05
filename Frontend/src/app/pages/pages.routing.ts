@@ -17,10 +17,16 @@ import { PedidosSuperComponent } from './supervisor/pedidos-super/pedidos-super.
 import { MenusSuperComponent } from './supervisor/menus-super/menus-super.component';
 import { PlatosSuperComponent } from './supervisor/platos-super/platos-super.component';
 import { ComensalesSuperComponent } from './supervisor/comensales-super/comensales-super.component';
+import { DashboardProveedorComponent } from './proveedor/dashboard-proveedor/dashboard-proveedor.component';
+import { PedidosProveedorComponent } from './proveedor/pedidos-proveedor/pedidos-proveedor.component';
+import { IngredientesProveedorComponent } from './proveedor/ingredientes-proveedor/ingredientes-proveedor.component';
+import { PedidosCocineroComponent } from './cocinero/pedidos-cocinero/pedidos-cocinero.component';
+import { CalendarioComponent } from './cocinero/calendario/calendario.component';
+import { ComensalesCocineroComponent } from './cocinero/comensales-cocinero/comensales-cocinero.component';
 
 const routes: Routes = [
   // path para administradores
-  { path: 'admin', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Administración' },
+  { path: 'admin', component: UsuariosLayoutComponent, data: { rol: 'ROL_ADMIN', titulo: 'Administración' },
     children: [
       { path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {
         rol: 'ROL_ADMIN',
@@ -39,7 +45,7 @@ const routes: Routes = [
     ]
   },
   // path para supervisores
-  { path: 'super', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' },
+  { path: 'super', component: UsuariosLayoutComponent, data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' },
     children: [
       { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
         rol: 'ROL_SUPERVISOR',
@@ -55,15 +61,29 @@ const routes: Routes = [
     ]
   },
   // path para proveedores
-  { path: 'prov', component: UsuariosLayoutComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' },
+  { path: 'prov', component: UsuariosLayoutComponent, data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' },
     children: [
-      { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
+      { path: '', component: DashboardProveedorComponent, canActivate: [AuthGuard], data: {
         rol: 'ROL_SUPERVISOR',
         titulo: 'Administración'
       } },
-      { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' } },
-      { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedidos' } },
-      { path: 'ingredientes', component: IngredientesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingredientes' } },
+      { path: 'dashboard', component: DashboardProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' } },
+      { path: 'pedidos', component: PedidosProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedidos' } },
+      { path: 'ingredientes', component: IngredientesProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingredientes' } },
+      { path: '**', redirectTo: 'dashboard'}
+    ]
+  },
+  // path para cocineros
+  { path: 'cocinero', component: UsuariosLayoutComponent, data: { rol: 'ROL_COCINERO', titulo: 'Administración' },
+    children: [
+      { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
+        rol: 'ROL_COCINERO',
+        titulo: 'Administración'
+      } },
+      { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Administración' } },
+      { path: 'pedidos', component: PedidosCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedidos' } },
+      { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Calendario' } },
+      { path: 'comensales', component: ComensalesCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Comensales' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   }

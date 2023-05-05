@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
         data: {
             labels: labels_com,
             datasets: [{
-                label: 'Colegios por día',
+                label: 'Número de comensales por día',
                 data: data_com,
                 borderRadius: 6,
                 backgroundColor: ['violet', 'violet', 'violet', 'violet', 'violet'],

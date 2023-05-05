@@ -10,12 +10,23 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { IngredientesCocineroPedidos, PedidosCocineroComponent } from './pedidos-cocinero/pedidos-cocinero.component';
+import { CalendarioComponent } from './calendario/calendario.component';
+import { ComensalesCocineroComponent } from './comensales-cocinero/comensales-cocinero.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
   declarations: [
+    PedidosCocineroComponent,
+    CalendarioComponent,
+    ComensalesCocineroComponent,
+    IngredientesCocineroPedidos
   ],
   exports: [
+    PedidosCocineroComponent,
+    CalendarioComponent,
+    ComensalesCocineroComponent,
+    IngredientesCocineroPedidos
   ],
   imports: [
     CommonModule,

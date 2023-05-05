@@ -9,11 +9,11 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-comensales-super',
-  templateUrl: './comensales-super.component.html',
-  styleUrls: ['./comensales-super.component.css']
+  selector: 'app-comensales-cocinero',
+  templateUrl: './comensales-cocinero.component.html',
+  styleUrls: ['./comensales-cocinero.component.css']
 })
-export class ComensalesSuperComponent implements OnInit {
+export class ComensalesCocineroComponent implements OnInit {
 
   public comensales: Comensal [] = [];
   public length = 0;
@@ -63,8 +63,8 @@ export class ComensalesSuperComponent implements OnInit {
 
   getComensales(){
     const texto = this.searchForm.get('fecha')?.value || undefined;
-
-    this.comensaleservicio.getComensales(texto, this.usuarioservice.colegio).subscribe((res: any) => {
+    console.log(this.usuarioservice.colegio);
+    this.comensaleservicio.getComensales(texto, '642a9fbef47760849735ed99').subscribe((res: any) => {
         this.comensales = res['comensales'];
         this.length = res['comensales'].length;
         this.dataSource = new MatTableDataSource<Comensal>(this.comensales);

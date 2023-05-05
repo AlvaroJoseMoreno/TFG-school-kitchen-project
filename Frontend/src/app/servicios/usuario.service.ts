@@ -28,6 +28,8 @@ export class UsuarioService {
     if(rol != '') { query += `&rol=${rol}` };
     if(colegio != '') { query += `&colegio=${colegio}` }
 
+    console.log(query);
+
     return this.http.get(`${environment.base_url}/usuarios/${query}`, this.cabeceras);
   }
 
@@ -53,8 +55,6 @@ export class UsuarioService {
       this.limpiarLocalStore();
       return of(incorrecto);
     }
-
-    console.log(this.usuario);
 
     return this.http.get(`${environment.base_url}/login/token`, this.cabeceras)
       .pipe(
