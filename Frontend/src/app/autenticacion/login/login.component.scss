@@ -98,7 +98,7 @@ button {
     padding: 0.65rem 2rem;
     border: none;
     outline: none;
-    border-radius: 12px;
+    border-radius: 5px;
     text-align: center;
     color: #ffffff;
     background: #940BAA;
@@ -317,21 +317,6 @@ input:-webkit-autofill:active{
     box-shadow: 0 0 0 0.1rem rgb(255 0 0 / 25%);
     border-color:  red;
   }
-
-  // .input-css{
-  //   border: 1px solid #940BAA;
-  //   border-radius: 0.25rem;
-  // }
-  // .form-control{
-  //   color: black;
-  // }
-  // .css_input{
-  //   border: none;
-  // }
-  // ::ng-deep .css_input:focus{
-  //   box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6) !important;
-  // }
-
 
   .flexing{
     display: flex;

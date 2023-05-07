@@ -28,13 +28,19 @@ export class UsuarioService {
     if(rol != '') { query += `&rol=${rol}` };
     if(colegio != '') { query += `&colegio=${colegio}` }
 
-    console.log(query);
-
     return this.http.get(`${environment.base_url}/usuarios/${query}`, this.cabeceras);
   }
 
   getUsuario( uid: string): Observable<object> {
     return this.http.get(`${environment.base_url}/usuarios?id=${uid}`, this.cabeceras);
+  }
+
+  nuevoAdmin(data: Usuario){
+    return this.http.post(`${environment.base_url}/usuarios/admin`, data, this.cabeceras);
+  }
+
+  nuevoSupervisor(data: Usuario){
+    return this.http.post(`${environment.base_url}/usuarios/super`, data, this.cabeceras);
   }
 
   login( formData: any) {

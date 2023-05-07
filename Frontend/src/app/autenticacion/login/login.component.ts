@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -59,7 +60,9 @@ export class LoginComponent implements OnInit {
       this.loginForm.reset();
       this.waiting = false;
       this.formSubmint = false;
-      console.log(err);
+      const errtext = err.error.msg || 'No se pudo iniciar sesión, vuelva a intentarlo.';
+      Swal.fire({icon: 'error', title: 'Oops...', text: errtext,});
+      return;
     });
   }
 

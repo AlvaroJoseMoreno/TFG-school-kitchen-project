@@ -67,7 +67,7 @@ const getUsuarios = async(req, res = response) => {
 
 const crearAdmin = async(req, res = response) => {
 
-    const { email, password, nombre, rol } = req.body;
+    const { email, nombre, rol } = req.body;
 
     try {
         const token = req.header('x-token');
@@ -96,11 +96,11 @@ const crearAdmin = async(req, res = response) => {
         }
 
         // Cifrar la contraseña, obtenemos el salt y ciframos
-        const salt = bcrypt.genSaltSync();
-        const cpassword = bcrypt.hashSync(password, salt);
+        // const salt = bcrypt.genSaltSync();
+        // const cpassword = bcrypt.hashSync(password, salt);
         //Creamos nuevo usuario
         const usuario = new Usuario(req.body);
-        usuario.password = cpassword;
+        //usuario.password = cpassword;
         // Almacenar en BD
         await usuario.save();
 
@@ -122,7 +122,7 @@ const crearAdmin = async(req, res = response) => {
 
 const crearSuper = async(req, res = response) => {
 
-    const { email, password, nombre, rol, colegio } = req.body;
+    const { email, nombre, rol, colegio } = req.body;
 
     try {
         const token = req.header('x-token');
@@ -159,11 +159,11 @@ const crearSuper = async(req, res = response) => {
         }
 
         // Cifrar la contraseña, obtenemos el salt y ciframos
-        const salt = bcrypt.genSaltSync();
-        const cpassword = bcrypt.hashSync(password, salt);
+        // const salt = bcrypt.genSaltSync();
+        // const cpassword = bcrypt.hashSync(password, salt);
         //Creamos nuevo usuario
         const usuario = new Usuario(req.body);
-        usuario.password = cpassword;
+        //usuario.password = cpassword;
         // Almacenar en BD
         await usuario.save();
 
@@ -185,7 +185,7 @@ const crearSuper = async(req, res = response) => {
 
 const crearProveedor = async(req, res = response) => {
 
-    const { email, password, nombre, rol, colegio } = req.body;
+    const { email, nombre, rol, colegio } = req.body;
 
     try {
         const token = req.header('x-token');
@@ -222,11 +222,11 @@ const crearProveedor = async(req, res = response) => {
         }
 
         // Cifrar la contraseña, obtenemos el salt y ciframos
-        const salt = bcrypt.genSaltSync();
-        const cpassword = bcrypt.hashSync(password, salt);
+        // const salt = bcrypt.genSaltSync();
+        // const cpassword = bcrypt.hashSync(password, salt);
         //Creamos nuevo usuario
         const usuario = new Usuario(req.body);
-        usuario.password = cpassword;
+        //usuario.password = cpassword;
         // Almacenar en BD
         await usuario.save();
 
@@ -248,7 +248,7 @@ const crearProveedor = async(req, res = response) => {
 
 const crearCocinero = async(req, res = response) => {
 
-    const { email, password, nombre, rol, colegio } = req.body;
+    const { email, nombre, rol, colegio } = req.body;
     try {
         const token = req.header('x-token');
         // solo un administrador puede crear un usuario supervisor
@@ -284,11 +284,11 @@ const crearCocinero = async(req, res = response) => {
         }
 
         // Cifrar la contraseña, obtenemos el salt y ciframos
-        const salt = bcrypt.genSaltSync();
-        const cpassword = bcrypt.hashSync(password, salt);
+        // const salt = bcrypt.genSaltSync();
+        // const cpassword = bcrypt.hashSync(password, salt);
         //Creamos nuevo usuario
         const usuario = new Usuario(req.body);
-        usuario.password = cpassword;
+        //usuario.password = cpassword;
         // Almacenar en BD
         await usuario.save();
 

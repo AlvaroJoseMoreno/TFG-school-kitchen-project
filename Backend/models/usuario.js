@@ -14,8 +14,7 @@ const UsuarioSchema = Schema({
         unique: true
     },
     password: {
-        type: String,
-        require: true    
+        type: String    
     },
     telefono: {
         type: String,

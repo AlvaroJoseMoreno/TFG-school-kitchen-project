@@ -1,0 +1,47 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+               <!-- Creamos colegio-->
+              <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearColegio()">
+                    <div style="margin-top: 1.5rem;" class="form-group">
+                      <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" id="nombre">
+                          <div class="invalid-feedback">
+                              El nombre es obligatorio
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Telefono *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('telefono') && datosForm.get('telefono')?.value.length > 0 }" formControlName="telefono" id="email">
+                          <div class="invalid-feedback">
+                              El telefono tiene que tener nueve caracteres y empezar por 6 o 7
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getProvincias()" class="form-control" style="border-radius: 5px;" placeholder="Provincia *"
+                          formControlName="provincia" [formControl]="filterProvincia" [matAutocomplete]="auto">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Dirección *" class="form-control" formControlName="direccion" id="direccion">
+                          <div class="invalid-feedback">
+                              La direccion es obligatoria
+                          </div>
+                    </div>
+                <div class="d-flex m-t-25 m-b-10">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+

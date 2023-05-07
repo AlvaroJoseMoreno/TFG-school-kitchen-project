@@ -21,6 +21,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule} from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { UsuarioComponent } from './usuario/usuario.component';
+import { ProvinciaComponent } from './provincia/provincia.component';
+import { ColegioComponent } from './colegio/colegio.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -35,7 +38,10 @@ import { MatIconModule } from '@angular/material/icon';
     MenusComponent,
     PedidosComponent,
     IngredientesPedidos,
-    IngredientesPlatos
+    IngredientesPlatos,
+    UsuarioComponent,
+    ProvinciaComponent,
+    ColegioComponent
   ],
   exports: [
     DashboardComponent,

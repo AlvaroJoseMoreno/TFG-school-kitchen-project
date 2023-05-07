@@ -1,13 +1,20 @@
 <div class="float-left form-filters">
   <form [formGroup]="searchForm" (ngSubmit)="getColegios()">
       <div class="form-row">
-          <div class="form-group col-sm-7">
+          <div class="form-group col-9">
               <div class="input-group">
                   <input #txtBuscar type="text" class="form-control round" formControlName="text" id="fname" placeholder="Buscar">
                   <div class="input-group-append">
                       <span class="input-group-text micursor round" (click)="borrar()"><i class="fa fa-times-circle"></i></span>
                   </div>
               </div>
+          </div>
+          <div class="col-3">
+            <div class="float-right">
+                <button class="btn input-submit btn-rounded" routerLink="/admin/colegios/nuevo">
+                  Añadir
+                </button>
+            </div>
           </div>
           <div style="margin-bottom: 0;" class="form-group col-sm-7">
             <div class="input-group">

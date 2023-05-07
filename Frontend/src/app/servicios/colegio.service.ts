@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
+import { Colegio } from '../modelos/colegio.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class ColegioService {
     if (provincia != '') { query += `&provincia=${provincia}` };
 
     return this.http.get(`${environment.base_url}/colegios/${query}`, this.cabeceras);
+  }
+
+  crearColegio(data: Colegio): Observable<object> {
+    return this.http.post(`${environment.base_url}/colegios`, data, this.cabeceras)
   }
 
   get cabeceras() {

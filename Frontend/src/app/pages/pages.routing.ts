@@ -23,6 +23,9 @@ import { IngredientesProveedorComponent } from './proveedor/ingredientes-proveed
 import { PedidosCocineroComponent } from './cocinero/pedidos-cocinero/pedidos-cocinero.component';
 import { CalendarioComponent } from './cocinero/calendario/calendario.component';
 import { ComensalesCocineroComponent } from './cocinero/comensales-cocinero/comensales-cocinero.component';
+import { UsuarioComponent } from './admin/usuario/usuario.component';
+import { ColegioComponent } from './admin/colegio/colegio.component';
+import { ProvinciaComponent } from './admin/provincia/provincia.component';
 
 const routes: Routes = [
   // path para administradores
@@ -34,13 +37,23 @@ const routes: Routes = [
       } },
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Administración' } },
       { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Usuarios' } },
+        { path: 'usuarios/:id', component: UsuarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Usuario' } },
+
       { path: 'colegios', component: ColegiosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Colegios' } },
+        { path: 'colegios/:id', component: ColegioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Colegio' } },
+
       { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Pedidos' } },
+
       { path: 'ingredientes', component: IngredientesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Ingredientes' } },
+
       { path: 'menus', component: MenusComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Menus' } },
+
       { path: 'platos', component: PlatosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Platos' } },
+
       { path: 'comensales', component: ComensalesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Comensales' } },
+
       { path: 'provincias', component: ProvinciasComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Provincias' } },
+        { path: 'provincias/:id', component: ProvinciaComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Provincia' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   },
