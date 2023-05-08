@@ -1,0 +1,30 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+               <!-- Creamos comensales-->
+              <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearComensal()">
+                    <div style="margin-top: 1.5rem;" class="form-group">
+                      <input type="date" placeholder="Fecha *" class="form-control" formControlName="fecha" id="fecha">
+                        <div class="invalid-feedback">
+                          La fecha es obligatoria
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="number" placeholder="Número de comensales *" class="form-control" formControlName="num_comensales" id="num_comensales">
+                        <div class="invalid-feedback">
+                          El número de comensales es obligatorio
+                        </div>
+                    </div>
+                <div class="d-flex m-t-25 m-b-10">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+

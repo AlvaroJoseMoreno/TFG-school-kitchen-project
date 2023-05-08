@@ -11,15 +11,18 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { DashboardProveedorComponent } from './dashboard-proveedor/dashboard-proveedor.component';
-import { PedidosProveedorComponent } from './pedidos-proveedor/pedidos-proveedor.component';
+import { IngredientesProvPedidos, PedidosProveedorComponent } from './pedidos-proveedor/pedidos-proveedor.component';
 import { IngredientesProveedorComponent } from './ingredientes-proveedor/ingredientes-proveedor.component';
+import { IngredienteProvComponent } from './ingrediente-prov/ingrediente-prov.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
   declarations: [
     DashboardProveedorComponent,
     PedidosProveedorComponent,
-    IngredientesProveedorComponent
+    IngredientesProveedorComponent,
+    IngredienteProvComponent,
+    IngredientesProvPedidos
   ],
   exports: [
     DashboardProveedorComponent,

@@ -23,6 +23,10 @@ export class ComensalService {
     return this.http.get(`${environment.base_url}/comensales/${query}`, this.cabeceras);
   }
 
+  crearComensales(data: any): Observable<object>{
+    return this.http.post(`${environment.base_url}/comensales`, data, this.cabeceras);
+  }
+
   getComensalesPorDia( fecha1?: string, fecha2?: string ): Observable<object> {
 
     let query = '';

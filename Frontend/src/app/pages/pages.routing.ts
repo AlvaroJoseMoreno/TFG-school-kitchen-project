@@ -26,6 +26,8 @@ import { ComensalesCocineroComponent } from './cocinero/comensales-cocinero/come
 import { UsuarioComponent } from './admin/usuario/usuario.component';
 import { ColegioComponent } from './admin/colegio/colegio.component';
 import { ProvinciaComponent } from './admin/provincia/provincia.component';
+import { IngredienteProvComponent } from './proveedor/ingrediente-prov/ingrediente-prov.component';
+import { ComensalSuperComponent } from './supervisor/comensal-super/comensal-super.component';
 
 const routes: Routes = [
   // path para administradores
@@ -70,6 +72,7 @@ const routes: Routes = [
       { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
       { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
       { path: 'comensales', component: ComensalesSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
+        { path: 'comensales/:id', component: ComensalSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Registro Comensal' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   },
@@ -83,6 +86,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' } },
       { path: 'pedidos', component: PedidosProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedidos' } },
       { path: 'ingredientes', component: IngredientesProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingredientes' } },
+        { path: 'ingredientes/:id', component: IngredienteProvComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingrediente' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   },

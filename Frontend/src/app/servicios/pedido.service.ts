@@ -23,6 +23,19 @@ export class PedidoService {
     return this.http.get(`${environment.base_url}/pedidos/${query}`, this.cabeceras);
   }
 
+  getPedidosProveedor( texto?: string, proveedor?: string, estado?: string ): Observable<object> {
+
+    let query = '';
+    if (texto != '' || proveedor != '' || estado != ''){
+      query = '?params=true'
+    }
+    if (texto != '') {query += `&texto=${texto}`;}
+    if (proveedor != '') { query += `&proveedor=${proveedor}`; }
+    if (estado != '') { query += `&estado=${estado}`; }
+
+    return this.http.get(`${environment.base_url}/pedidos/${query}`, this.cabeceras);
+  }
+
   getPedido( uid: string): Observable<object> {
     if (!uid) { uid = '';}
     return this.http.get(`${environment.base_url}/pedidos?id=${uid}` , this.cabeceras);

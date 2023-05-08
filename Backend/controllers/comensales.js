@@ -11,7 +11,6 @@ const getComensales = async(req, res = response) => {
     const date = req.query.fecha || '';
     const colegio = req.query.colegio || ''; 
     let query = {};
-    let texto = '';
     let total = 0;
     try {
         const token = req.header('x-token');
@@ -42,7 +41,7 @@ const getComensales = async(req, res = response) => {
                 }
             }
 
-            [comensales, total] = await Promise.all([Comensal.find(query).sort({ fecha: 1 })
+            [comensales, total] = await Promise.all([Comensal.find(query).sort({ fecha: -1 })
                 .populate('colegio', '-__v').populate('usuario', '-__v -password'),
                 Comensal.countDocuments(query)
             ]);
@@ -149,7 +148,7 @@ const crearComensales = async(req, res = response) => {
             });
         }
 
-        if ((infoToken(token).rol !== 'ROL_ADMIN' && infoToken(token).rol !== 'ROL_COCINERO')) {
+        if ((infoToken(token).rol !== 'ROL_SUPERVISOR' && infoToken(token).rol !== 'ROL_COCINERO')) {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Ingrediente } from '../modelos/ingrediente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class IngredienteService {
     if (proveedor != '') { query += `&proveedor=${proveedor}`; }
 
     return this.http.get(`${environment.base_url}/ingredientes/${query}`, this.cabeceras);
+  }
+
+  crearIngrediente(data: any): Observable<object>{
+    return this.http.post(`${environment.base_url}/ingredientes`, data, this.cabeceras);
   }
 
   get cabeceras() {

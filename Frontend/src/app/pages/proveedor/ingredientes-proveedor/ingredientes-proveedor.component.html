@@ -1,13 +1,20 @@
 <div style="margin-bottom: 0; width: 100%;" class="float-left form-filters">
   <form [formGroup]="searchForm" (ngSubmit)="getIngredientes()">
       <div class="form-row">
-          <div class="form-group col-sm-7">
+          <div class="form-group col-9">
               <div class="input-group">
                   <input type="text" class="form-control round" formControlName="texto" id="fname" placeholder="Nombre">
                   <div class="input-group-append">
                       <span class="input-group-text micursor round" (click)="borrar()"><i class="fa fa-times-circle"></i></span>
                   </div>
               </div>
+          </div>
+          <div class="col-3">
+            <div class="float-right">
+                <button class="btn input-submit" routerLink="/prov/ingredientes/nuevo">
+                  Añadir
+                </button>
+            </div>
           </div>
       </div>
   </form>
