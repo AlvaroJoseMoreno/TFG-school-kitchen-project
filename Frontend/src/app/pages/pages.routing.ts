@@ -28,6 +28,7 @@ import { ColegioComponent } from './admin/colegio/colegio.component';
 import { ProvinciaComponent } from './admin/provincia/provincia.component';
 import { IngredienteProvComponent } from './proveedor/ingrediente-prov/ingrediente-prov.component';
 import { ComensalSuperComponent } from './supervisor/comensal-super/comensal-super.component';
+import { UsuarioSuperComponent } from './supervisor/usuario-super/usuario-super.component';
 
 const routes: Routes = [
   // path para administradores
@@ -68,6 +69,7 @@ const routes: Routes = [
       } },
       { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Administración' } },
       { path: 'usuarios', component: UsuariosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuarios' } },
+        { path: 'usuarios/:id', component: UsuarioSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuario' } },
       { path: 'pedidos', component: PedidosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedidos' } },
       { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
       { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
@@ -101,6 +103,7 @@ const routes: Routes = [
       { path: 'pedidos', component: PedidosCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedidos' } },
       { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Calendario' } },
       { path: 'comensales', component: ComensalesCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Comensales' } },
+      { path: 'comensales/:id', component: ComensalSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Registro Comensal' } },
       { path: '**', redirectTo: 'dashboard'}
     ]
   }

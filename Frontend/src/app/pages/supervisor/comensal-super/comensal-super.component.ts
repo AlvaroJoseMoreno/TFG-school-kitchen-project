@@ -21,7 +21,7 @@ export class ComensalSuperComponent implements OnInit {
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     fecha: ['', Validators.required],
-    num_comensales: [0, Validators.required]
+    num_comensales: ['', Validators.required]
   });
 
   constructor(private fb: FormBuilder,
@@ -41,7 +41,8 @@ export class ComensalSuperComponent implements OnInit {
   }
 
   cancelar() {
-    this.router.navigateByUrl('/super/comensales');
+    return this.usuarioServicio.rol == 'ROL_SUPERVISOR' ?
+    this.router.navigateByUrl('/super/comensales') : this.router.navigateByUrl('/cocinero/comensales');
   }
 
   crearComensal(){
@@ -64,7 +65,9 @@ export class ComensalSuperComponent implements OnInit {
         confirmButtonText: 'Aceptar'
       }).then((result) => {
         if (result.value) {
-          this.router.navigateByUrl('super/comensales');
+          this.usuarioServicio.rol == 'ROL_SUPERVISOR' ?
+          this.router.navigateByUrl('/super/comensales') :
+          this.router.navigateByUrl('/cocinero/comensales');
         }
       });
     }, (err) => {

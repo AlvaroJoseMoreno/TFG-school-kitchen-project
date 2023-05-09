@@ -17,6 +17,7 @@ import { IngredientesSuperPlatos, PlatosSuperComponent } from './platos-super/pl
 import { MenusSuperComponent } from './menus-super/menus-super.component';
 import { IngredientesSuperPedidos, PedidosSuperComponent } from './pedidos-super/pedidos-super.component';
 import { ComensalSuperComponent } from './comensal-super/comensal-super.component';
+import { UsuarioSuperComponent } from './usuario-super/usuario-super.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -29,7 +30,8 @@ import { ComensalSuperComponent } from './comensal-super/comensal-super.componen
     PedidosSuperComponent,
     IngredientesSuperPlatos,
     IngredientesSuperPedidos,
-    ComensalSuperComponent
+    ComensalSuperComponent,
+    UsuarioSuperComponent
   ],
   exports: [
     DashboardSuperComponent,

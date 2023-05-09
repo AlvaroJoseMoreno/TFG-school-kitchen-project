@@ -43,6 +43,14 @@ export class UsuarioService {
     return this.http.post(`${environment.base_url}/usuarios/super`, data, this.cabeceras);
   }
 
+  nuevoCocinero(data: Usuario){
+    return this.http.post(`${environment.base_url}/usuarios/cocinero`, data, this.cabeceras);
+  }
+
+  nuevoProveedor(data: Usuario){
+    return this.http.post(`${environment.base_url}/usuarios/proveedor`, data, this.cabeceras);
+  }
+
   login( formData: any) {
     return this.http.post(`${environment.base_url}/login`, formData).pipe(
       tap((res : any) => {
