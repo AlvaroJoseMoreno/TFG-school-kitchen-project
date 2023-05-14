@@ -28,6 +28,10 @@ const UsuarioSchema = Schema({
         type: String,
         require: true
     },
+    code: {
+        type: String,
+        require: true
+    },
     tipo_proveedor: {
         type: String
     },

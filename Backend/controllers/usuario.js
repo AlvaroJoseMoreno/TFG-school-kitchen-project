@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 const Colegio = require('../models/Colegio');
 const { infoToken } = require('../helpers/infoToken');
+const { sendEmail } = require('../helpers/email_user');
+const uniqid = require('uniqid'); 
 
 const getUsuarios = async(req, res = response) => {
     const id = req.query.id
@@ -102,6 +104,9 @@ const crearAdmin = async(req, res = response) => {
         const usuario = new Usuario(req.body);
         //usuario.password = cpassword;
         // Almacenar en BD
+        const unidq = uniqid();
+        await sendEmail(usuario.email, usuario.nombre, unidq, usuario._id);
+        usuario.code = unidq;
         await usuario.save();
 
         res.json({
@@ -165,6 +170,9 @@ const crearSuper = async(req, res = response) => {
         const usuario = new Usuario(req.body);
         //usuario.password = cpassword;
         // Almacenar en BD
+        const unidq = uniqid();
+        await sendEmail(usuario.email, usuario.nombre, unidq, usuario._id);
+        usuario.code = unidq;
         await usuario.save();
 
         res.json({
@@ -228,6 +236,9 @@ const crearProveedor = async(req, res = response) => {
         const usuario = new Usuario(req.body);
         //usuario.password = cpassword;
         // Almacenar en BD
+        const unidq = uniqid();
+        await sendEmail(usuario.email, usuario.nombre, unidq, usuario._id);
+        usuario.code = unidq;
         await usuario.save();
 
         res.json({
@@ -290,6 +301,9 @@ const crearCocinero = async(req, res = response) => {
         const usuario = new Usuario(req.body);
         //usuario.password = cpassword;
         // Almacenar en BD
+        const unidq = uniqid();
+        await sendEmail(usuario.email, usuario.nombre, unidq, usuario._id);
+        usuario.code = unidq;
         await usuario.save();
 
         res.json({

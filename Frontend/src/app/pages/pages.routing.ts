@@ -29,6 +29,7 @@ import { ProvinciaComponent } from './admin/provincia/provincia.component';
 import { IngredienteProvComponent } from './proveedor/ingrediente-prov/ingrediente-prov.component';
 import { ComensalSuperComponent } from './supervisor/comensal-super/comensal-super.component';
 import { UsuarioSuperComponent } from './supervisor/usuario-super/usuario-super.component';
+import { PedidoCocineroComponent } from './cocinero/pedido-cocinero/pedido-cocinero.component';
 
 const routes: Routes = [
   // path para administradores
@@ -41,20 +42,13 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Administración' } },
       { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Usuarios' } },
         { path: 'usuarios/:id', component: UsuarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Usuario' } },
-
       { path: 'colegios', component: ColegiosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Colegios' } },
         { path: 'colegios/:id', component: ColegioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Colegio' } },
-
       { path: 'pedidos', component: PedidosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Pedidos' } },
-
       { path: 'ingredientes', component: IngredientesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Ingredientes' } },
-
       { path: 'menus', component: MenusComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Menus' } },
-
       { path: 'platos', component: PlatosComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Platos' } },
-
       { path: 'comensales', component: ComensalesComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Comensales' } },
-
       { path: 'provincias', component: ProvinciasComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Provincias' } },
         { path: 'provincias/:id', component: ProvinciaComponent, canActivate: [AuthGuard], data: { rol: 'ROL_ADMIN', titulo: 'Provincia' } },
       { path: '**', redirectTo: 'dashboard'}
@@ -71,6 +65,7 @@ const routes: Routes = [
       { path: 'usuarios', component: UsuariosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuarios' } },
         { path: 'usuarios/:id', component: UsuarioSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Usuario' } },
       { path: 'pedidos', component: PedidosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedidos' } },
+        { path: 'pedidos/:id', component: PedidoCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedido' } },
       { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
       { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
       { path: 'comensales', component: ComensalesSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
@@ -101,6 +96,7 @@ const routes: Routes = [
       } },
       { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Administración' } },
       { path: 'pedidos', component: PedidosCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedidos' } },
+        { path: 'pedidos/:id', component: PedidoCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedido' } },
       { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Calendario' } },
       { path: 'comensales', component: ComensalesCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Comensales' } },
       { path: 'comensales/:id', component: ComensalSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Registro Comensal' } },

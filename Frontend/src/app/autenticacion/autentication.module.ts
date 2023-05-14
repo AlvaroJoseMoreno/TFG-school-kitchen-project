@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; //Formulario 
 import { HttpClientModule } from '@angular/common/http';
 import { CommonsModule } from '../commons/commons.module';
 import { AutenticationLayoutComponent } from '../layouts/autentication-layout/autentication-layout.component';
+import { VerifyLinkConfirmationComponent } from './verify-link-confirmation/verify-link-confirmation.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     RecoveryComponent,
-    AutenticationLayoutComponent
+    AutenticationLayoutComponent,
+    VerifyLinkConfirmationComponent
   ],
   exports:[
     LoginComponent,

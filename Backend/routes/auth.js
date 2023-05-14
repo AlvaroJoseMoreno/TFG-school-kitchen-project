@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { token, login } = require('../controllers/auth');
+const { token, login, verifyLinkConfirmAcount, cambiarContraseña } = require('../controllers/auth');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -15,5 +15,13 @@ router.post('/', [
     check('password', 'El argumento pasword es obligatorio').not().isEmpty(),
     validarCampos,
 ], login);
+
+router.get('/validar/:code', verifyLinkConfirmAcount);
+
+router.put('/cambiarpwd/:code', [
+    check('password', 'El argumento pasword es obligatorio').not().isEmpty(),
+    check('repeatPwd', 'El argumento repeatPwd es obligatorio').not().isEmpty(),
+    validarCampos,
+], cambiarContraseña);
 
 module.exports = router;

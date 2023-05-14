@@ -1,0 +1,93 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+              <!-- Creamos Pedidos-->
+              <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPedido()">
+                    <div style="margin-top: 1.5rem;" class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getProveedores(); selectProveedor()" (keyup)="selecProveedorTrueKey($event)" class="form-control" style="border-radius: 5px;" placeholder="Proveedor *"
+                          formControlName="proveedor" [formControl]="filterProveedor" [matAutocomplete]="auto">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                            <mat-option (click)="selecProveedorTrueKey($event)" *ngFor="let option of filteredOptions | async" [value]="option.nombre">
+                              {{option.nombre}} - {{option.tipo_proveedor}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Fecha esperada *" onfocus="(this.type='date')" class="form-control" formControlName="fecha_esperada" id="nombre">
+                          <div class="invalid-feedback">
+                              La fecha esperada es obligatoria
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Anotaciones (Carne fileteada, p.ej)" class="form-control" formControlName="anotaciones" id="anotaciones">
+                        </textarea>
+                    </div>
+                    <div *ngIf="proveedorIng.uid !== ''" class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getIngetot();" (keyup)="selecIngredienteTrueKey($event)" class="form-control" style="border-radius: 5px;" placeholder="Ingredientes *"
+                          formControlName="ingredientes" [formControl]="filterIngredientes" [matAutocomplete]="auto">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                            <mat-option (click)="selecIngredienteTrueKey($event)" *ngFor="let option of filteredOptionsIngredientes | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+
+                    <table *ngIf="ing_pedidos.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                      <!-- Position Column -->
+                      <ng-container style="width: 25%;" matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef>  Cantidad Ing </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> {{element.cantidad}}
+                          <input type="number" (keyup)="getInputCantidad(element.uid, i)" placeholder="Cantidad *" [id]="element.uid" class="form-control cantidad_ing">
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef> Precio </th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- <div> {{element.cantidad * element.precio}} </div> -->
+                          {{element.precio}}
+                        </td>
+                      </ng-container>
+
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="borrar">
+                        <th mat-header-cell *matHeaderCellDef> Borrar </th>
+                        <td mat-cell *matCellDef="let element;let i = index">
+                          <div class="text-center" (click)="borrarIngrediente(i)">
+                            <i class="fa fa-trash"></i>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <div style="margin-top: 1em" class="form-group">
+                      <p>El precio total del pedido es: {{total_pedido | number : '1.2-2'}} €</p>
+                    </div>
+
+                <div class="d-flex m-t-25 m-b-10">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+

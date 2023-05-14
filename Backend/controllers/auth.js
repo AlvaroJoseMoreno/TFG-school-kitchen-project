@@ -94,4 +94,123 @@ const login = async(req, res = response) => {
 
 }
 
-module.exports = { token, login }
+const verifyLinkConfirmAcount = async(req, res) => {
+
+    const id = req.query.id;
+    const code = req.params.code;
+
+    try {
+        // Obtener el token
+        if (!id) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Ha habido un error de verificación de usuario'
+            });
+            //return res.redirect('');
+        }
+
+        if (!code) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El código de activación de usuario es erróneo'
+            });
+
+        }
+        // Verificar existencia del usuario
+        const user = await Usuario.findById(id);
+
+        if (!user) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No se ha podido verificar el usuario'
+            });
+        }
+
+        if (user._id != id) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario erróneo'
+            });
+        }
+
+        if (user.code != code) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Código de activación erroneo'
+            });
+        }
+        // Redireccionar a la confirmación
+        //return res.redirect('/');
+        res.json({
+            ok: true,
+            msg: 'El enlace es correcto'
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            ok: false,
+            msg: 'El link no es válido'
+        });
+    }
+}
+
+const cambiarContraseña = async(req, res = response) => {
+    const uid = req.query.id;
+    const code = req.params.code || '';
+    const { password, repeatPwd } = req.body;
+    console.log(uid);
+    try {
+        const usuario = await Usuario.findById(uid);
+        console.log(usuario);
+        //Si el usuario no existe no se puede cambiar la contraseña
+        if (!usuario) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario incorrecto',
+            });
+        }
+
+        if(code == ''){
+            return res.status(400).json({
+                ok: false,
+                msg: 'El código de enlace no es válido',
+            }); 
+        }
+
+        if(usuario.code != code){
+            return res.status(400).json({
+                ok: false,
+                msg: 'El código de enlace no es válido',
+            }); 
+        }
+        //Comprobamos que las dos contraseñas son iguales
+        if (password !== repeatPwd) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'La primera contraseña es diferente de la segunda',
+            });
+        }
+
+        // tenemos todo OK, ciframos la nueva contraseña y la actualizamos
+        const salt = bcrypt.genSaltSync();
+        const cpassword = bcrypt.hashSync(password, salt);
+        usuario.password = cpassword;
+
+        // Almacenar en BD
+        await usuario.save();
+
+        res.json({
+            ok: true,
+            msg: 'Password updated'
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error modificando la contraseña',
+        });
+    }
+}
+
+module.exports = { token, login, verifyLinkConfirmAcount, cambiarContraseña }

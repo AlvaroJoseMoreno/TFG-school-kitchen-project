@@ -41,6 +41,10 @@ export class PedidoService {
     return this.http.get(`${environment.base_url}/pedidos?id=${uid}` , this.cabeceras);
   }
 
+  crearPedido(data: any): Observable<object>{
+    return this.http.post(`${environment.base_url}/pedidos`, data, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

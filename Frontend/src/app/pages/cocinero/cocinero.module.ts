@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IngredientesCocineroPedidos, PedidosCocineroComponent } from './pedidos-cocinero/pedidos-cocinero.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { ComensalesCocineroComponent } from './comensales-cocinero/comensales-cocinero.component';
+import { PedidoCocineroComponent } from './pedido-cocinero/pedido-cocinero.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -20,7 +21,8 @@ import { ComensalesCocineroComponent } from './comensales-cocinero/comensales-co
     PedidosCocineroComponent,
     CalendarioComponent,
     ComensalesCocineroComponent,
-    IngredientesCocineroPedidos
+    IngredientesCocineroPedidos,
+    PedidoCocineroComponent
   ],
   exports: [
     PedidosCocineroComponent,
