@@ -17,10 +17,8 @@ router.get('/', [
 
 router.post('/', [
     validarJWT,
-    check('nombre', 'El nombre es obligatorio').notEmpty(),
-    check('nombre', 'El nombre es una cadena de texo').isString(),
-    check('dia', 'La dia es obligatorip').notEmpty(),
-    check('dia', 'La dia es y debe ser una fecha válida').isDate(),
+    check('nombre', 'El nombre es obligatorio y debe ser una cadena de texto').notEmpty().isString(),
+    check('dia', 'La dia es obligatorio y debe ser una fecha válida').notEmpty().isDate(),
     check('colegio', 'El colegio debe tener un identificador válido').notEmpty().isMongoId(),
     check('plato1', 'El primer plato debe tener un indentificador válido').notEmpty().isMongoId(),
     check('plato2', 'El segundo plato debe tener un indentificador válido').notEmpty().isMongoId(),
