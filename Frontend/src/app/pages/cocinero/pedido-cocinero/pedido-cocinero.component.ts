@@ -167,6 +167,33 @@ export class PedidoCocineroComponent implements OnInit {
     }
   }
 
+  setTypeProveedor(tipo: any): string{
+    let tipo_proveedor = '';
+    switch (tipo) {
+      case 'CARNE':
+        tipo_proveedor = 'carne'
+        break;
+      case 'PESCADO':
+        tipo_proveedor = 'pescado'
+        break;
+      case 'FRUTAVERDURA':
+        tipo_proveedor = 'fruta y verdura'
+        break;
+      case 'LACTEOS':
+        tipo_proveedor = 'lacteos'
+        break;
+      case 'ESPECIAS':
+        tipo_proveedor = 'especias'
+        break;
+      case 'DULCES':
+        tipo_proveedor = 'dulces'
+        break;
+      default:
+        break;
+    }
+    return tipo_proveedor;
+  }
+
   crearPedido(){
     this.waiting = true;
     let arrIng = [];

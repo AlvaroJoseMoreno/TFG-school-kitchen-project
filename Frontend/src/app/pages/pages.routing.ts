@@ -30,6 +30,8 @@ import { IngredienteProvComponent } from './proveedor/ingrediente-prov/ingredien
 import { ComensalSuperComponent } from './supervisor/comensal-super/comensal-super.component';
 import { UsuarioSuperComponent } from './supervisor/usuario-super/usuario-super.component';
 import { PedidoCocineroComponent } from './cocinero/pedido-cocinero/pedido-cocinero.component';
+import { PlatoSuperComponent } from './supervisor/plato-super/plato-super.component';
+import { MenuSuperComponent } from './supervisor/menu-super/menu-super.component';
 
 const routes: Routes = [
   // path para administradores
@@ -67,7 +69,9 @@ const routes: Routes = [
       { path: 'pedidos', component: PedidosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedidos' } },
         { path: 'pedidos/:id', component: PedidoCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Pedido' } },
       { path: 'menus', component: MenusSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menus' } },
+        { path: 'menus/:id', component: MenuSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Menu' } },
       { path: 'platos', component: PlatosSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Platos' } },
+        { path: 'platos/:id', component: PlatoSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Plato' } },
       { path: 'comensales', component: ComensalesSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Comensales' } },
         { path: 'comensales/:id', component: ComensalSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_SUPERVISOR', titulo: 'Registro Comensal' } },
       { path: '**', redirectTo: 'dashboard'}

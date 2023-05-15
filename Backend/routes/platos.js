@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { crearPlato, getPlatos, updatePlato, borrarPlato } = require('../controllers/platos');
+const { crearPlato, getPlatos, updatePlato, borrarPlato, getPlatosByCategory } = require('../controllers/platos');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
@@ -13,6 +13,13 @@ router.get('/', [
     check('text', 'La busqueda debe contener texto').optional().trim(),
     validarCampos
 ], getPlatos);
+
+router.get('/getPlatosByCategory', [
+    validarJWT,
+    check('colegio', 'El id de pedido debe ser válido').isMongoId(),
+    check('categoria', 'La categoria es obligatoria'),
+    validarCampos
+], getPlatosByCategory);
 
 router.post('/', [
     validarJWT,

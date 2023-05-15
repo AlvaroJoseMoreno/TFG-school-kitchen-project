@@ -27,6 +27,10 @@ export class PlatoService {
     return this.http.get(`${environment.base_url}/platos?id=${uid}` , this.cabeceras);
   }
 
+  crearPlato(data: any): Observable<object>{
+    return this.http.post(`${environment.base_url}/platos`, data, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

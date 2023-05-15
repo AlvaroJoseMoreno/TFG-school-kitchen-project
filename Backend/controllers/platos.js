@@ -81,6 +81,44 @@ const getPlatos = async(req, res = response) => {
     }
 }
 
+const getPlatosByCategory = async(req, res = response) => {
+    const categoria = req.query.categoria;
+    const colegio = req.query.colegio;
+
+    let query = {};
+    let total = 0;
+    try {
+        const token = req.header('x-token');
+
+        if (!(infoToken(token))) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        let platos = [];
+        
+        query = { colegio: colegio, categoria: categoria }; 
+        
+        [platos, total] = await Promise.all([Plato.find(query).sort({ nombre: 1 }),
+            Plato.countDocuments(query)
+        ]);
+
+        res.json({
+            ok: true,
+            message: 'Aquí están los platos por colegio y categoría',
+            platos,
+            total
+        });
+    } catch (error) {
+        res.json({
+            ok: false,
+            msg: 'Error obteniendo los platos'
+        });
+    }
+}
+
 const crearPlato = async(req, res = response) => {
     const { nombre, categoria, colegio, ingredientes, cantidad_ingredientes } = req.body;
 
@@ -352,4 +390,4 @@ const borrarPlato = async(req, res = response) => {
 
 }
 
-module.exports = { getPlatos, crearPlato, updatePlato, borrarPlato }
+module.exports = { getPlatos, getPlatosByCategory, crearPlato, updatePlato, borrarPlato }

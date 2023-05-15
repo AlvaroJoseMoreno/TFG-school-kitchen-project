@@ -13,8 +13,7 @@ const PlatoSchema = Schema({
         require: true    
     },
     receta: {
-        type: String,
-        //require: true    
+        type: String,    
     },
     ingredientes: [{
         type: Schema.Types.ObjectId,
