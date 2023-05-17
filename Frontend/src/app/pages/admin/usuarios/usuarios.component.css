@@ -65,3 +65,7 @@ th.mat-header-cell{
 .input-submit:hover{
   background: violet;
 }
+
+tr:hover{
+  background-color: #c1c1c1;
+}

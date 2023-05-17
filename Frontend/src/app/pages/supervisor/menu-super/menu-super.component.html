@@ -4,18 +4,39 @@
           <div class="card-body">
               <!-- Creamos Pedidos-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPlato()">
-                    <div style="margin-top: 1.5rem;" class="form-group">
-                      <input type="text" placeholder="Dia de menu *" class="form-control" onfocus="(this.type='date')" formControlName="fecha" id="nombre">
+                      <div style="margin-top: 1.5rem;" class="form-group">
+                        <select class="select2 form-control custom-select" name="Elige un rol" formControlName="nombre" id="nombre">
+                          <option value="">Tipo de menu</option>
+                          <option value="estandar" selected>Menú estándar</option>
+                          <option value="alergicos">Menú alérgicos</option>
+                        </select>
+                          <div class="invalid-feedback">
+                            El tipo de plato es obligatorio
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Dia de menu *" class="form-control" onfocus="(this.type='date')" formControlName="dia" id="dia">
                           <div class="invalid-feedback">
                               La día es obligatorio
                           </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
-                      <input type="text" (input)="getPrimerPlato();" class="form-control" style="border-radius: 5px;" placeholder="Primer Plato *"
-                          formControlName="firstPlate" [formControl]="filterPrimerPlato" [matAutocomplete]="auto">
+                      <input type="text" id="plato1" (input)="getPrimerPlato();" class="form-control" style="border-radius: 5px;" placeholder="Primer Plato *"
+                          formControlName="plato1" [formControl]="filterPrimerPlato" [matAutocomplete]="auto">
                         <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptionsPrimerPlato | async" [value]="option.nombre">
+                            <mat-option *ngFor="let optio of filteredOptionsPrimerPlato | async" [value]="optio.nombre">
+                              {{optio.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getSegundoPlato();" class="form-control" style="border-radius: 5px;" placeholder="Segundo Plato *"
+                          formControlName="plato2" [formControl]="filterSegundoPlato" [matAutocomplete]="auto2">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto2="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptionsSegundoPlato | async" [value]="option.nombre">
                               {{option.nombre}}
                             </mat-option>
                         </mat-autocomplete>
@@ -23,10 +44,21 @@
                     </div>
                     <div class="form-group">
                       <div class="input-group">
-                      <input type="text" (input)="getIngredientes();" class="form-control" style="border-radius: 5px;" placeholder="Ingredientes *"
-                          formControlName="ingredientes" [formControl]="filterIngredientes" [matAutocomplete]="auto">
-                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptionsIngredientes | async" [value]="option.nombre">
+                      <input type="text" (input)="getEnsaladas();" class="form-control" style="border-radius: 5px;" placeholder="Ensalada *"
+                          formControlName="ensalada" [formControl]="filterEnsaladas" [matAutocomplete]="auto3">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto3="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptionsEnsaladas | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getPostres();" class="form-control" style="border-radius: 5px;" placeholder="Postre *"
+                          formControlName="postre" [formControl]="filterPostres" [matAutocomplete]="auto4">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto4="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptionsPostres | async" [value]="option.nombre">
                               {{option.nombre}}
                             </mat-option>
                         </mat-autocomplete>

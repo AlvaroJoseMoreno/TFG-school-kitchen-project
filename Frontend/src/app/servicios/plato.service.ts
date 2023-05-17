@@ -22,6 +22,15 @@ export class PlatoService {
     return this.http.get(`${environment.base_url}/platos/${query}`, this.cabeceras);
   }
 
+  getPlatosByCategoria(categoria?: string, colegio?: string ): Observable<object> {
+
+    let query = '';
+    if (categoria != '') {query += `?categoria=${categoria}`;}
+    if (colegio != '') { query += `&colegio=${colegio}`; }
+
+    return this.http.get(`${environment.base_url}/platos/getPlatosByCategory${query}`, this.cabeceras);
+  }
+
   getPlato( uid: string): Observable<object> {
     if (!uid) { uid = '';}
     return this.http.get(`${environment.base_url}/platos?id=${uid}` , this.cabeceras);

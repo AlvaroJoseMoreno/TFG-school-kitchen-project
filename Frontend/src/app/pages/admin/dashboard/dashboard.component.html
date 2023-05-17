@@ -6,6 +6,22 @@
           <div class="row">
               <div class="col-lg-8">
                   <div class="au-card recent-report">
+                    <div class="input-group">
+                      <mat-form-field class="form-control">
+                        <mat-label>Selecciona un rango para ver fechas de comensales</mat-label>
+                        <mat-date-range-input
+                          [formGroup]="dateRangeComensales"
+                          [rangePicker]="campaignTwoPicker"
+                          [comparisonStart]="dateRangeComensales.value.start"
+                          [comparisonEnd]="dateRangeComensales.value.end">
+                          <input matStartDate placeholder="Start date" formControlName="start">
+                          <input (dateInput)="getComensalesPorDia()" matEndDate placeholder="End date" formControlName="end">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
+                        <mat-hint>DD/MM/YYYY - DD/MM/YYYY</mat-hint>
+                        <mat-date-range-picker #campaignTwoPicker></mat-date-range-picker>
+                      </mat-form-field>
+                    </div>
                       <div class="au-card-inner">
                           <div id="divChart" style="height: 250px;">
                             <canvas id="myChart"></canvas>

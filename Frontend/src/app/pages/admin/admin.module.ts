@@ -18,12 +18,14 @@ import { MenusComponent } from './menus/menus.component';
 import { IngredientesPedidos, PedidosComponent } from './pedidos/pedidos.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule} from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
 import { ColegioComponent } from './colegio/colegio.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -68,7 +70,9 @@ import { ColegioComponent } from './colegio/colegio.component';
     MatAutocompleteModule,
     MatDialogModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class AdminModule { }

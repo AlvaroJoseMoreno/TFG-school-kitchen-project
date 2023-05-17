@@ -1,0 +1,22 @@
+@import url('../usuarios/usuarios.component.css');
+.mat-date-range-input{
+  width: 50% !important;
+}
+::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix{
+  display: flex;
+  margin-bottom: -24px;
+}
+
+.input-group{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.form-control{
+  border-color: gray;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-icon-button > span > svg {
+  margin-bottom: 19px;
+}

@@ -23,6 +23,10 @@ export class MenuService {
     return this.http.get(`${environment.base_url}/menus/${query}`, this.cabeceras);
   }
 
+  crearMenu(data: any): Observable<object>{
+    return this.http.post(`${environment.base_url}/menus`, data, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

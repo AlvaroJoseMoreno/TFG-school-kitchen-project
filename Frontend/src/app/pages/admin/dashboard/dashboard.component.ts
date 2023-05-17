@@ -3,6 +3,7 @@ import { Provincia } from 'src/app/modelos/provincia.model';
 import { ProvinciaService } from 'src/app/servicios/provincia.service';
 import { Chart, registerables } from 'chart.js';
 import { ComensalService } from 'src/app/servicios/comensal.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,10 @@ export class DashboardComponent implements OnInit {
   public Comensales: any [] = [];
   public myChart: any;
   public myChart2: any;
+  public dateRangeComensales = new FormGroup({
+    start: new FormControl(new Date(2023, 3, 3)),
+    end: new FormControl(new Date(2023, 3, 7)),
+  });
   constructor(private provinciaServicio: ProvinciaService,
               private comensaleServicio: ComensalService) {
     Chart.register(...registerables);
@@ -26,8 +31,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getComensalesPorDia(){
-
-    this.comensaleServicio.getComensalesPorDia('2023-04-03', '2023-04-08').subscribe((res: any) => {
+    let fechain = this.dateRangeComensales.get('start')?.value;
+    let fechafin = this.dateRangeComensales.get('end')?.value;
+    let date1 = new Date(fechain).toLocaleDateString('es-CL').split('-');
+    let date2 = new Date(fechafin).toLocaleDateString('es-CL').split('-');
+    let datefin1 = date1[2] + '-' + date1[1] + '-' + date1 [0];
+    let datefin2 = date2[2] + '-' + date2[1] + '-' + date2 [0];
+    this.comensaleServicio.getComensalesPorDia(datefin1, datefin2).subscribe((res: any) => {
       this.Comensales = res['date_comensales'];
       let labels_com: any = [];
       let data_com: any = [];
@@ -41,8 +51,8 @@ export class DashboardComponent implements OnInit {
           data_com.push(this.Comensales[i].num_comensales);
         }
         //data_com.splice(2, 0, 0);
-        var fechaInicio = new Date('2023-04-03');
-        var fechaFin = new Date('2023-04-08');
+        var fechaInicio = new Date(datefin1);
+        var fechaFin = new Date(datefin2);
 
         while(fechaFin.getTime() >= fechaInicio.getTime()){
             labels_com.push(fechaInicio.getDate() + '-' + (fechaInicio.getMonth() + 1) + '-' + fechaInicio.getFullYear())

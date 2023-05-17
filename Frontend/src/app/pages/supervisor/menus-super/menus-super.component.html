@@ -74,8 +74,8 @@
   <ng-container matColumnDef="Postre">
     <th mat-header-cell *matHeaderCellDef> Postre </th>
     <td mat-cell *matCellDef="let element;">
-      <div *ngIf="element.ingredientes"> {{element.postre.nombre}} </div>
-      <div *ngIf="!element.ingredientes"> - </div>
+      <div *ngIf="element.postre"> {{element.postre.nombre}} </div>
+      <div *ngIf="!element.postre"> - </div>
     </td>
   </ng-container>
 
