@@ -45,6 +45,10 @@ export class PedidoService {
     return this.http.post(`${environment.base_url}/pedidos`, data, this.cabeceras);
   }
 
+  borrarPedido(uid: string){
+    return this.http.delete(`${environment.base_url}/pedidos/${uid}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

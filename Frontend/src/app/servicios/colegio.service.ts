@@ -30,6 +30,10 @@ export class ColegioService {
     return this.http.post(`${environment.base_url}/colegios`, data, this.cabeceras)
   }
 
+  borrarColegio(data: string): Observable<object> {
+    return this.http.delete(`${environment.base_url}/colegios/${data}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

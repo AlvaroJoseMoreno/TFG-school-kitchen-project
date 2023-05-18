@@ -28,6 +28,10 @@ export class ProvinciaService {
     return this.http.post(`${environment.base_url}/provincias`, data, this.cabeceras);
   }
 
+  borrarProvincia(data: string): Observable<object> {
+    return this.http.delete(`${environment.base_url}/provincias/${data}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

@@ -8,6 +8,7 @@ import { ColegioService } from 'src/app/servicios/colegio.service';
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { ProvinciaService } from 'src/app/servicios/provincia.service';
 import { Provincia } from 'src/app/modelos/provincia.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-colegios-admin',
@@ -47,7 +48,7 @@ export class ColegiosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Provincia', 'Telefono', 'Direccion'];
+  displayedColumns: string[] = ['Nombre', 'Provincia', 'Telefono', 'Direccion', 'borrar'];
 
   constructor(private colegioservicio: ColegioService,
               private paginator1: MatPaginatorIntl,
@@ -123,6 +124,28 @@ export class ColegiosComponent implements OnInit {
       prov = this.searchForm.value.provincia;
     }
     return prov;
+  }
+
+  borrarColegio(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar colegio',
+      text: `Al eliminar el colegio ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.colegioservicio.borrarColegio(uid)
+              .subscribe( resp => {
+                this.getColegios();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {

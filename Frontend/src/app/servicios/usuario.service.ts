@@ -59,6 +59,10 @@ export class UsuarioService {
     return this.http.post(`${environment.base_url}/usuarios/proveedor`, data, this.cabeceras);
   }
 
+  borrarUsuario(uid: string){
+    return this.http.delete(`${environment.base_url}/usuarios/${uid}`, this.cabeceras);
+  }
+
   login( formData: any) {
     return this.http.post(`${environment.base_url}/login`, formData).pipe(
       tap((res : any) => {

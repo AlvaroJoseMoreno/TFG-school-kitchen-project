@@ -10,6 +10,7 @@ import { ColegioService } from 'src/app/servicios/colegio.service';
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { Menu } from 'src/app/modelos/menu.model';
 import { MenuService } from 'src/app/servicios/menu.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-menus',
@@ -50,7 +51,7 @@ export class MenusComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Colegio', 'Coste'];
+  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Colegio', 'Coste', 'borrar'];
 
   constructor(private menuservicio: MenuService,
               private colegioservicio: ColegioService,
@@ -93,8 +94,9 @@ export class MenusComponent implements OnInit {
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
 
     this.menuservicio.getMenus(dia, colegio, tipo).subscribe((res: any) => {
+        this.menus = [];
         this.menus = res['menus'];
-        this.length = res['menus'].length;
+        this.length = this.menus.length;
         this.dataSource = new MatTableDataSource<Menu>(this.menus);
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -131,6 +133,28 @@ export class MenusComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarMenu(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar menu',
+      text: `Al eliminar el menú ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.menuservicio.borrarMenu(uid)
+              .subscribe( resp => {
+                this.getMenus();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

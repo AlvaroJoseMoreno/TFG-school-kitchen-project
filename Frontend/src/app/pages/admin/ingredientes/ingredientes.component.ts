@@ -8,6 +8,7 @@ import { Ingrediente } from 'src/app/modelos/ingrediente.model';
 import { Usuario } from 'src/app/modelos/usuario.model';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { IngredienteService } from 'src/app/servicios/ingrediente.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ingredientes',
@@ -48,7 +49,7 @@ export class IngredientesComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Proveedor', 'Categoria', 'Medida', 'Precio', 'Alergenos', 'Stock'];
+  displayedColumns: string[] = ['Nombre', 'Proveedor', 'Categoria', 'Medida', 'Precio', 'Alergenos', 'Stock', 'borrar'];
 
   constructor(private ingredienteservicio: IngredienteService,
               private usuarioservicio: UsuarioService,
@@ -129,6 +130,29 @@ export class IngredientesComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+
+  borrarIngrediente(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar ingrediente',
+      text: `Al eliminar el ingrediente ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.ingredienteservicio.borrarIngrediente(uid)
+              .subscribe( resp => {
+                this.getIngredientes();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

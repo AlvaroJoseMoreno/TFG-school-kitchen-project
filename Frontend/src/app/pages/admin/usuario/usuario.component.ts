@@ -77,6 +77,7 @@ export class UsuarioComponent implements OnInit {
 
   crearAdmin(){
     this.waiting = true;
+    this.datosForm.value.colegio = undefined;
     this.usuarioService.nuevoAdmin(this.datosForm.value).subscribe((res: any) => {
       this.waiting = false;
       let nombre = res['usuario'].nombre;

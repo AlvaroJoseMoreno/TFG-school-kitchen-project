@@ -9,6 +9,7 @@ import { PlatoService } from 'src/app/servicios/plato.service';
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { ColegioService } from 'src/app/servicios/colegio.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-platos',
@@ -48,7 +49,7 @@ export class PlatosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Categoria', 'Colegio', 'Ingredientes', 'Coste'];
+  displayedColumns: string[] = ['Nombre', 'Categoria', 'Colegio', 'Ingredientes', 'Coste', 'borrar'];
 
   constructor(private colegioservicio: ColegioService,
               private platoServicio: PlatoService,
@@ -130,6 +131,28 @@ export class PlatosComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarPlato(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar plato',
+      text: `Al eliminar el plato ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.platoServicio.borrarPlato(uid)
+              .subscribe( resp => {
+                this.getPlatos();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

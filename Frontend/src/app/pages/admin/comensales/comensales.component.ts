@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operato
 import { ComensalService } from 'src/app/servicios/comensal.service';
 import { ColegioService } from 'src/app/servicios/colegio.service';
 import { Colegio } from 'src/app/modelos/colegio.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comensales',
@@ -47,7 +48,7 @@ export class ComensalesComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Fecha', 'Comensales', 'Colegio', 'Usuario'];
+  displayedColumns: string[] = ['Fecha', 'Comensales', 'Colegio', 'Usuario', 'borrar'];
 
   constructor(private comensaleservicio: ComensalService,
               private colegioservicio: ColegioService,
@@ -128,6 +129,29 @@ export class ComensalesComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarComensales(uid: any, dia: Date, colegio: string) {
+    let day = new Date(dia).toLocaleDateString();
+    Swal.fire({
+      title: 'Eliminar registro de comensales',
+      text: `Al eliminar el registro de comensales del día ${day} del colegio ${colegio} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.comensaleservicio.borrarComensales(uid)
+              .subscribe( resp => {
+                this.getComensales();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

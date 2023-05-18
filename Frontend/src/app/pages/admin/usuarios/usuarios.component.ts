@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { ColegioService } from 'src/app/servicios/colegio.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -48,7 +49,7 @@ export class UsuariosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Colegio'];
+  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Colegio', 'borrar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private paginator1: MatPaginatorIntl,
@@ -130,6 +131,40 @@ export class UsuariosComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => + str);
     }
+  }
+
+  borrarUsuario(uid: string, name: string): void {
+      // Comprobar que no me borro a mi mismo
+      if (uid === this.usuarioservicio.uid) {
+        Swal.fire({icon: 'warning', title: 'Oops...', text: 'No puedes eliminar tu propio usuario',});
+        return;
+      }
+      // Solo los admin pueden borrar usuarios
+      if (this.usuarioservicio.rol !== 'ROL_ADMIN') {
+        Swal.fire({icon: 'warning', title: 'Oops...', text: 'No tienes permisos para realizar esta acción',});
+        return;
+      }
+      Swal.fire({
+        title: 'Eliminar usuario',
+        text: `Al eliminar al usuario ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borrar'
+      }).then((result) => {
+            if (result.value) {
+              this.usuarioservicio.borrarUsuario(uid)
+                .subscribe( resp => {
+                  console.log(resp);
+                  this.getUsuarios();
+                }
+                ,(err) =>{
+                  console.log(err);
+                  Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+                })
+            }
+        });
   }
 
   borrar() {

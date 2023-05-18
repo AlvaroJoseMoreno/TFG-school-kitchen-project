@@ -40,6 +40,10 @@ export class PlatoService {
     return this.http.post(`${environment.base_url}/platos`, data, this.cabeceras);
   }
 
+  borrarPlato(uid: string){
+    return this.http.delete(`${environment.base_url}/platos/${uid}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

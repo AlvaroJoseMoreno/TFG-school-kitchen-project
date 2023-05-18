@@ -27,6 +27,10 @@ export class IngredienteService {
     return this.http.post(`${environment.base_url}/ingredientes`, data, this.cabeceras);
   }
 
+  borrarIngrediente(uid: string){
+    return this.http.delete(`${environment.base_url}/ingredientes/${uid}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

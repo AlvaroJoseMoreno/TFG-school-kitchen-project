@@ -27,6 +27,10 @@ export class ComensalService {
     return this.http.post(`${environment.base_url}/comensales`, data, this.cabeceras);
   }
 
+  borrarComensales(uid: string){
+    return this.http.delete(`${environment.base_url}/comensales/${uid}`, this.cabeceras);
+  }
+
   getComensalesPorDia( fecha1?: string, fecha2?: string ): Observable<object> {
 
     let query = '';

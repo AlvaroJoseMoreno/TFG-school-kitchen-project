@@ -61,7 +61,7 @@
     <th mat-header-cell *matHeaderCellDef> Proveedor </th>
     <td mat-cell *matCellDef="let element">
       <div *ngIf="element.proveedor"> {{element.proveedor.nombre}} </div>
-      <div *ngIf="!element.proveedor"> - </div>
+      <div *ngIf="!element.proveedor"> No existe el proveedor </div>
     </td>
   </ng-container>
 
@@ -69,7 +69,7 @@
     <th mat-header-cell *matHeaderCellDef> Pedido por </th>
     <td mat-cell *matCellDef="let element">
       <div *ngIf="element.usuario_pedido"> {{element.usuario_pedido.nombre}} </div>
-      <div *ngIf="!element.usuario_pedido"> - </div>
+      <div *ngIf="!element.usuario_pedido"> No existe este usuario </div>
     </td>
   </ng-container>
 
@@ -84,7 +84,7 @@
     <th mat-header-cell *matHeaderCellDef> Colegio </th>
     <td mat-cell *matCellDef="let element">
       <div *ngIf="element.colegio"> {{element.colegio.nombre}} </div>
-      <div *ngIf="!element.colegio"> - </div>
+      <div *ngIf="!element.colegio"> No hay colegio asignado </div>
     </td>
   </ng-container>
 
@@ -101,6 +101,18 @@
   <ng-container matColumnDef="Precio">
     <th mat-header-cell *matHeaderCellDef> Precio </th>
     <td mat-cell *matCellDef="let element"> {{element.precio | number : '1.2-2'}} € </td>
+  </ng-container>
+
+  <ng-container matColumnDef="borrar">
+    <th mat-header-cell *matHeaderCellDef> Borrar </th>
+    <td mat-cell *matCellDef="let element;let i = index">
+      <div *ngIf="element.estado === 'Entregado'" class="text-center" (click)="borrarPedido(element.uid, element.nombre)">
+        <i class="fa fa-trash"></i>
+      </div>
+      <div *ngIf="element.estado !== 'Entregado'" class="text-center" (click)="borrarPedido(element.uid, element.nombre)">
+        <p>Acción no disponible</p>
+      </div>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

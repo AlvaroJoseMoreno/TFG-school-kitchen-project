@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
-import { ColegioService } from 'src/app/servicios/colegio.service';
-import { Colegio } from 'src/app/modelos/colegio.model';
 import { ProvinciaService } from 'src/app/servicios/provincia.service';
 import { Provincia } from 'src/app/modelos/provincia.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-provincias',
@@ -43,7 +42,7 @@ export class ProvinciasComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Codigo', 'num_colegios'];
+  displayedColumns: string[] = ['Nombre', 'Codigo', 'num_colegios', 'borrar'];
 
   constructor(private provinciaservicio: ProvinciaService,
               private paginator1: MatPaginatorIntl,
@@ -87,6 +86,28 @@ export class ProvinciasComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarProvincia(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar Provincia',
+      text: `Al eliminar la provincia ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.provinciaservicio.borrarProvincia(uid)
+              .subscribe( resp => {
+                this.getProvincias();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

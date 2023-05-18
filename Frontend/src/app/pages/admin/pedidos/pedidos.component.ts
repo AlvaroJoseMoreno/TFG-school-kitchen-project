@@ -9,6 +9,7 @@ import { ColegioService } from 'src/app/servicios/colegio.service';
 import { Pedido } from 'src/app/modelos/pedido.model';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pedidos',
@@ -50,7 +51,8 @@ export class PedidosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido', 'Estado', 'Colegio', 'Ingredientes', 'Precio'];
+  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido',
+                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar'];
 
   constructor(private colegioservicio: ColegioService,
               private pedidosservicio: PedidoService,
@@ -133,6 +135,28 @@ export class PedidosComponent implements OnInit {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarPedido(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar pedido',
+      text: `Al eliminar el pedido ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.pedidosservicio.borrarPedido(uid)
+              .subscribe( resp => {
+                this.getPedidos();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

@@ -27,6 +27,10 @@ export class MenuService {
     return this.http.post(`${environment.base_url}/menus`, data, this.cabeceras);
   }
 
+  borrarMenu(uid: string){
+    return this.http.delete(`${environment.base_url}/menus/${uid}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {
