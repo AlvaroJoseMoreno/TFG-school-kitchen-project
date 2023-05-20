@@ -24,8 +24,8 @@ export class IngredienteProvComponent implements OnInit {
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     nombre: ['', Validators.required],
-    unidad_medida: ['kg', Validators.required],
-    precio: [0, Validators.required],
+    unidad_medida: ['', Validators.required],
+    precio: ['', Validators.required],
     imagen: ['default_ingrediente.jpg']
   });
 

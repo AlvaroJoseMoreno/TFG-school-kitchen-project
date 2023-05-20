@@ -36,9 +36,9 @@ export class SidebarService {
   ];
 
   menuCocinero: sidebarItem [] = [
-    { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/cocinero'},
-    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/cocinero/pedidos'},
     { title: 'Calendario', icon: 'fa fa-calendar', sub: false, url: '/cocinero/calendario'},
+    // { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/cocinero'},
+    { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/cocinero/pedidos'},
     { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/cocinero/comensales'}
   ];
 

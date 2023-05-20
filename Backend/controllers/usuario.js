@@ -193,7 +193,7 @@ const crearSuper = async(req, res = response) => {
 
 const crearProveedor = async(req, res = response) => {
 
-    const { email, nombre, rol, colegio } = req.body;
+    const { email, nombre, rol, colegio, tipo_proveedor } = req.body;
 
     try {
         const token = req.header('x-token');
@@ -229,6 +229,14 @@ const crearProveedor = async(req, res = response) => {
             });
         }
 
+        const exist_type = await Usuario.findOne({ colegio: colegio, tipo_proveedor: tipo_proveedor });
+        
+        if(exist_type){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Ya existe un proveedor de este tipo en el colegio'
+            });
+        }
         // Cifrar la contraseña, obtenemos el salt y ciframos
         // const salt = bcrypt.genSaltSync();
         // const cpassword = bcrypt.hashSync(password, salt);

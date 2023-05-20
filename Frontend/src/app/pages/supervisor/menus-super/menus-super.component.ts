@@ -7,6 +7,7 @@ import { Menu } from 'src/app/modelos/menu.model';
 import { MenuService } from 'src/app/servicios/menu.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-menus-super',
@@ -43,7 +44,7 @@ export class MenusSuperComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Colegio', 'Coste'];
+  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Colegio', 'Coste', 'borrar'];
 
   constructor(private menuservicio: MenuService,
               private usuarioservicio: UsuarioService,
@@ -83,11 +84,32 @@ export class MenusSuperComponent implements OnInit {
     });
   }
 
-
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+  borrarMenu(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar menu',
+      text: `Al eliminar el menú ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.menuservicio.borrarMenu(uid)
+              .subscribe( resp => {
+                this.getMenus();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   borrar() {

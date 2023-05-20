@@ -313,7 +313,7 @@ const borrarComensales = async(req, res = response) => {
 
         const user = await Usuario.findById(reg_comensal.usuario);
         // comprobamos que no se
-        if ((infoToken(token).rol !== 'ROL_ADMIN' && infoToken(token).rol !== 'ROL_COCINERO')) {
+        if ((infoToken(token).rol !== 'ROL_ADMIN' && infoToken(token).rol !== 'ROL_SUPERVISOR' && infoToken(token).rol !== 'ROL_COCINERO')) {
             return res.status(400).json({
                 ok: false,
                 msg: 'No tienes permisos para realizar esta acción',

@@ -94,14 +94,14 @@ const routes: Routes = [
   // path para cocineros
   { path: 'cocinero', component: UsuariosLayoutComponent, data: { rol: 'ROL_COCINERO', titulo: 'Administración' },
     children: [
-      { path: '', component: DashboardSuperComponent, canActivate: [AuthGuard], data: {
+      { path: '', component: CalendarioComponent, canActivate: [AuthGuard], data: {
         rol: 'ROL_COCINERO',
-        titulo: 'Administración'
+        titulo: 'Calendario'
       } },
-      { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Administración' } },
+      { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Calendario' } },
+      // { path: 'dashboard', component: DashboardSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Administración' } },
       { path: 'pedidos', component: PedidosCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedidos' } },
         { path: 'pedidos/:id', component: PedidoCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Pedido' } },
-      { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Calendario' } },
       { path: 'comensales', component: ComensalesCocineroComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Comensales' } },
       { path: 'comensales/:id', component: ComensalSuperComponent, canActivate: [AuthGuard], data: { rol: 'ROL_COCINERO', titulo: 'Registro Comensal' } },
       { path: '**', redirectTo: 'dashboard'}

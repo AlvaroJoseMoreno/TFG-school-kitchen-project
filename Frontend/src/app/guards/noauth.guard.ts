@@ -26,7 +26,7 @@ canActivate(
               this.router.navigateByUrl('/super/dashboard');
               break;
             case 'ROL_COCINERO':
-              this.router.navigateByUrl('/cocinero/dashboard');
+              this.router.navigateByUrl('/cocinero');
               break;
             case 'ROL_PROVEEDOR':
               this.router.navigateByUrl('/prov/dashboard');
