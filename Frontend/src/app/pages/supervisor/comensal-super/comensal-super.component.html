@@ -5,20 +5,20 @@
                <!-- Creamos comensales-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearComensal()">
                     <div style="margin-top: 1.5rem;" class="form-group">
-                      <input type="date" placeholder="Fecha *" class="form-control" formControlName="fecha" id="fecha">
+                      <input type="date" placeholder="Fecha *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('fecha')}" formControlName="fecha" id="fecha">
                         <div class="invalid-feedback">
-                          La fecha es obligatoria
+                          La fecha es obligatoria y debe ser válida
                         </div>
                     </div>
                     <div class="form-group">
-                      <input type="number" placeholder="Número de comensales *" class="form-control" formControlName="num_comensales" id="num_comensales">
+                      <input type="text" pattern="\d*" maxlength="3" placeholder="Número de comensales *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('num_comensales')}" formControlName="num_comensales" id="num_comensales">
                         <div class="invalid-feedback">
-                          El número de comensales es obligatorio
+                          El número de comensales es obligatorio, debe ser mayor de 0 y no debe incluir decimales
                         </div>
                     </div>
                 <div class="d-flex m-t-25 m-b-10">
                     <div class="divsbuttons align-content-center">
-                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar">Cancelar</button>
                       <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
                     </div>
                 </div>

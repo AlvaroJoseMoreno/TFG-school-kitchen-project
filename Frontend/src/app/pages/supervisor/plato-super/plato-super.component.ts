@@ -40,7 +40,7 @@ export class PlatoSuperComponent implements OnInit {
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
-    nombre: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(4)]],
     categoria: ['', Validators.required],
     receta: [''],
     ingredientes: [''],
@@ -170,6 +170,10 @@ export class PlatoSuperComponent implements OnInit {
       Swal.fire({icon: 'error', title: 'Oops...', text: errtext,});
       return;
     });
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
   cancelar() {

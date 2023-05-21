@@ -194,6 +194,10 @@ export class PedidoCocineroComponent implements OnInit {
     return tipo_proveedor;
   }
 
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+  }
+
   crearPedido(){
     this.waiting = true;
     let arrIng = [];

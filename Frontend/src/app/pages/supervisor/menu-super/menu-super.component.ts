@@ -20,9 +20,13 @@ export class MenuSuperComponent implements OnInit {
 
   private formSubmited = false;
   public primerPlato: Plato [] = [];
+  public select_plato1 = false;
   public segundoPlato: Plato [] = [];
+  public select_plato2 = false;
   public ensaladaMenu: Plato [] = [];
+  public select_ensalada = false;
   public postres: Ingrediente [] = [];
+  public select_postre = false;
   public filterPrimerPlato = new FormControl();
   public filterSegundoPlato = new FormControl();
   public filterEnsaladas = new FormControl();
@@ -80,7 +84,6 @@ export class MenuSuperComponent implements OnInit {
   getPrimerPlato() {
     this.platoServicio.getPlatosByCategoria('primeros', this.usuarioService.colegio).subscribe((res: any) => {
       this.primerPlato = res['platos'];
-      console.log(this.primerPlato);
       this.filteredOptionsPrimerPlato = this.filterPrimerPlato.valueChanges.pipe(
         startWith(''),
         map(value => this.filtroFirstPlate()),
@@ -95,7 +98,6 @@ export class MenuSuperComponent implements OnInit {
   getSegundoPlato() {
     this.platoServicio.getPlatosByCategoria('segundos', this.usuarioService.colegio).subscribe((res: any) => {
       this.segundoPlato = res['platos'];
-      console.log(this.segundoPlato);
       this.filteredOptionsSegundoPlato = this.filterSegundoPlato.valueChanges.pipe(
         startWith(''),
         map(value => this.filtroSecondPlate()),
@@ -110,7 +112,6 @@ export class MenuSuperComponent implements OnInit {
   getEnsaladas() {
     this.platoServicio.getPlatosByCategoria('ensaladas', this.usuarioService.colegio).subscribe((res: any) => {
       this.ensaladaMenu = res['platos'];
-      console.log(this.ensaladaMenu);
       this.filteredOptionsEnsaladas = this.filterEnsaladas.valueChanges.pipe(
         startWith(''),
         map(value => this.filtroEnsaladas()),
@@ -132,7 +133,6 @@ export class MenuSuperComponent implements OnInit {
           this.postres.push(postr[i]);
         }
       }
-      console.log(this.postres);
       this.filteredOptionsPostres = this.filterPostres.valueChanges.pipe(
         startWith(''),
         map(value => this.filtroPostres()),
@@ -196,6 +196,29 @@ export class MenuSuperComponent implements OnInit {
     return '';
   }
 
+  // plato1 new
+  selectPlato1(){
+    if(this.datosForm.get('plato1')?.value.length > 0){
+      this.select_plato1 =true;
+    }
+  }
+
+  selectPlato1True(){
+    let value_plato1 = this.datosForm.get('plato1')?.value || '';
+    for(let i = 0; i < this.primerPlato.length; i++){
+      if(this.primerPlato[i].nombre == value_plato1){
+        this.select_plato1 = false;
+      }
+    }
+  }
+
+  selectPlato1TrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectPlato1True();
+    }
+  }
+
+  // plato 2 new
   obtainPlato2(plato2: string): string{
     for(let i = 0; i < this.segundoPlato.length; i++){
       if(this.segundoPlato[i].nombre == plato2){
@@ -205,6 +228,27 @@ export class MenuSuperComponent implements OnInit {
     return '';
   }
 
+  selectPlato2(){
+    if(this.datosForm.get('plato2')?.value.length > 0){
+      this.select_plato2 =true;
+    }
+  }
+
+  selectPlato2True(){
+    let value_plato1 = this.datosForm.get('plato2')?.value || '';
+    for(let i = 0; i < this.segundoPlato.length; i++){
+      if(this.segundoPlato[i].nombre == value_plato1){
+        this.select_plato2 = false;
+      }
+    }
+  }
+
+  selectPlato2TrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectPlato2True();
+    }
+  }
+  // postre new
   obtainPostre(postre: string): string{
     for(let i = 0; i < this.postres.length; i++){
       if(this.postres[i].nombre == postre){
@@ -214,6 +258,28 @@ export class MenuSuperComponent implements OnInit {
     return '';
   }
 
+  selectPostre(){
+    if(this.datosForm.get('postre')?.value.length > 0){
+      this.select_postre = true;
+    }
+  }
+
+  selectPostreTrue(){
+    let value_plato1 = this.datosForm.get('postre')?.value || '';
+    for(let i = 0; i < this.postres.length; i++){
+      if(this.postres[i].nombre == value_plato1){
+        this.select_postre = false;
+      }
+    }
+  }
+
+  selectPostreTrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectPostreTrue();
+    }
+  }
+
+  // ensalada new
   obtainEnsalada(ensalada: string): string{
     for(let i = 0; i < this.ensaladaMenu.length; i++){
       if(this.ensaladaMenu[i].nombre == ensalada){
@@ -221,6 +287,31 @@ export class MenuSuperComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  selectEnsalada(){
+    if(this.datosForm.get('ensalada')?.value.length > 0){
+      this.select_ensalada =true;
+    }
+  }
+
+  selectEnsaladaTrue(){
+    let value_plato1 = this.datosForm.get('ensalada')?.value || '';
+    for(let i = 0; i < this.ensaladaMenu.length; i++){
+      if(this.ensaladaMenu[i].nombre == value_plato1){
+        this.select_ensalada = false;
+      }
+    }
+  }
+
+  selectEnsaladaTrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectEnsaladaTrue();
+    }
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
   cancelar() {

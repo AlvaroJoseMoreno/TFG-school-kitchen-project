@@ -21,7 +21,7 @@ export class ComensalSuperComponent implements OnInit {
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     fecha: ['', Validators.required],
-    num_comensales: ['', Validators.required]
+    num_comensales: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]]
   });
 
   constructor(private fb: FormBuilder,
@@ -43,6 +43,10 @@ export class ComensalSuperComponent implements OnInit {
   cancelar() {
     return this.usuarioServicio.rol == 'ROL_SUPERVISOR' ?
     this.router.navigateByUrl('/super/comensales') : this.router.navigateByUrl('/cocinero/comensales');
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
   crearComensal(){

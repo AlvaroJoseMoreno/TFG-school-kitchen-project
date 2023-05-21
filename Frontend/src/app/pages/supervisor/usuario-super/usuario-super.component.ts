@@ -23,12 +23,12 @@ export class UsuarioSuperComponent implements OnInit {
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     email: [ '', [Validators.required, Validators.email]],
-    nombre: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(8)]],
     telefono: ['', Validators.pattern('[6|7]{1}[0-9]{8}')],
     tipo_proveedor: [''],
-    rol: [''],
+    rol: ['', Validators.required],
     colegio: [''],
-    ciudad: ['', Validators.required]
+    ciudad: ['', [Validators.required, Validators.minLength(2)]]
   });
 
   constructor(private fb: FormBuilder,
@@ -115,6 +115,15 @@ export class UsuarioSuperComponent implements OnInit {
     const tipos_proveedores = ['CARNE', 'PESCADO', 'FRUTAVERDURA', 'LACTEOS', 'ESPECIAS', 'DULCES'];
     if(tipos_proveedores.includes(formValue)) return formValue;
     return '';
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+  }
+
+  campoNoValidoTipoProveedor() {
+    const tipos_proveedores = ['CARNE', 'PESCADO', 'FRUTAVERDURA', 'LACTEOS', 'ESPECIAS', 'DULCES'];
+    return !tipos_proveedores.includes(this.datosForm.get('tipo_proveedor')?.value) && !this.datosForm.get('tipo_proveedor')?.pristine;
   }
 
   cancelar() {

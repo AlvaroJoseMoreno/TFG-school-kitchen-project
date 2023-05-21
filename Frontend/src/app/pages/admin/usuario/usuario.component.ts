@@ -35,7 +35,7 @@ export class UsuarioComponent implements OnInit {
     telefono: ['', Validators.pattern('[6|7]{1}[0-9]{8}')],
     colegio: [''],
     rol: ['', Validators.required],
-    ciudad: ['', [Validators.required, Validators.minLength(3)]]
+    ciudad: ['', [Validators.required, Validators.minLength(2)]]
   });
 
   constructor(private fb: FormBuilder,
