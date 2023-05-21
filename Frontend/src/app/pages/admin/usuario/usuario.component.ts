@@ -24,17 +24,18 @@ export class UsuarioComponent implements OnInit {
   public wait_form = false;
   public esnuevo = false
   public exist_colegio = false;
+  public select_colegio = false;
 
   // formulario con el que se creará un nuevo usuario
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     email: [ '', [Validators.required, Validators.email]],
-    nombre: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(8)]],
     telefono: ['', Validators.pattern('[6|7]{1}[0-9]{8}')],
     colegio: [''],
-    rol: ['ROL_ADMIN', Validators.required],
-    ciudad: ['', Validators.required]
+    rol: ['', Validators.required],
+    ciudad: ['', [Validators.required, Validators.minLength(3)]]
   });
 
   constructor(private fb: FormBuilder,
@@ -145,6 +146,31 @@ export class UsuarioComponent implements OnInit {
       col = this.datosForm.value.colegio;
     }
     return col;
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+  }
+
+  selectColegio(){
+    if(this.datosForm.get('colegio')?.value.length > 0){
+      this.select_colegio =true;
+    }
+  }
+
+  selectColegioTrue(){
+    let value_province = this.datosForm.get('colegio')?.value || '';
+    for(let i = 0; i < this.colegios.length; i++){
+      if(this.colegios[i].nombre == value_province){
+        this.select_colegio = false;
+      }
+    }
+  }
+
+  selectColegioTrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectColegioTrue();
+    }
   }
 
   cancelar() {

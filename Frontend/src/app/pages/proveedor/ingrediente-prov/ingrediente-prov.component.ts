@@ -23,9 +23,9 @@ export class IngredienteProvComponent implements OnInit {
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
-    nombre: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
     unidad_medida: ['', Validators.required],
-    precio: ['', Validators.required],
+    precio: ['', [Validators.required, Validators.min(0.1)]],
     imagen: ['default_ingrediente.jpg']
   });
 
@@ -80,6 +80,10 @@ export class IngredienteProvComponent implements OnInit {
       Swal.fire({icon: 'error', title: 'Oops...', text: errtext,});
       return;
     });
+  }
+
+  campoNoValido(campo: string) {
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
   cancelar() {

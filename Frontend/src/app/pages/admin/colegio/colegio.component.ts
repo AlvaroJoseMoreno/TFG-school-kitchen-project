@@ -24,11 +24,12 @@ export class ColegioComponent implements OnInit {
   public wait_form = false;
   public esnuevo = false
   public exist_colegio = false;
+  public select_provincia = false;
 
   // formulario con el que se creará un nuevo colegio
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
-    nombre: ['', Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(6)]],
     telefono: ['', [Validators.required, Validators.pattern('[6|7]{1}[0-9]{8}')]],
     provincia: ['', Validators.required],
     direccion: ['', [Validators.required, Validators.minLength(20)]]
@@ -116,7 +117,28 @@ export class ColegioComponent implements OnInit {
   }
 
   campoNoValido( campo: string) {
-    return this.datosForm.get(campo)?.invalid;
+    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+  }
+
+  selectProvincia(){
+    if(this.datosForm.get('provincia')?.value.length > 0){
+      this.select_provincia =true;
+    }
+  }
+
+  selectProvinciaTrue(){
+    let value_province = this.datosForm.get('provincia')?.value || '';
+    for(let i = 0; i < this.provincias.length; i++){
+      if(this.provincias[i].nombre == value_province){
+        this.select_provincia = false;
+      }
+    }
+  }
+
+  selectProvinciaTrueKey(event: any){
+    if(event.keyCode == 13 || event.code == 'Enter'){
+      this.selectProvinciaTrue();
+    }
   }
 
   cancelar() {
