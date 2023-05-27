@@ -319,6 +319,105 @@ const updatePedido = async(req, res = response) => {
 }
 
 // recepcionar pedidos
+const recepcionarPedido = async(req, res = response) => {
+    const { cantidad_recepcionada } = req.body;
+    const id = req.params.id || '';
+
+    try {
+        const token = req.header('x-token');
+        //solo pueden modificar un registro de comensales esos roles
+        if (infoToken(token).rol != 'ROL_ADMIN' && infoToken(token).rol !== 'ROL_COCINERO'
+            && infoToken(token).rol !== 'ROL_SUPERVISOR') {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+        
+        // solo se pueden recepcionar pedidos que no estén entregados
+        const exist_pedido = await Pedido.findById(id).populate('ingredientes');
+        if(!exist_pedido || exist_pedido.estado === 'Entregado'){
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe este pedido o está completado o parcialmente completado',
+            });
+        }
+
+        // compara la longitudo del array de cantidades de los pedidos con el de la cantidad recepcionada
+
+        if(exist_pedido.cantidad.length !== cantidad_recepcionada.length){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Los datos enviados son erróneos',
+            });
+        }
+        // hacemos con los ingredientes lo mismo que en el POST de la api
+
+        if(infoToken(token).rol !== 'ROL_ADMIN') {
+            if (infoToken(token).uid.toString() != exist_pedido.usuario_pedido.toString()){
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Tu usuario no tiene permisos para realizar esta acción',
+                });
+            }
+        }
+        
+        let cant_recep_total = exist_pedido.cantidad_recepcionada;
+    
+        // Se suma la cantidad recibida a la cantidad que hay actualmente
+        for(let i = 0; i < cantidad_recepcionada.length; i++){
+            cant_recep_total[i] = cant_recep_total[i] + cantidad_recepcionada[i];
+        }
+        // ahora vamos a comprobar que ningun ingrediente supere la cantidad pedida
+        for(let i = 0; i < cant_recep_total.length; i++){
+            if(exist_pedido.cantidad[i] < cant_recep_total[i]){
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'La cantidad recibida para el ingrediente: ' + exist_pedido.ingredientes[i].nombre + ' es mayor de la solicitada',
+                });
+            }
+        }
+
+        // ahora vamos a comprobar el estado en el que debemos poner el pedido una vez vemos
+        // que la cantidad recepcionada total no supera la cantidad pedida
+
+        let estado_recepcion = false;
+        for(let i = 0; i < cant_recep_total.length; i++){
+            if(exist_pedido.cantidad[i] != cant_recep_total[i]){
+                estado_recepcion = true;
+                break;
+            }
+        }
+
+        let estado_final = estado_recepcion ? 'Parcialmente Completado' : 'Entregado';
+
+        const object = {
+            cantidad_recepcionada: cant_recep_total,
+            estado: estado_final
+        }
+
+        for(let i = 0; i < cantidad_recepcionada.length; i++){
+            let ing = await Ingrediente.findById(exist_pedido.ingredientes[i]._id);
+            ing.stock_actual += cantidad_recepcionada[i];
+            await ing.save();
+        }
+
+        const pedido = await Pedido.findByIdAndUpdate(id, object, { new: true });
+        res.json({
+            ok: true,
+            msg: 'El pedido ' + pedido.nombre + ' ha sido modificado con éxito',
+            pedido
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error modificando el pedido'
+        });
+    }
+}
+
 
 const borrarPedido = async(req, res = response) => {
     const id = req.params.id || '';
@@ -360,4 +459,4 @@ const borrarPedido = async(req, res = response) => {
 
 }
 
-module.exports = { getPedidos, crearPedidos, updatePedido, borrarPedido }
+module.exports = { getPedidos, crearPedidos, updatePedido, recepcionarPedido, borrarPedido }

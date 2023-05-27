@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getPedidos, crearPedidos, borrarPedido, updatePedido } = require('../controllers/pedido');
+const { getPedidos, crearPedidos, borrarPedido, updatePedido, recepcionarPedido } = require('../controllers/pedido');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
@@ -30,7 +30,7 @@ router.post('/', [
 
 router.put('/:id', [
     validarJWT,
-    check('id', 'El id de ingrediente debe ser válido').isMongoId(),
+    check('id', 'El id del pedido debe ser válido').isMongoId(),
     check('nombre', 'El nombre no se puede modificar').isEmpty(),
     check('fecha_esperada', 'La fecha es obligatoria').notEmpty(),
     check('fecha_esperada', 'La fecha es y debe ser una fecha válida').isDate(),
@@ -43,6 +43,13 @@ router.put('/:id', [
     check('estado', 'El estado no se puede modificar manualmente').isEmpty(),
     validarCampos
 ], updatePedido);
+
+router.put('/recepcionar/:id', [
+    validarJWT,
+    check('id', 'El id del pedido debe ser válido').isMongoId(),
+    check('cantidad_recepcionada', 'La cantidad recepcionada no se puede modificar').isArray().isNumeric().notEmpty(),
+    validarCampos
+], recepcionarPedido);
 
 router.delete('/:id', [
     validarJWT,

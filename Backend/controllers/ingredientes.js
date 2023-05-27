@@ -1,6 +1,6 @@
 const { response } = require('express');
 const mongoose = require('mongoose');
-const Comensal = require('../models/comensales');
+const Pedido = require('../models/pedido');
 const Ingrediente = require('../models/ingrediente');
 const Usuario = require('../models/usuario');
 const { infoToken } = require('../helpers/infoToken');
@@ -222,9 +222,25 @@ const borrarIngredientes = async(req, res = response) => {
                 });
             }
         }
-        //aqui comprobaremos el array de ingredientes en los pedidos y eliminaremos este
-        //ingrediente de cada pedido en el que se encuentre.
-    
+        // aqui comprobaremos el array de ingredientes en los pedidos y eliminaremos este
+        // ingrediente de cada pedido en el que se encuentre.
+        
+        const pedidos = await Pedido.find({ ingredientes: exist_ingrediente });
+
+        if(pedidos.length > 0){
+            for(let i = 0; i < pedidos.length; i++){
+                for(let j = 0; j < pedidos[i].ingredientes.length; j++){
+                    if(pedidos[i].ingredientes[j].toString() == exist_ingrediente._id.toString()){
+                        pedidos[i].precio -= (pedidos[i].cantidad[j] * exist_ingrediente.precio);
+                        await pedidos[i].ingredientes.remove(exist_ingrediente._id);
+                        await pedidos[i].cantidad.splice(j, 1);
+                        await pedidos[i].cantidad_recepcionada.splice(j, 1);
+                        await pedidos[i].save();
+                    }
+                }
+            }
+        }
+
         // Modificamos el objeto en base de datos
         const ingrediente = await Ingrediente.findByIdAndRemove(id);
 
