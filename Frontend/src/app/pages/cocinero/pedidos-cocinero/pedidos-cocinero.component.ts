@@ -48,7 +48,7 @@ export class PedidosCocineroComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido',
-                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar'];
+                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private pedidosservicio: PedidoService,

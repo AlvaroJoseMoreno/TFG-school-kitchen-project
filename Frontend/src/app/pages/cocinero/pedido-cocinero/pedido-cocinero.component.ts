@@ -218,7 +218,9 @@ export class PedidoCocineroComponent implements OnInit {
         confirmButtonText: 'Aceptar'
       }).then((result) => {
         if (result.value) {
-          this.router.navigateByUrl('cocinero/pedidos');
+          this.usuarioService.rol == 'ROL_COCINERO' ?
+          this.router.navigateByUrl('cocinero/pedidos') :
+          this.router.navigateByUrl('supervisor/pedidos') ;
         }
       });
       this.datosForm.markAsPristine();

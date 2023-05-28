@@ -109,8 +109,22 @@
       <div *ngIf="element.estado === 'Entregado'" class="text-center" (click)="borrarPedido(element.uid, element.nombre)">
         <i class="fa fa-trash"></i>
       </div>
-      <div *ngIf="element.estado !== 'Entregado'" class="text-center" (click)="borrarPedido(element.uid, element.nombre)">
+      <div *ngIf="element.estado !== 'Entregado'" class="text-center">
         <p>Acción no disponible</p>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="recepcionar">
+    <th mat-header-cell *matHeaderCellDef> Recibir </th>
+    <td mat-cell *matCellDef="let element;let i = index">
+      <div *ngIf="element.estado === 'Entregado'" class="text-center">
+        <p>Ya has recibido todos los ingredientes</p>
+      </div>
+      <div *ngIf="element.estado !== 'Entregado'" class="text-center">
+        <button class="btn input-submit btn-rounded" [routerLink]="['/cocinero/pedidos/recepcionar', element.uid]">
+          Recibir
+        </button>
       </div>
     </td>
   </ng-container>

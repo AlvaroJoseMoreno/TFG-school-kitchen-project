@@ -8,6 +8,7 @@ import { PedidoService } from 'src/app/servicios/pedido.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -47,7 +48,8 @@ export class PedidosSuperComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido', 'Estado', 'Colegio', 'Ingredientes', 'Precio'];
+  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido',
+                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private pedidosservicio: PedidoService,
@@ -100,6 +102,28 @@ export class PedidosSuperComponent implements OnInit {
   borrar() {
     this.searchForm.controls['texto'].reset();
     this.searchForm.controls['estado'].setValue('');
+  }
+
+  borrarPedido(uid: any, name: string) {
+    Swal.fire({
+      title: 'Eliminar pedido',
+      text: `Al eliminar el pedido ${name} se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.pedidosservicio.borrarPedido(uid)
+              .subscribe( resp => {
+                this.getPedidos();
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo',});
+              })
+          }
+      });
   }
 
   openDetails(id: string){
