@@ -1,1 +1,57 @@
-<p>recepcionar-pedido works!</p>
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div>
+            <div class="pedidos_datos">
+              <h2 style="margin-bottom: 0;"> {{nombre_pedido}} </h2>
+              <h4> {{estado}}</h4>
+            </div>
+              <!-- Creamos Pedidos-->
+              <form class="form-horizontal m-t-20" *ngIf="!wait_form" [formGroup]="datosForm" (ngSubmit)="enviarRecepcion()">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                      <!-- Position Column -->
+                      <ng-container style="width: 25%;" matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef> Ingrediente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                      </ng-container>
+
+                      <!-- Position Column -->
+                      <ng-container style="width: 25%;" matColumnDef="cantidad_total">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad pedida </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> {{cantidad_pedida[i]}} {{element.unidad_medida}} </td>
+                      </ng-container>
+
+                      <!-- Position Column -->
+                      <ng-container style="width: 25%;" matColumnDef="cantidad_recepcionada">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad recepcionada </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> {{cantidad_recepcionada[i]}} {{element.unidad_medida}} </td>
+                      </ng-container>
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="cantidad_enviar">
+                        <th mat-header-cell *matHeaderCellDef> Recibida </th>
+                        <td class="cantidadPed" mat-cell *matCellDef="let element; let i = index"> {{element.cantidad}}
+                          <input type="number" [disabled]="cantidad_pedida[i] == cantidad_recepcionada[i]" value="0" [max]="cantidad_pedida[i] - cantidad_recepcionada[i]"
+                            [min]="0" (keyup)="setInputCantidad(element._id, i)" placeholder="Cantidad *"
+                            [ngClass]="{'is-invalid': cantidad_recepcionada[i] + cantidad_enviar[i] > cantidad_pedida[i] }"
+                            [id]="element._id"
+                            class="form-control cantidad_ing">
+                          <div class="invalid-feedback">
+                            Valor no válido
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                <div class="d-flex m-t-25 m-b-10" style="padding: 1.5em;">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID' || !formValid"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>

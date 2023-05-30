@@ -142,7 +142,6 @@ export class PedidoCocineroComponent implements OnInit {
       if(this.ingredientes[i].nombre == value_ing){
         this.ing_pedidos.push(this.ingredientes[i]);
         this.cantidad_ing.push(0);
-        console.log(this.ing_pedidos);
         this.ingredientes.splice(i, 1);
         this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_pedidos);
         this.datosForm.get('ingredientes')?.setValue('');
@@ -220,7 +219,7 @@ export class PedidoCocineroComponent implements OnInit {
         if (result.value) {
           this.usuarioService.rol == 'ROL_COCINERO' ?
           this.router.navigateByUrl('cocinero/pedidos') :
-          this.router.navigateByUrl('supervisor/pedidos') ;
+          this.router.navigateByUrl('super/pedidos') ;
         }
       });
       this.datosForm.markAsPristine();
@@ -235,7 +234,9 @@ export class PedidoCocineroComponent implements OnInit {
 
 
   cancelar() {
-    this.router.navigateByUrl('/cocinero/pedidos');
+    this.usuarioService.rol == 'ROL_COCINERO' ?
+    this.router.navigateByUrl('cocinero/pedidos') :
+    this.router.navigateByUrl('super/pedidos') ;
   }
 
 }
