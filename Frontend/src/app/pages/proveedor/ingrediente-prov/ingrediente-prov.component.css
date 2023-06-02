@@ -1,1 +1,32 @@
 @import url('../../admin/usuario/usuario.component.css');
+.shadow {
+  height: 120px;
+  width: 150px;
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.custom-file-label::after {
+  background-color: #940BAA;
+  border-color: #940BAA;
+  color: white;
+}
+
+.custom-file-input:lang(en)~.custom-file-label::after {
+  content: "Buscar";
+}
+
+.custom-file-label {
+  border-color: #940BAA;
+  font-size: 1rem;
+}
+
+::ng-deep .custom-file-input:focus {
+  box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6) !important;
+}
+
+::ng-deep .custom-file-label:focus {
+  box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6) !important;
+}
+

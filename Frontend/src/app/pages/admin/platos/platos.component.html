@@ -24,7 +24,11 @@
   </form>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="class_div_title">
+  <h2 *ngIf="length == 0"> No hay platos que cumplan estos requisitos </h2>
+</div>
+
+<table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Position Column -->
   <ng-container matColumnDef="Nombre">

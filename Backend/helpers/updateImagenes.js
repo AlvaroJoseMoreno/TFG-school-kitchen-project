@@ -46,7 +46,7 @@ const updateImagenes = async(tipo, path, nombreArchivo, id, token) => {
 
             const fotoViejaIng = ingrediente.imagen;
             const pathFotoViejaIng = `${path}/${fotoViejaIng}`;
-            if (fotoViejaIng && fs.existsSync(pathFotoViejaIng) && fotoViejaIng != 'default_ingrediente.jpg') {
+            if (fotoViejaIng && fs.existsSync(pathFotoViejaIng) && fotoViejaIng != 'default_ingrediente.png') {
                 fs.unlinkSync(pathFotoViejaIng);
             }
 

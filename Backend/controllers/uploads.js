@@ -18,7 +18,7 @@ const enviarArchivo = async(req, res = response) => {
                 msg: 'El archivo no existe'
             });
         }
-        let tipoFile = tipo === 'fotoperfil' ? 'default_picture.jpg' : 'default_ingrediente.jpg';
+        let tipoFile = tipo === 'fotoperfil' ? 'default_picture.jpg' : 'default_ingrediente.png';
         pathArchivo = `${path}/${tipoFile}`;
     }
 
@@ -43,6 +43,8 @@ const subirArchivo = async(req, res = repsonse) => {
 
     const id = req.params.id;
     const tipo = req.params.tipo;
+
+    console.log(req.files.file);
 
     const files_valids = {
         fotoperfil: ['jpeg', 'jpg', 'png'],

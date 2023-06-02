@@ -10,6 +10,7 @@ import { Pedido } from 'src/app/modelos/pedido.model';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { FicherosService } from 'src/app/servicios/ficheros.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -56,6 +57,7 @@ export class PedidosComponent implements OnInit {
 
   constructor(private colegioservicio: ColegioService,
               private pedidosservicio: PedidoService,
+              private ficheroservicio: FicherosService,
               private paginator1: MatPaginatorIntl,
               private fb: FormBuilder,
               public dialog: MatDialog) {
@@ -165,15 +167,23 @@ export class PedidosComponent implements OnInit {
     this.searchForm.controls['estado'].setValue('');
   }
 
+  imagenUrl(nombre: string){
+    return this.ficheroservicio.crearImagenUrl('fotoingrediente', nombre);
+  }
+
   openDetails(id: string){
 
     this.pedidosservicio.getPedido(id).subscribe((res:any) => {
       const pedido = res['pedidos'];
-      console.log(pedido)
+      let imagenes = [];
+      for(let i = 0; i < pedido.ingredientes.length; i++){
+        imagenes.push(pedido.ingredientes[i].imagen);
+      }
       this.dialog.open(IngredientesPedidos, {
         data: {
           pedido,
           service: this,
+          imagenes
         },
       });
 

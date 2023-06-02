@@ -69,3 +69,8 @@ th.mat-header-cell{
 tr:hover{
   background-color: #c1c1c1;
 }
+
+.class_div_title{
+  background: white;
+  padding: 15px;
+}

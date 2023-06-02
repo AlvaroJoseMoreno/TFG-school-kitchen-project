@@ -18,7 +18,7 @@ const IngredienteSchema = Schema({
     }],
     imagen: {
         type: String,
-        default: 'default_ingrediente.jpg'
+        default: 'default_ingrediente.png'
     },
     proveedor: {
         type: Schema.Types.ObjectId,

@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { FicherosService } from 'src/app/servicios/ficheros.service';
 
 @Component({
   selector: 'app-platos-super',
@@ -48,6 +49,7 @@ export class PlatosSuperComponent implements OnInit {
 
   constructor(private usuarioservicio: UsuarioService,
               private platoServicio: PlatoService,
+              private ficheroservicio: FicherosService,
               private paginator1: MatPaginatorIntl,
               private fb: FormBuilder,
               private dialog: MatDialog) {
@@ -117,15 +119,24 @@ export class PlatosSuperComponent implements OnInit {
     this.searchForm.controls['texto'].reset();
   }
 
+  imagenUrl(nombre: string){
+    return this.ficheroservicio.crearImagenUrl('fotoingrediente',nombre);
+  }
+
   openDetails(id: string){
 
     this.platoServicio.getPlato(id).subscribe((res:any) => {
       const plato = res['platos'];
+      let imagenes = [];
+      for(let i = 0; i < plato.ingredientes.length; i++){
+        imagenes.push(plato.ingredientes[i].imagen);
+      }
       console.log(plato)
       this.dialog.open(IngredientesSuperPlatos, {
         data: {
           plato,
           service: this,
+          imagenes
         },
       });
 

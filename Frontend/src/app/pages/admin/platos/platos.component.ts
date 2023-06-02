@@ -10,6 +10,7 @@ import { Colegio } from 'src/app/modelos/colegio.model';
 import { ColegioService } from 'src/app/servicios/colegio.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { FicherosService } from 'src/app/servicios/ficheros.service';
 
 @Component({
   selector: 'app-platos',
@@ -53,6 +54,7 @@ export class PlatosComponent implements OnInit {
 
   constructor(private colegioservicio: ColegioService,
               private platoServicio: PlatoService,
+              private ficheroservicio: FicherosService,
               private paginator1: MatPaginatorIntl,
               private fb: FormBuilder,
               private dialog: MatDialog) {
@@ -160,15 +162,23 @@ export class PlatosComponent implements OnInit {
     this.searchForm.controls['colegio'].setValue('');
   }
 
+  imagenUrl(nombre: string){
+    return this.ficheroservicio.crearImagenUrl('fotoingrediente', nombre);
+  }
+
   openDetails(id: string){
 
     this.platoServicio.getPlato(id).subscribe((res:any) => {
       const plato = res['platos'];
-      console.log(plato)
+      let imagenes = [];
+      for(let i = 0; i < plato.ingredientes.length; i++){
+        imagenes.push(plato.ingredientes[i].imagen);
+      }
       this.dialog.open(IngredientesPlatos, {
         data: {
           plato,
           service: this,
+          imagenes
         },
       });
 
