@@ -3,6 +3,7 @@ import { Router, ActivationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { FicherosService } from 'src/app/servicios/ficheros.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,8 +19,10 @@ export class NavbarComponent implements OnInit {
   public colegio: string = '';
   public nombre: string = '';
   public rol: string = '';
+  public imagen: string = '';
   // https://www.youtube.com/watch?v=4CYuOiRHHA8
   constructor(private usuarioservicio: UsuarioService,
+              private ficherosServicio: FicherosService,
               private router: Router) {
     this.subs$ = this.cargarDatos()
                       .subscribe( data => {
@@ -49,8 +52,13 @@ export class NavbarComponent implements OnInit {
       if(this.colegio = res['usuarios'].colegio) this.colegio = res['usuarios'].colegio.nombre;
       this.nombre = res['usuarios'].nombre;
       this.rol = res['usuarios'].rol;
+      this.imagen = this.createImagenUrl(res['usuarios'].imagen);
       console.log(res);
     });
+  }
+
+  createImagenUrl(nombre: string): string{
+    return this.ficherosServicio.crearImagenUrl('fotoperfil', nombre);
   }
 
   cargarDatos() {
