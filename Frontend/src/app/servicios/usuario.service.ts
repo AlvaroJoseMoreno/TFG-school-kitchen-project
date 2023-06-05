@@ -35,6 +35,10 @@ export class UsuarioService {
     return this.http.get(`${environment.base_url}/usuarios?id=${uid}`, this.cabeceras);
   }
 
+  getMetricarAdmin(colegio?: string): Observable<object> {
+    return this.http.get(`${environment.base_url}/usuarios/getMetricasAdmin?colegio=${colegio}`, this.cabeceras);
+  }
+
   getVerifyLink(code: string, uid: string): Observable<object> {
     return this.http.get(`${environment.base_url}/login/validar/${code}?id=${uid}`, this.cabeceras);
   }

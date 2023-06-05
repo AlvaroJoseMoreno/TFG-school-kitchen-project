@@ -4,6 +4,7 @@ import { ProvinciaService } from 'src/app/servicios/provincia.service';
 import { Chart, registerables } from 'chart.js';
 import { ComensalService } from 'src/app/servicios/comensal.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +17,18 @@ export class DashboardComponent implements OnInit {
   public Comensales: any [] = [];
   public myChart: any;
   public myChart2: any;
+  public total_usuarios = 0;
+  public total_colegios = 0;
+  public total_comensales = 0;
+  public total_pedidos = 0;
+  public total_dinero = 0;
   public dateRangeComensales = new FormGroup({
-    start: new FormControl(new Date(2023, 3, 3)),
-    end: new FormControl(new Date(2023, 3, 7)),
+    start: new FormControl(new Date(2023, 4, 29)),
+    end: new FormControl(new Date(2023, 5, 4)),
   });
+
   constructor(private provinciaServicio: ProvinciaService,
+              private usuarioServicio: UsuarioService,
               private comensaleServicio: ComensalService) {
     Chart.register(...registerables);
   }
@@ -28,6 +36,17 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getColegiosPorProvincias();
     this.getComensalesPorDia();
+    this.getMetricasAdmin();
+  }
+
+  getMetricasAdmin(): void {
+    this.usuarioServicio.getMetricarAdmin().subscribe((res: any) => {
+      this.total_usuarios = res['total_usu'];
+      this.total_colegios = res['total_colegios'];
+      this.total_pedidos = res['total_pedidos'];
+      this.total_comensales = res['total_comensales'];
+      this.total_dinero = res['total_dinero'];
+    });
   }
 
   getComensalesPorDia(){
@@ -59,9 +78,6 @@ export class DashboardComponent implements OnInit {
             fechaInicio.setDate(fechaInicio.getDate() + 1);
         }
 
-        console.log(fechas);
-        console.log(labels_com);
-
         for(let i = 0; i < labels_com.length; i++){
           var igual = false;
           for (let j = 0; j < labels_com.length; j++) {
@@ -74,8 +90,6 @@ export class DashboardComponent implements OnInit {
             data_com.splice(i, 0, 0);
           }
         }
-
-        console.log(label_fin);
 
         if(this.myChart){
           this.myChart.destroy();
@@ -126,7 +140,6 @@ export class DashboardComponent implements OnInit {
 
   getColegiosPorProvincias(){
     this.provinciaServicio.getProvinciasByColegio().subscribe((res: any) => {
-      console.log(res);
       this.provincias = res['provincias'];
       if(this.provincias.length > 0){
 

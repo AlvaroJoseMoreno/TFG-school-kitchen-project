@@ -31,22 +31,17 @@ export class VerifyLinkConfirmationComponent implements OnInit {
   }
 
   getVerifyLink(){
-    console.log(this.route);
     this.uid = this.route.snapshot.queryParams['id'];
     this.code = this.route.snapshot.params['code'];
     this.usuarioServcio.getVerifyLink(this.code, this.uid)
       .subscribe((res: any)=> {
-        console.log(res);
       },(err: any) => {
-        console.log(err);
         this.router.navigateByUrl('/login');
         Swal.fire({icon: 'error', title: 'Oops...', text: err.error.msg || 'No pudo completarse la acción, vuelva a intentarlo más tarde',});
     });
   }
 
   cambiarPWD(): void{
-    console.log('Cambiamos pwd');
-    console.log('Code: ', this.code, ' uid: ', this.uid);
     this.usuarioServcio.cambiarPWD(this.code, this.uid, this.passwordForm.value).subscribe(res => {
       Swal.fire({
         title: 'Contraseña creada',

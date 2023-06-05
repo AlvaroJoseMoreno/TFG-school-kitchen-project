@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 const Colegio = require('../models/Colegio');
+const Comensal = require('../models/comensales');
+const Pedido = require('../models/pedido');
 const { infoToken } = require('../helpers/infoToken');
 const { sendEmail } = require('../helpers/email_user');
 const uniqid = require('uniqid'); 
@@ -56,8 +58,86 @@ const getUsuarios = async(req, res = response) => {
             msg: 'Usuarios obtenidos con exito',
             usuarios,
             total
-        })
-        
+        }) 
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error obteniendo los usuarios'
+        });
+    }
+}
+
+const getMetricasAdmin = async(req, res = response) => {
+    const colegio = req.query.colegio || '';
+    try {
+        const token = req.header('x-token');
+        if (infoToken(token).rol !== 'ROL_ADMIN' && infoToken(token).rol !== 'ROL_SUPERVISOR') {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        let usuarios, colegios, pedidos, comensales = [];
+        let total_usu, total_colegios, total_pedidos, total_comensales, total_dinero, number_com = 0;
+
+        if(infoToken(token).rol === 'ROL_ADMIN') {
+            [usuarios, total_usu] = await Promise.all([Usuario.find({}),
+                                Usuario.countDocuments()
+            ]);
+
+            [colegios, total_colegios] = await Promise.all([Colegio.find({}),
+                Colegio.countDocuments()
+            ]);
+
+            [pedidos, total_pedidos] = await Promise.all([Pedido.find({}),
+                Pedido.countDocuments()
+            ]);
+
+            [comensales, number_com] = await Promise.all([Comensal.find({}),
+                Comensal.countDocuments()
+            ]);
+
+            total_comensales = 0;
+            
+            for(let i = 0; i < comensales.length; i++){
+                total_comensales += comensales[i].num_comensales;
+            }
+
+            total_dinero = 4.75 * total_comensales;
+
+        } else if(infoToken(token).rol === 'ROL_SUPERVISOR') {
+            [usuarios, total_usu] = await Promise.all([Usuario.find({ colegio: colegio }),
+                Usuario.countDocuments({ colegio: colegio })
+            ]);
+
+            [pedidos, total_pedidos] = await Promise.all([Pedido.find({ colegio: colegio }),
+                Pedido.countDocuments({ colegio: colegio })
+            ]);
+
+            [comensales, number_com] = await Promise.all([Comensal.find({ colegio: colegio }),
+                Comensal.countDocuments({ colegio: colegio })
+            ]);
+
+            total_comensales = 0;
+            
+            for(let i = 0; i < comensales.length; i++){
+                total_comensales += comensales[i].num_comensales;
+            }
+            total_dinero = 4.75 * total_comensales;
+        }
+
+        res.json({
+            ok: true,
+            msg: 'Métricas obtenidas con exito',
+            total_usu,
+            total_colegios,
+            total_pedidos,
+            total_comensales,
+            total_dinero
+        });    
+
     } catch (error) {
         console.log(error);
         res.json({
@@ -470,4 +550,4 @@ const borrarUsuario = async(req, res = response) => {
     }
 }
 
-module.exports = { getUsuarios, crearAdmin, crearSuper, crearProveedor, crearCocinero, updateUsuario, borrarUsuario }
+module.exports = { getUsuarios, getMetricasAdmin, crearAdmin, crearSuper, crearProveedor, crearCocinero, updateUsuario, borrarUsuario }

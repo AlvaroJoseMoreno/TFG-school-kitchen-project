@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getUsuarios, crearAdmin, crearSuper, crearProveedor, crearCocinero, borrarUsuario, updateUsuario } = require('../controllers/usuario');
+const { getUsuarios, crearAdmin, crearSuper, crearProveedor, crearCocinero, borrarUsuario, updateUsuario, getMetricasAdmin } = require('../controllers/usuario');
 const { check } = require('express-validator');
 const { validar_rol } = require('../middlewares/validar_rol');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -13,6 +13,10 @@ router.get('/', [
     check('text', 'La busqueda debe contener texto').optional().trim(),
     validarCampos
 ], getUsuarios);
+
+router.get('/getMetricasAdmin', [
+    validarJWT
+], getMetricasAdmin);
 
 router.post('/admin', [
     validarJWT,

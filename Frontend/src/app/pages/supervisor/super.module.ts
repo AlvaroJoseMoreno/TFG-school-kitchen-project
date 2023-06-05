@@ -20,6 +20,8 @@ import { ComensalSuperComponent } from './comensal-super/comensal-super.componen
 import { UsuarioSuperComponent } from './usuario-super/usuario-super.component';
 import { PlatoSuperComponent } from './plato-super/plato-super.component';
 import { MenuSuperComponent } from './menu-super/menu-super.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -57,7 +59,9 @@ import { MenuSuperComponent } from './menu-super/menu-super.component';
     MatAutocompleteModule,
     MatDialogModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class SuperModule { }

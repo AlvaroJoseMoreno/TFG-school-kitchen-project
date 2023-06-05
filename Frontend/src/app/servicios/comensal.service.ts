@@ -43,6 +43,16 @@ export class ComensalService {
     return this.http.get(`${environment.base_url}/comensales/getData/${query}`, this.cabeceras);
   }
 
+  getComensalesPorDiaSuper(colegio: string, fecha1?: string, fecha2?: string ): Observable<object> {
+
+    let query = `?colegio=${colegio}`;
+
+    if (fecha1 != undefined) { query += `&fecha1=${fecha1}`;}
+    if (fecha2 != undefined) { query += `&fecha2=${fecha2}`; }
+
+    return this.http.get(`${environment.base_url}/comensales/getDataSupervisor/${query}`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
     }
     this.waiting = true;
     this.usuarioservicio.login(loginFormValue).subscribe( res => {
-      console.log(res);
         this.waiting = false;
         this.formSubmint = false;
         switch (this.usuarioservicio.rol) {

@@ -66,7 +66,8 @@ const getComensales = async(req, res = response) => {
 const getComensalesByFecha = async(req, res = response) => {
     
     const date1 = req.query.fecha1 || '';
-    const date2 = req.query.fecha2 || ''; 
+    const date2 = req.query.fecha2 || '';
+    
     let total = 0;
 
     try {
@@ -87,7 +88,74 @@ const getComensalesByFecha = async(req, res = response) => {
         }
 
         let comensales = [];
-        let query = { fecha: { $gte: date1, $lte: date2} };
+        let query = { fecha: { $gte: date1, $lte: date2 } };
+
+        [comensales, total] = await Promise.all([Comensal.find(query).sort({ fecha: 1 }),
+            Comensal.countDocuments(query)
+        ]);
+
+        let date_comensales = [];
+        let num_com = 0;
+
+        for(let i = 0; i < comensales.length; i++){
+            num_com += comensales[i].num_comensales;
+            if(comensales[i+1] != undefined){
+                let f1 = new Date(comensales[i].fecha);
+                let f1_f = f1.toString();
+                let f2 = new Date(comensales[i+1].fecha);
+                let f2_f = f2.toString();
+
+                if(f1_f != f2_f){
+                    let reg = { fecha: f1, num_comensales: num_com };
+                    date_comensales.push(reg);
+                    num_com = 0; 
+                }
+            } else if(i == comensales.length - 1){
+                let f1 = new Date(comensales[i].fecha);
+                let reg = { fecha: f1, num_comensales: num_com };
+                date_comensales.push(reg);
+            }
+        }
+
+        res.json({
+            ok: true,
+            date_comensales
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error obteniendo los comensales'
+        });
+    }
+}
+
+const getComensalesByFechaSuper = async(req, res = response) => {
+    
+    const date1 = req.query.fecha1 || '';
+    const date2 = req.query.fecha2 || '';
+    const colegio = req.query.colegio || '';  
+    let total = 0;
+
+    try {
+        const token = req.header('x-token');
+
+        if (infoToken(token).rol !== 'ROL_SUPERVISOR') {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        if(date1 == '' || date2 == ''){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Tienen que estar las dos fechas',
+            });
+        }
+
+        let comensales = [];
+        let query = { fecha: { $gte: date1, $lte: date2}, colegio: colegio };
 
         [comensales, total] = await Promise.all([Comensal.find(query).sort({ fecha: 1 }),
             Comensal.countDocuments(query)
@@ -111,7 +179,6 @@ const getComensalesByFecha = async(req, res = response) => {
                 }
             } else if(i == comensales.length - 1){
                 let f1 = new Date(comensales[i].fecha);
-                let f1_f = f1.toString();
                 let reg = { fecha: f1, num_comensales: num_com };
                 date_comensales.push(reg);
             }
@@ -119,9 +186,6 @@ const getComensalesByFecha = async(req, res = response) => {
 
         res.json({
             ok: true,
-            //message: 'Aquí están los comensales por rango de dias',
-            //comensales,
-            //total,
             date_comensales
         });
     } catch (error) {
@@ -361,4 +425,4 @@ const borrarComensales = async(req, res = response) => {
 
 }
 
-module.exports = { getComensales, getComensalesByFecha, crearComensales, updateComensales, borrarComensales }
+module.exports = { getComensales, getComensalesByFecha, getComensalesByFechaSuper, crearComensales, updateComensales, borrarComensales }
