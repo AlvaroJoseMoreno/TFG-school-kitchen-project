@@ -25,7 +25,7 @@ const getColegios = async(req, res = response) => {
         let colegios = [];
 
         if (id) {
-            [colegios, total] = await Promise.all([Colegio.findById(id),
+            [colegios, total] = await Promise.all([Colegio.findById(id).populate('provincia', '-__v'),
                 Colegio.countDocuments({_id: id})
             ]); 
         } else {

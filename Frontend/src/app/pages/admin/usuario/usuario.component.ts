@@ -38,6 +38,16 @@ export class UsuarioComponent implements OnInit {
     ciudad: ['', [Validators.required, Validators.minLength(2)]]
   });
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    email: [ '', [Validators.required, Validators.email]],
+    nombre: ['', [Validators.required, Validators.minLength(8)]],
+    telefono: ['', Validators.pattern('[6|7]{1}[0-9]{8}')],
+    colegio: [''],
+    rol: ['', Validators.required],
+    ciudad: ['', [Validators.required, Validators.minLength(2)]]
+  });
+
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
               private colegioServicio: ColegioService,
@@ -47,22 +57,44 @@ export class UsuarioComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getUserValues();
     } else {
       this.esnuevo = true;
     }
     this.getColegios();
-    console.log(this.uid);
+  }
+
+  getUserValues() {
+    this.wait_form = true;
+    this.usuarioService.getUsuario(this.uid).subscribe((res:any) => {
+      let usuario = res['usuarios'];
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('nombre')?.setValue(usuario.nombre);
+      this.datosFormEdit.get('email')?.setValue(usuario.email);
+      this.datosFormEdit.get('rol')?.setValue(usuario.rol);
+      this.datosFormEdit.get('telefono')?.setValue(usuario.telefono);
+      if(usuario.colegio) this.datosFormEdit.get('colegio')?.setValue(usuario.colegio.nombre);
+      this.datosFormEdit.get('ciudad')?.setValue(usuario.ciudad);
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  editarUsuario () {
+    console.log(this.datosFormEdit);
   }
 
   private filtro(): Colegio[] {
-    return this.colegios.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.colegio.toLowerCase()));
+    return this.colegios.filter(option => option.nombre!.toLowerCase()
+        .includes(this.datosForm?.value?.colegio?.toLowerCase() ||
+        this.datosFormEdit?.value?.colegio?.toLowerCase()
+      )
+    );
   }
 
   getColegios() {
     this.colegioServicio.getColegios('', '').subscribe((res: any) => {
-      console.log(res);
       this.colegios = res['colegios'];
       this.filteredOptions = this.filterColegio.valueChanges.pipe(
         startWith(''),
@@ -139,11 +171,18 @@ export class UsuarioComponent implements OnInit {
         this.datosForm.value.colegio = this.colegios[x].uid;
         break;
       }
+      if(this.colegios[x].nombre === this.datosFormEdit.get('colegio')?.value){
+        exist_colegio = true;
+        this.datosFormEdit.value.colegio = this.colegios[x].uid;
+        break;
+      }
     }
-    if(this.datosForm.get('colegio')?.value.length > 0 && !exist_colegio) { return ''; }
+    if((this.datosForm.get('colegio')?.value.length > 0 ||
+        this.datosFormEdit.get('colegio')?.value.length > 0)
+        && !exist_colegio) { return ''; }
 
     if(exist_colegio){
-      col = this.datosForm.value.colegio;
+      col = this.datosForm?.value?.colegio || this.datosFormEdit?.value?.colegio;
     }
     return col;
   }
@@ -152,14 +191,18 @@ export class UsuarioComponent implements OnInit {
     return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
+  campoNoValidoEdit(campo: string) {
+    return this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine;
+  }
+
   selectColegio(){
-    if(this.datosForm.get('colegio')?.value.length > 0){
-      this.select_colegio =true;
+    if(this.datosForm.get('colegio')?.value.length > 0 || this.datosFormEdit.get('colegio')?.value.length > 0){
+      this.select_colegio = true;
     }
   }
 
   selectColegioTrue(){
-    let value_province = this.datosForm.get('colegio')?.value || '';
+    let value_province = this.datosForm.get('colegio')?.value || this.datosFormEdit.get('colegio')?.value || '';
     for(let i = 0; i < this.colegios.length; i++){
       if(this.colegios[i].nombre == value_province){
         this.select_colegio = false;

@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center">
       <div class="card">
           <div class="card-body">
-               <!-- Creamos administradores-->
+               <!-- Creamos provincias-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearProvincia()">
                     <div style="margin-top: 1.5rem;" class="form-group">
                       <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
@@ -22,6 +22,33 @@
                       <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
                     </div>
                 </div>
+            </form>
+
+            <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarProvincia()">
+              <div class="form-group mar-bottom1">
+                <label>Nombre *</label>
+                <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValidoEdit('nombre')}" formControlName="nombre" id="nombre">
+                  <div class="invalid-feedback">
+                    El nombre es obligatorio y debe tener 4 caracteres como mínimo
+                  </div>
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Código *</label>
+                <input type="text" placeholder="Código *" class="form-control" [ngClass]="{'is-invalid': campoNoValidoEdit('codigo')}" formControlName="codigo" id="codigo">
+                  <div class="invalid-feedback">
+                    El código es obligatorio
+                  </div>
+              </div>
+              <div class="form-group">
+                <label>Número de colegios</label>
+                <input type="number" placeholder="Número de colegios" class="form-control" formControlName="colegios" id="colegios">
+              </div>
+              <div class="d-flex m-t-25 m-b-10">
+                  <div class="divsbuttons align-content-center">
+                    <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosFormEdit.pristine">Cancelar</button>
+                    <button class="input-submit" type="submit " id="enviar" [disabled]="datosFormEdit.status == 'INVALID' || datosFormEdit.pristine"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                  </div>
+              </div>
             </form>
           </div>
       </div>

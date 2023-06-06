@@ -70,7 +70,6 @@ export class UsuarioService {
   login( formData: any) {
     return this.http.post(`${environment.base_url}/login`, formData).pipe(
       tap((res : any) => {
-        console.log(res);
         if(formData.remember)localStorage.setItem('token', res['token']);
         else sessionStorage.setItem('token', res['token']);
         const {uid, rol} = res;
@@ -95,7 +94,6 @@ export class UsuarioService {
           } else if (sessionStorage.getItem('token')){
             sessionStorage.setItem('token', token);
           }
-          console.log('Res: ', res);
           this.usuario = new Usuario(uid, rol, email, nombre, telefono, registerDate, imagen, tipo_proveedor, ciudad, colegio);
         }),
         map ( res => {

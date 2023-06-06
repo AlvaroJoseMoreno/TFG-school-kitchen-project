@@ -125,7 +125,6 @@ export class PedidoCocineroComponent implements OnInit {
 
   getInputCantidad(event: any, index: number){
     this.total_pedido = 0;
-    console.log(event);
     let v = document.getElementById(event) as HTMLInputElement;
     this.cantidad_ing[index] = Number(v.value);
     for(let i = 0; i < this.cantidad_ing.length; i++){

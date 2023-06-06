@@ -37,6 +37,14 @@ export class ColegioComponent implements OnInit {
 
   // formulario para editar un colegio
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(6)]],
+    telefono: ['', [Validators.required, Validators.pattern('[6|7]{1}[0-9]{8}')]],
+    provincia: ['', Validators.required],
+    direccion: ['', [Validators.required, Validators.minLength(20)]]
+  });
+
   constructor(private fb: FormBuilder,
               private provinciaService: ProvinciaService,
               private colegioServicio: ColegioService,
@@ -46,16 +54,36 @@ export class ColegioComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.wait_form = true;
+      this.getColegioValues();
     } else {
       this.esnuevo = true;
     }
     this.getProvincias();
-    console.log(this.uid);
+  }
+
+  getColegioValues(): void {
+    this.wait_form = true;
+    this.colegioServicio.getColegio(this.uid).subscribe((res: any) => {
+      const colegio = res['colegios'];
+      this.datosFormEdit.get('nombre')?.setValue(colegio.nombre);
+      this.datosFormEdit.get('provincia')?.setValue(colegio.provincia.nombre);
+      this.datosFormEdit.get('telefono')?.setValue(colegio.telefono);
+      this.datosFormEdit.get('direccion')?.setValue(colegio.direccion);
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  editarColegio(){
+    console.log(this.datosFormEdit);
   }
 
   private filtro(): Provincia[] {
-    return this.provincias.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.provincia.toLowerCase()));
+    return this.provincias.filter(option => option.nombre!.toLowerCase().includes(
+      this.datosForm?.value?.provincia?.toLowerCase() || this.datosFormEdit?.value?.provincia?.toLowerCase()
+      )
+    );
   }
 
   getProvincias() {
@@ -107,11 +135,18 @@ export class ColegioComponent implements OnInit {
         this.datosForm.value.provincia = this.provincias[x].uid;
         break;
       }
+      if(this.provincias[x].nombre === this.datosFormEdit.get('provincia')?.value){
+        exist_provincia = true;
+        this.datosForm.value.provincia = this.provincias[x].uid;
+        break;
+      }
     }
-    if(this.datosForm.get('provincia')?.value.length > 0 && !exist_provincia) { return ''; }
+    if((this.datosForm.get('provincia')?.value.length > 0 ||
+        this.datosFormEdit.get('provincia')?.value.length > 0)
+        && !exist_provincia) { return ''; }
 
     if(exist_provincia){
-      col = this.datosForm.value.provincia;
+      col = this.datosForm.value.provincia || this.datosFormEdit.value.provincia;
     }
     return col;
   }
@@ -120,14 +155,18 @@ export class ColegioComponent implements OnInit {
     return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
   }
 
+  campoNoValidoEdit( campo: string) {
+    return this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine;
+  }
+
   selectProvincia(){
-    if(this.datosForm.get('provincia')?.value.length > 0){
+    if(this.datosForm.get('provincia')?.value.length > 0 || this.datosFormEdit.get('provincia')?.value.length > 0){
       this.select_provincia =true;
     }
   }
 
   selectProvinciaTrue(){
-    let value_province = this.datosForm.get('provincia')?.value || '';
+    let value_province = this.datosForm.get('provincia')?.value || this.datosFormEdit.get('provincia')?.value || '';
     for(let i = 0; i < this.provincias.length; i++){
       if(this.provincias[i].nombre == value_province){
         this.select_provincia = false;

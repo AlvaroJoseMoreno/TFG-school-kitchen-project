@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operato
 import { Colegio } from 'src/app/modelos/colegio.model';
 import { ColegioService } from 'src/app/servicios/colegio.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -54,6 +55,7 @@ export class UsuariosComponent implements OnInit {
   constructor(private usuarioservicio: UsuarioService,
               private paginator1: MatPaginatorIntl,
               private fb: FormBuilder,
+              private router: Router,
               private colegioservicio: ColegioService) {
                 this.paginator1.itemsPerPageLabel = "Registros por página";
                }

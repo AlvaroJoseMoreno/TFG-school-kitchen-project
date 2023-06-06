@@ -23,6 +23,13 @@ export class ProvinciaComponent implements OnInit {
     codigo: ['', Validators.required]
   });
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: '', disabled: true}, Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(4)]],
+    codigo: ['', Validators.required],
+    colegios: [{value: 0, disabled: true}]
+  });
+
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private provinciaServicio: ProvinciaService,
@@ -31,15 +38,35 @@ export class ProvinciaComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getProvinciaValue();
     } else {
       this.esnuevo = true;
     }
   }
 
+  getProvinciaValue() {
+    this.wait_form = true;
+    this.provinciaServicio.getProvincia(this.uid).subscribe((res: any) => {
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('nombre')?.setValue(res['provincias'].nombre);
+      this.datosFormEdit.get('codigo')?.setValue(res['provincias'].codigo);
+      this.datosFormEdit.get('colegios')?.setValue(res['provincias'].num_colegios);
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  editarProvincia(){
+    console.log(this.datosFormEdit);
+  }
+
   campoNoValido( campo: string) {
     return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+  }
+
+  campoNoValidoEdit( campo: string) {
+    return this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine;
   }
 
   cancelar() {

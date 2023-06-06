@@ -35,7 +35,6 @@ export class NavbarComponent implements OnInit {
   }
 
   onPropagar(){
-    console.log('Entro');
     this.propagar.emit();
   }
 
@@ -53,7 +52,6 @@ export class NavbarComponent implements OnInit {
       this.nombre = res['usuarios'].nombre;
       this.rol = res['usuarios'].rol;
       this.imagen = this.createImagenUrl(res['usuarios'].imagen);
-      console.log(res);
     });
   }
 

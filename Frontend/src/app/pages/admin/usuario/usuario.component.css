@@ -53,6 +53,18 @@
   display: flex;
 }
 
-.form-group{
+.form-group {
   margin-bottom: 1.5rem;
+}
+
+.form-control:disabled {
+  background: gainsboro;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+.mar-bottom1 {
+  margin-bottom: 1rem;
 }

@@ -20,6 +20,14 @@ export class ProvinciaService {
     return this.http.get(`${environment.base_url}/provincias/${query}`, this.cabeceras);
   }
 
+  getProvincia(uid: string ): Observable<object> {
+
+    let query = '';
+    if (uid != '') {query += `?id=${uid}`;}
+
+    return this.http.get(`${environment.base_url}/provincias/${query}`, this.cabeceras);
+  }
+
   getProvinciasByColegio(): Observable<object> {
     return this.http.get(`${environment.base_url}/provincias/provinciasporcolegio`, this.cabeceras);
   }

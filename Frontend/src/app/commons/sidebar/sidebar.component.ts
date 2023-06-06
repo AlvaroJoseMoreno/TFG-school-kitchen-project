@@ -19,18 +19,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItem = this.getMenu();
-    // this.menuItem = [
-    //   { title: 'Dashboard', icon: 'fa fa-home', sub: false, url: '/admin'},
-    //   { title: 'Usuarios', icon: 'fa fa-users', sub: false, url: '/admin/usuarios'},
-    //   { title: 'Colegios', icon: 'fa fa-school', sub: false, url: '/admin/colegios'},
-    //   { title: 'Pedidos', icon: 'fa fa-clipboard-list', sub: false, url: '/admin/pedidos'},
-    //   { title: 'Ingredientes', icon: 'fa fa-carrot', sub: false, url: '/admin/ingredientes'},
-    //   { title: 'Menus', icon: 'fa fa-burger', sub: false, url: '/admin/menus'},
-    //   { title: 'Platos', icon: 'fa fa-utensils', sub: false, url: '/admin/platos'},
-    //   { title: 'Comensales', icon: 'fa-solid fa-user', sub: false, url: '/admin/comensales'},
-    //   { title: 'Provincias', icon: 'fas fa-route-interstate', sub: false, url: '/admin/provincias'}
-    // ];
-    console.log(this.menuItem);
     this.initComp();
     this.rol = this.usuarioServio.rol;
   }

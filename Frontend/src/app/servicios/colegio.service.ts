@@ -26,6 +26,11 @@ export class ColegioService {
     return this.http.get(`${environment.base_url}/colegios/${query}`, this.cabeceras);
   }
 
+  getColegio(uid: string): Observable<object> {
+    let query = `?id=${uid}`;
+    return this.http.get(`${environment.base_url}/colegios/${query}`, this.cabeceras);
+  }
+
   crearColegio(data: Colegio): Observable<object> {
     return this.http.post(`${environment.base_url}/colegios`, data, this.cabeceras)
   }
