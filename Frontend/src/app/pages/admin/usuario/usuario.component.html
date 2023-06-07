@@ -125,14 +125,13 @@
                         La ciudad es obligatoria y debe tener 2 caracteres como mínimo
                     </div>
               </div>
-          <div class="d-flex m-t-25 m-b-10">
-              <div class="divsbuttons align-content-center">
-                <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosFormEdit.pristine">Cancelar</button>
-                <button class="input-submit" type="submit " id="enviar" [disabled]="datosFormEdit.status == 'INVALID' || datosFormEdit.pristine "> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+              <div class="d-flex m-t-25 m-b-10">
+                  <div class="divsbuttons align-content-center">
+                    <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosFormEdit.pristine">Cancelar</button>
+                    <button class="input-submit" type="submit " id="enviar" [disabled]="datosFormEdit.status == 'INVALID' || datosFormEdit.pristine "> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                  </div>
               </div>
-          </div>
-        </form>
-
+            </form>
           </div>
       </div>
   </div>

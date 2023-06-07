@@ -11,6 +11,11 @@ export class IngredienteService {
 
   constructor(private http: HttpClient) { }
 
+  getIngrediente(uid: string): Observable<object> {
+    let query = `?id=${uid}`
+    return this.http.get(`${environment.base_url}/ingredientes/${query}`, this.cabeceras);
+  }
+
   getIngredientes( texto?: string, proveedor?: string ): Observable<object> {
 
     let query = '';

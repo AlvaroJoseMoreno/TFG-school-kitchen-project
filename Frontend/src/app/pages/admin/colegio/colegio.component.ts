@@ -65,6 +65,7 @@ export class ColegioComponent implements OnInit {
     this.wait_form = true;
     this.colegioServicio.getColegio(this.uid).subscribe((res: any) => {
       const colegio = res['colegios'];
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
       this.datosFormEdit.get('nombre')?.setValue(colegio.nombre);
       this.datosFormEdit.get('provincia')?.setValue(colegio.provincia.nombre);
       this.datosFormEdit.get('telefono')?.setValue(colegio.telefono);

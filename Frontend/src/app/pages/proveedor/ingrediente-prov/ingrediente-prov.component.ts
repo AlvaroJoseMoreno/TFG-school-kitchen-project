@@ -33,6 +33,16 @@ export class IngredienteProvComponent implements OnInit {
     imagen: ['']
   });
 
+  // formulario para editar objetos
+
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+    unidad_medida: ['', Validators.required],
+    precio: ['', [Validators.required, Validators.min(0.1)]],
+    imagen: ['']
+  });
+
   constructor(private fb: FormBuilder,
               private ingredientesServicio: IngredienteService,
               private usuarioservicio: UsuarioService,
@@ -43,14 +53,30 @@ export class IngredienteProvComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getIngredienteValues();
     } else {
       this.esnuevo = true;
     }
-    console.log(this.uid);
   }
 
+  getIngredienteValues(): void {
+    this.wait_form = true;
+    this.ingredientesServicio.getIngrediente(this.uid).subscribe((res: any) => {
+      const ingrediente = res['ingredientes'];
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('nombre')?.setValue(ingrediente.nombre);
+      this.datosFormEdit.get('unidad_medida')?.setValue(ingrediente.unidad_medida);
+      this.datosFormEdit.get('precio')?.setValue(ingrediente.precio);
+      this.filePicture = this.ficheroservicio.crearImagenUrl('fotoingrediente', ingrediente.imagen);
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  editarIngrediente() {
+    console.log(this.datosFormEdit);
+  }
 
   crearIngrediente(){
     this.waiting = true;
@@ -154,7 +180,8 @@ export class IngredienteProvComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine) ||
+           (this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine);
   }
 
   cancelar() {

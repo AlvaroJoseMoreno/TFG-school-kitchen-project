@@ -1,20 +1,13 @@
 <div class="float-left form-filters">
   <form [formGroup]="searchForm" (ngSubmit)="getPedidos()">
       <div class="form-row">
-          <div class="form-group col-9">
+          <div class="form-group col-12">
               <div class="input-group">
                   <input type="text" class="form-control round" formControlName="texto" id="fname" placeholder="Nombre">
                   <div class="input-group-append">
                       <span class="input-group-text micursor round" (click)="borrar()"><i class="fa fa-times-circle"></i></span>
                   </div>
               </div>
-          </div>
-          <div class="col-3">
-            <div class="float-right">
-                <button class="btn input-submit btn-rounded" routerLink="/super/pedidos/nuevo">
-                  Añadir
-                </button>
-            </div>
           </div>
           <div style="margin-bottom: 0;" class="form-group col-sm-3">
             <select style="border-radius: 5px;" class="select_filtro form-control" formControlName="estado">
