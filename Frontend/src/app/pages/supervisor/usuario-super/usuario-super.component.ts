@@ -31,6 +31,17 @@ export class UsuarioSuperComponent implements OnInit {
     ciudad: ['', [Validators.required, Validators.minLength(2)]]
   });
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    email: [ '', [Validators.required, Validators.email]],
+    nombre: ['', [Validators.required, Validators.minLength(8)]],
+    telefono: ['', Validators.pattern('[6|7]{1}[0-9]{8}')],
+    tipo_proveedor: [''],
+    rol: ['', Validators.required],
+    colegio: [''],
+    ciudad: ['', [Validators.required, Validators.minLength(2)]]
+  });
+
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
               private route: ActivatedRoute,
@@ -39,12 +50,34 @@ export class UsuarioSuperComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getUserValues();
     } else {
       this.esnuevo = true;
     }
-    console.log(this.uid);
+  }
+
+  getUserValues(){
+    this.wait_form = true;
+    this.usuarioService.getUsuario(this.uid).subscribe((res: any) => {
+      const usuario = res['usuarios'];
+      this.datosForm.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('nombre')?.setValue(usuario.nombre);
+      this.datosFormEdit.get('email')?.setValue(usuario.email);
+      this.datosFormEdit.get('rol')?.setValue(usuario.rol);
+      this.datosFormEdit.get('telefono')?.setValue(usuario.telefono);
+      if(usuario.tipo_proveedor) this.datosFormEdit.get('tipo_proveedor')?.setValue(usuario.tipo_proveedor);
+      this.datosFormEdit.get('ciudad')?.setValue(usuario.ciudad);
+      this.wait_form = false;
+      console.log(this.datosFormEdit);
+      this.wait_form = false;
+    }, (err) => {
+      this.wait_form = false;
+      console.log(err);
+    })
+  }
+
+  editarUsuario() {
+    console.log(this.datosFormEdit);
   }
 
   crearUsuario(){
@@ -118,12 +151,14 @@ export class UsuarioSuperComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine) ||
+           (this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine)
   }
 
   campoNoValidoTipoProveedor() {
     const tipos_proveedores = ['CARNE', 'PESCADO', 'FRUTAVERDURA', 'LACTEOS', 'ESPECIAS', 'DULCES'];
-    return !tipos_proveedores.includes(this.datosForm.get('tipo_proveedor')?.value) && !this.datosForm.get('tipo_proveedor')?.pristine;
+    return !tipos_proveedores.includes(this.datosForm.get('tipo_proveedor')?.value || this.datosFormEdit.get('tipo_proveedor')?.value)
+           && (!this.datosForm.get('tipo_proveedor')?.pristine || !this.datosFormEdit.get('tipo_proveedor')?.pristine);
   }
 
   cancelar() {

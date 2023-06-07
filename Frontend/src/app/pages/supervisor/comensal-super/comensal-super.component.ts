@@ -23,6 +23,12 @@ export class ComensalSuperComponent implements OnInit {
     fecha: ['', Validators.required],
     num_comensales: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]]
   });
+  // formulario de editar
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    fecha: ['', Validators.required],
+    num_comensales: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]]
+  });
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -33,11 +39,30 @@ export class ComensalSuperComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getComensalValues();
     } else {
       this.esnuevo = true;
     }
+  }
+
+  getComensalValues() {
+    this.wait_form = true;
+    this.comensalServicio.getComensal(this.uid).subscribe((res: any) => {
+      const comensal = res['comensales'];
+      var date = new Date(comensal.fecha);
+      var currentDate = date.toISOString().substring(0,10);
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('fecha')?.setValue(currentDate);
+      this.datosFormEdit.get('num_comensales')?.setValue(comensal.num_comensales);
+      this.wait_form = false;
+    }, (err) => {
+      this.wait_form = false;
+      console.log(err);
+    });
+  }
+
+  editarComensal() {
+    console.log(this.datosFormEdit);
   }
 
   cancelar() {
@@ -46,7 +71,8 @@ export class ComensalSuperComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine) ||
+           (this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine);
   }
 
   crearComensal(){

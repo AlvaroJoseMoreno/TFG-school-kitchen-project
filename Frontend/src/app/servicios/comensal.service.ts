@@ -11,6 +11,13 @@ export class ComensalService {
 
   constructor(private http: HttpClient) { }
 
+  getComensal(uid: string): Observable<object> {
+
+    let query = `?id=${uid}`;
+
+    return this.http.get(`${environment.base_url}/comensales/${query}`, this.cabeceras);
+  }
+
   getComensales( fecha?: Date, colegio?: string ): Observable<object> {
 
     let query = '';
