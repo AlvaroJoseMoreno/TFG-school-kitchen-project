@@ -55,6 +55,17 @@ export class MenuSuperComponent implements OnInit {
     colegio: ['']
   });
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    nombre: ['', Validators.required],
+    dia: ['', Validators.required],
+    plato1: ['', Validators.required],
+    plato2: ['', Validators.required],
+    ensalada: ['', Validators.required],
+    postre: ['', Validators.required],
+    colegio: [{value: '', disabled: true}]
+  });
+
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
               private ingredienteServicio: IngredienteService,
@@ -66,8 +77,7 @@ export class MenuSuperComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getValuesMenu();
     } else {
       this.esnuevo = true;
     }
@@ -77,8 +87,48 @@ export class MenuSuperComponent implements OnInit {
     this.getPostres();
   }
 
+  getValuesMenu(){
+    this.wait_form = true;
+    this.menuServicio.getMenu(this.uid).subscribe((res: any) => {
+      console.log(res);
+      const menu = res['menus'];
+      let date = new Date(menu.dia);
+      let currentDate = date.toISOString().substring(0,10);
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('dia')?.setValue(currentDate);
+      if (menu.colegio) this.datosFormEdit.get('colegio')?.setValue(menu.colegio.nombre);
+      else this.datosFormEdit.get('colegio')?.setValue('No hay colegio');
+
+      if (menu.plato1) this.datosFormEdit.get('plato1')?.setValue(menu.plato1.nombre);
+      else this.datosFormEdit.get('plato1')?.setValue('No hay primer plato');
+
+      if (menu.plato2) this.datosFormEdit.get('plato2')?.setValue(menu.plato2.nombre);
+      else this.datosFormEdit.get('plato2')?.setValue('No hay segundo plato');
+
+      if (menu.ensalada) this.datosFormEdit.get('ensalada')?.setValue(menu.ensalada.nombre);
+      else this.datosFormEdit.get('ensalada')?.setValue('No hay ensalada');
+
+      if (menu.postre) this.datosFormEdit.get('postre')?.setValue(menu.postre.nombre);
+      else this.datosFormEdit.get('postre')?.setValue('No hay postre en el menú');
+
+      if(menu.nombre.includes('estandar')) this.datosFormEdit.get('nombre')?.setValue('estandar');
+      else this.datosFormEdit.get('nombre')?.setValue('alergicos');
+
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  editPlato(){
+    console.log('editamos plato');
+  }
+
   private filtroFirstPlate(): Plato[] {
-    return this.primerPlato.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.plato1.toLowerCase()));
+    return this.primerPlato.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.plato1.toLowerCase() || this.datosFormEdit.value.plato1.toLowerCase())
+      )
+    );
   }
 
   getPrimerPlato() {
@@ -92,7 +142,10 @@ export class MenuSuperComponent implements OnInit {
   }
 
   private filtroSecondPlate(): Plato[] {
-    return this.segundoPlato.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.plato2.toLowerCase()));
+    return this.segundoPlato.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.plato2.toLowerCase() || this.datosFormEdit.value.plato2.toLowerCase())
+      )
+    );
   }
 
   getSegundoPlato() {
@@ -106,7 +159,10 @@ export class MenuSuperComponent implements OnInit {
   }
 
   private filtroEnsaladas(): Plato[] {
-    return this.ensaladaMenu.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.plato2.toLowerCase()));
+    return this.ensaladaMenu.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.ensalada.toLowerCase() || this.datosFormEdit.value.ensalada.toLowerCase())
+      )
+    );
   }
 
   getEnsaladas() {
@@ -120,7 +176,10 @@ export class MenuSuperComponent implements OnInit {
   }
 
   private filtroPostres(): Ingrediente[] {
-    return this.postres.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.postre.toLowerCase()));
+    return this.postres.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.postre.toLowerCase() || this.datosFormEdit.value.postre.toLowerCase())
+      )
+    );
   }
 
   getPostres() {
@@ -142,15 +201,7 @@ export class MenuSuperComponent implements OnInit {
 
 
   crearPlato(){
-    console.log('Creando plato');
     this.waiting = true;
-    /**
-     *
-            postre: postre,
-            ensalada: ensalada,
-            coste: coste,
-            anotaciones: req.body.anotaciones,
-     */
     const data = {
       nombre: this.datosForm.get('nombre')?.value,
       dia: this.datosForm.get('dia')?.value,
@@ -160,7 +211,6 @@ export class MenuSuperComponent implements OnInit {
       postre: this.obtainPostre(this.datosForm.get('postre')?.value),
       ensalada: this.obtainEnsalada(this.datosForm.get('ensalada')?.value)
     }
-    console.log(data);
     this.datosForm.value.colegio = this.usuarioService.colegio;
     console.log(this.datosForm);
     this.menuServicio.crearMenu(data).subscribe((res: any) => {
@@ -198,13 +248,13 @@ export class MenuSuperComponent implements OnInit {
 
   // plato1 new
   selectPlato1(){
-    if(this.datosForm.get('plato1')?.value.length > 0){
-      this.select_plato1 =true;
+    if(this.datosForm.get('plato1')?.value.length > 0 || this.datosFormEdit.get('plato1')?.value.length > 0){
+      this.select_plato1 = true;
     }
   }
 
   selectPlato1True(){
-    let value_plato1 = this.datosForm.get('plato1')?.value || '';
+    let value_plato1 = this.datosForm.get('plato1')?.value || this.datosFormEdit.get('plato1')?.value || '';
     for(let i = 0; i < this.primerPlato.length; i++){
       if(this.primerPlato[i].nombre == value_plato1){
         this.select_plato1 = false;
@@ -229,13 +279,13 @@ export class MenuSuperComponent implements OnInit {
   }
 
   selectPlato2(){
-    if(this.datosForm.get('plato2')?.value.length > 0){
+    if(this.datosForm.get('plato2')?.value.length > 0 || this.datosFormEdit.get('plato2')?.value.length > 0){
       this.select_plato2 =true;
     }
   }
 
   selectPlato2True(){
-    let value_plato1 = this.datosForm.get('plato2')?.value || '';
+    let value_plato1 = this.datosForm.get('plato2')?.value || this.datosFormEdit.get('plato2')?.value || '';
     for(let i = 0; i < this.segundoPlato.length; i++){
       if(this.segundoPlato[i].nombre == value_plato1){
         this.select_plato2 = false;
@@ -259,13 +309,13 @@ export class MenuSuperComponent implements OnInit {
   }
 
   selectPostre(){
-    if(this.datosForm.get('postre')?.value.length > 0){
+    if(this.datosForm.get('postre')?.value.length > 0 || this.datosFormEdit.get('postre')?.value.length > 0){
       this.select_postre = true;
     }
   }
 
   selectPostreTrue(){
-    let value_plato1 = this.datosForm.get('postre')?.value || '';
+    let value_plato1 = this.datosForm.get('postre')?.value || this.datosFormEdit.get('postre')?.value || '';
     for(let i = 0; i < this.postres.length; i++){
       if(this.postres[i].nombre == value_plato1){
         this.select_postre = false;
@@ -290,13 +340,13 @@ export class MenuSuperComponent implements OnInit {
   }
 
   selectEnsalada(){
-    if(this.datosForm.get('ensalada')?.value.length > 0){
+    if(this.datosForm.get('ensalada')?.value.length > 0 || this.datosFormEdit.get('ensalada')?.value.length > 0){
       this.select_ensalada =true;
     }
   }
 
   selectEnsaladaTrue(){
-    let value_plato1 = this.datosForm.get('ensalada')?.value || '';
+    let value_plato1 = this.datosForm.get('ensalada')?.value || this.datosFormEdit.get('ensalada')?.value || '';
     for(let i = 0; i < this.ensaladaMenu.length; i++){
       if(this.ensaladaMenu[i].nombre == value_plato1){
         this.select_ensalada = false;
@@ -311,7 +361,8 @@ export class MenuSuperComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine ||
+            this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine);
   }
 
   cancelar() {

@@ -49,8 +49,8 @@ export class ComensalSuperComponent implements OnInit {
     this.wait_form = true;
     this.comensalServicio.getComensal(this.uid).subscribe((res: any) => {
       const comensal = res['comensales'];
-      var date = new Date(comensal.fecha);
-      var currentDate = date.toISOString().substring(0,10);
+      let date = new Date(comensal.fecha);
+      let currentDate = date.toISOString().substring(0,10);
       this.datosFormEdit.get('uid')?.setValue(this.uid);
       this.datosFormEdit.get('fecha')?.setValue(currentDate);
       this.datosFormEdit.get('num_comensales')?.setValue(comensal.num_comensales);

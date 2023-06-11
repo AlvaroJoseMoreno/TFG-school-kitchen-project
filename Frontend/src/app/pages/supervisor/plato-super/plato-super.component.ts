@@ -37,8 +37,18 @@ export class PlatoSuperComponent implements OnInit {
   public dataSource: any;
 
   // formulario con el que se creará un nuevo usuario
-
   public datosForm = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    nombre: ['', [Validators.required, Validators.minLength(4)]],
+    categoria: ['', Validators.required],
+    receta: [''],
+    ingredientes: [''],
+    ingerplatos: [[], Validators.required],
+    cantidad_ingredientes: [[], Validators.required],
+    colegio: ['']
+  });
+
+  public datosFormEdit = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     nombre: ['', [Validators.required, Validators.minLength(4)]],
     categoria: ['', Validators.required],
@@ -59,12 +69,22 @@ export class PlatoSuperComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getValuesPlato();
     } else {
       this.esnuevo = true;
     }
     this.getIngredientes();
+  }
+
+  getValuesPlato() {
+    this.datosForm.get('uid')?.setValue(this.uid);
+    this.wait_form = true;
+    this.platoservicio.getPlato(this.uid).subscribe((res: any) => {
+      const plato = res['platos'];
+      this.wait_form = false;
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   private filtroIngredientes(): Ingrediente[] {
@@ -173,7 +193,8 @@ export class PlatoSuperComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine ||
+            this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine);
   }
 
   cancelar() {

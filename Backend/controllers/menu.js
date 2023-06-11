@@ -30,7 +30,8 @@ const getMenus = async(req, res = response) => {
         let menus = [];
 
         if (id) {
-            [menus, total] = await Promise.all([Menu.findById(id),
+            [menus, total] = await Promise.all([Menu.findById(id).populate('colegio', '-__v').populate('plato1', '-__v').populate('plato2', '-__v')
+            .populate('postre', '-__v').populate('ensalada', '-__v'),
                 Menu.countDocuments({_id: id}),
             ]);
         } else{

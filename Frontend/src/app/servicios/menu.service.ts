@@ -10,6 +10,11 @@ export class MenuService {
 
   constructor(private http: HttpClient) { }
 
+  getMenu(uid: string): Observable<object> {
+    let query = `?id=${uid}`;
+    return this.http.get(`${environment.base_url}/menus/${query}`, this.cabeceras);
+  }
+
   getMenus( dia?: Date, colegio?: string, tipo?: string ): Observable<object> {
 
     let query = '';
