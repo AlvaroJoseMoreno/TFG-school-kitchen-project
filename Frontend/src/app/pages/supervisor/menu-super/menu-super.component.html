@@ -4,7 +4,8 @@
           <div class="card-body">
               <!-- Creamos Menus-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPlato()">
-                      <div style="margin-top: 1.5rem;" class="form-group">
+                <h2 style="text-align: center;"> Crear Menú </h2>
+                  <div style="margin-top: 1.5rem;" class="form-group">
                         <select class="select2 form-control custom-select" name="Elige un rol" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
                           <option value="">Tipo de menu</option>
                           <option value="estandar" selected>Menú estándar</option>
@@ -103,6 +104,7 @@
 
             <!-- Editamos Menus-->
             <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editPlato()">
+              <h2 style="text-align: center;"> Editar Menú </h2>
               <div class="form-group mar-bottom1">
                 <label>Colegio</label>
                 <input type="text" placeholder="Colegio *" class="form-control" formControlName="colegio" id="colegio">

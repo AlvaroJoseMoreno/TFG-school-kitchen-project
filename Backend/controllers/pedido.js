@@ -30,7 +30,8 @@ const getPedidos = async(req, res = response) => {
         let pedidos = [];
 
         if (id) {
-            [pedidos, total] = await Promise.all([Pedido.findById(id).populate('ingredientes', '-__v'),
+            [pedidos, total] = await Promise.all([Pedido.findById(id).populate('proveedor', '-__v -password').populate('colegio', '-__v')
+            .populate('ingredientes', '-__v'),
                 Pedido.countDocuments({_id: id}),
             ]);
         } else{
@@ -216,7 +217,7 @@ const crearPedidos = async(req, res = response) => {
 }
 
 const updatePedido = async(req, res = response) => {
-    const { fecha_esperada, ingredientes, cantidad } = req.body;
+    const { fecha_esperada, ingredientes, anotaciones, cantidad } = req.body;
     const id = req.params.id || '';
 
     try {
@@ -297,6 +298,8 @@ const updatePedido = async(req, res = response) => {
         const object = {
             ingredientes: ingredientes,
             cantidad: cantidad,
+            anotaciones: anotaciones,
+            fecha_esperada: fecha_esperada,
             precio: precio_pedido,
             cantidad_recepcionada: cant_recep
         }

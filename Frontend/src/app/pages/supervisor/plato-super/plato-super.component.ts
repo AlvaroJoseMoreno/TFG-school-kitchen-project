@@ -77,18 +77,37 @@ export class PlatoSuperComponent implements OnInit {
   }
 
   getValuesPlato() {
-    this.datosForm.get('uid')?.setValue(this.uid);
     this.wait_form = true;
     this.platoservicio.getPlato(this.uid).subscribe((res: any) => {
       const plato = res['platos'];
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('nombre')?.setValue(plato.nombre);
+      this.datosFormEdit.get('receta')?.setValue(plato?.receta);
+      this.datosFormEdit.get('categoria')?.setValue(plato.categoria);
+      this.ing_platos = plato.ingredientes;
+      this.cantidad_ing = plato.cantidad_ingredientes;
+      this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_platos);
+      this.datosFormEdit.get('ingerplatos')?.setValue(this.ing_platos);
+      this.datosFormEdit.get('cantidad_ingredientes')?.setValue(this.cantidad_ing);
+      for(let i = 0; i < this.cantidad_ing.length; i++){
+        this.total_plato += this.cantidad_ing[i] * this.ing_platos[i].precio;
+      }
+      console.log(plato);
       this.wait_form = false;
     }, (err) => {
       console.log(err)
     })
   }
 
+  editarPlato() {
+    console.log(this.datosFormEdit);
+  }
+
   private filtroIngredientes(): Ingrediente[] {
-    return this.ingredientes.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.ingredientes.toLowerCase()));
+    return this.ingredientes.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.ingredientes.toLowerCase() || this.datosFormEdit.value.ingredientes.toLowerCase())
+      )
+    );
   }
 
   getIngredientes() {
@@ -124,12 +143,11 @@ export class PlatoSuperComponent implements OnInit {
       this.total_plato += this.cantidad_ing[i] * this.ing_platos[i].precio;
     }
     this.total_plato.toFixed(2);
-    this.datosForm.get('cantidad_ingredientes')?.setValue(this.cantidad_ing);
-    console.log(this.datosForm);
+    this.datosForm.get('cantidad_ingredientes')?.setValue(this.cantidad_ing) || this.datosFormEdit.get('cantidad_ingredientes')?.setValue(this.cantidad_ing);
   }
 
   selecIngredienteTrueKey(event: any){
-    let value_ing = this.datosForm.get('ingredientes')?.value || '';
+    let value_ing = this.datosForm.get('ingredientes')?.value || this.datosFormEdit.get('ingredientes')?.value || '';
     for(let i = 0; i < this.ingredientes.length; i++){
       if(this.ingredientes[i].nombre == value_ing){
         this.ing_platos.push(this.ingredientes[i]);
@@ -137,11 +155,9 @@ export class PlatoSuperComponent implements OnInit {
         console.log(this.ing_platos);
         this.ingredientes.splice(i, 1);
         this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_platos);
-        this.datosForm.get('ingredientes')?.setValue('');
+        this.datosForm.get('ingredientes')?.setValue('') || this.datosFormEdit.get('ingredientes')?.setValue('');;
         this.filteredOptionsIngredientes = null;
-        this.datosForm.get('ingerplatos')?.setValue(this.ing_platos);
-        console.log(this.ingredientes);
-        console.log(this.datosForm);
+        this.datosForm.get('ingerplatos')?.setValue(this.ing_platos) || this.datosFormEdit.get('ingerplatos')?.setValue(this.ing_platos);
       }
     }
   }
@@ -151,8 +167,8 @@ export class PlatoSuperComponent implements OnInit {
     this.ing_platos.splice(i, 1);
     this.cantidad_ing.splice(i, 1);
     this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_platos);
-    this.datosForm.get('ingerplatos')?.setValue(this.ing_platos);
-    this.datosForm.get('cantidad_ingredientes')?.setValue(this.cantidad_ing);
+    this.datosForm.get('ingerplatos')?.setValue(this.ing_platos) || this.datosFormEdit.get('ingerplatos')?.setValue(this.ing_platos);
+    this.datosForm.get('cantidad_ingredientes')?.setValue(this.cantidad_ing) || this.datosFormEdit.get('ingerplatos')?.setValue(this.ing_platos);
     this.total_plato = 0;
     for(let x = 0; x < this.cantidad_ing.length; x++){
       this.total_plato += this.cantidad_ing[x] * this.ing_platos[x].precio;

@@ -8,6 +8,7 @@
               </div> -->
                <!-- Creamos administradores-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearUsuario()">
+                <h2 style="text-align: center;"> Crear Usuario </h2>
                     <div style="margin-top: 1.5rem;" class="form-group">
                       <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': campoNoValido('nombre')}" id="nombre">
                           <div class="invalid-feedback">
@@ -68,6 +69,7 @@
             </form>
             <!-- Editamos los admins y supervisores -->
             <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarUsuario()">
+              <h2 style="text-align: center;"> Editar Usuario </h2>
               <div class="form-group mar-bottom1">
                 <label>Nombre *</label>
                 <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': campoNoValidoEdit('nombre')}" id="nombre">

@@ -28,19 +28,25 @@
     <!-- Position Column -->
     <ng-container class="col-4" matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/provincias', element.uid]">
+        {{element.nombre}}
+      </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container class="col-4" matColumnDef="Codigo">
       <th mat-header-cell *matHeaderCellDef> Codigo </th>
-      <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/provincias', element.uid]">
+        {{element.codigo}}
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container class="col-4" matColumnDef="num_colegios">
       <th mat-header-cell *matHeaderCellDef> Número de colegios </th>
-      <td mat-cell *matCellDef="let element"> {{element.num_colegios}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/provincias', element.uid]">
+        {{element.num_colegios}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="borrar">
@@ -53,7 +59,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/admin/provincias', row.uid]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
 <mat-paginator #paginator

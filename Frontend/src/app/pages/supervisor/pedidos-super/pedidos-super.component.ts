@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { IngredienteService } from 'src/app/servicios/ingrediente.service';
 import { FicherosService } from 'src/app/servicios/ficheros.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class PedidosSuperComponent implements OnInit {
               private pedidosservicio: PedidoService,
               private ficheroservicio: FicherosService,
               private paginator1: MatPaginatorIntl,
+              private router: Router,
               private fb: FormBuilder,
               public dialog: MatDialog) {
                 this.paginator1.itemsPerPageLabel = "Registros por página";
@@ -73,7 +75,23 @@ export class PedidosSuperComponent implements OnInit {
       });
   }
 
+  redirigirPedido(uid: string, estado: string){
+    if(estado === 'Pendiente'){
+      this.router.navigateByUrl(`/super/pedidos/${uid}`);
+    } else {
+      this.errorPedido();
+    }
+  }
 
+  errorPedido(){
+    Swal.fire({
+      title: 'Editar pedido',
+      text: 'Solo se pueden editar los pedidos con estado pendiente, si desea añadir más ingredientes a un pedido, por favor cree otro',
+      icon: 'error',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Cerrar'
+    });
+  }
 
   getPedidos(){
     const texto = this.searchForm.get('texto')?.value || '';

@@ -4,7 +4,8 @@
           <div class="card-body">
                <!-- Creamos provincias-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearProvincia()">
-                    <div style="margin-top: 1.5rem;" class="form-group">
+                <h2 style="text-align: center;"> Crear Provincia </h2>
+                  <div style="margin-top: 1.5rem;" class="form-group">
                       <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
                         <div class="invalid-feedback">
                           El nombre es obligatorio y debe tener 4 caracteres como mínimo
@@ -25,6 +26,7 @@
             </form>
 
             <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarProvincia()">
+              <h2 style="text-align: center;"> Editar Provincia </h2>
               <div class="form-group mar-bottom1">
                 <label>Nombre *</label>
                 <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValidoEdit('nombre')}" formControlName="nombre" id="nombre">

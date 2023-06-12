@@ -36,17 +36,18 @@
 </div>
 
 <table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
   <!-- Position Column -->
   <ng-container matColumnDef="Dia">
     <th mat-header-cell *matHeaderCellDef> Dia </th>
-    <td mat-cell *matCellDef="let element"> {{element.dia | date : 'dd/MM/yyyy'}} </td>
+    <td mat-cell *matCellDef="let element" [routerLink]="['/super/menus', element.uid]">
+      {{element.dia | date : 'dd/MM/yyyy'}}
+    </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="Plato1">
     <th mat-header-cell *matHeaderCellDef> Primer plato </th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" [routerLink]="['/super/menus', element.uid]">
       <div *ngIf="element.plato1"> {{element.plato1.nombre}} </div>
       <div *ngIf="!element.plato1"> No tiene primer plato </div>
     </td>
@@ -55,7 +56,7 @@
   <!-- Weight Column -->
   <ng-container matColumnDef="Plato2">
     <th mat-header-cell *matHeaderCellDef> Segundo plato </th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" [routerLink]="['/super/menus', element.uid]">
       <div *ngIf="element.plato2"> {{element.plato2.nombre}} </div>
       <div *ngIf="!element.plato2"> No tiene segundo plato </div>
     </td>
@@ -64,7 +65,7 @@
   <!-- Weight Column -->
   <ng-container matColumnDef="Ensalada">
     <th mat-header-cell *matHeaderCellDef> Ensalada </th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" [routerLink]="['/super/menus', element.uid]">
       <div *ngIf="element.ensalada"> {{element.ensalada.nombre}} </div>
       <div *ngIf="!element.ensalada"> No hay ensalada </div>
     </td>
@@ -73,7 +74,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="Postre">
     <th mat-header-cell *matHeaderCellDef> Postre </th>
-    <td mat-cell *matCellDef="let element;">
+    <td mat-cell *matCellDef="let element;" [routerLink]="['/super/menus', element.uid]">
       <div *ngIf="element.postre"> {{element.postre.nombre}} </div>
       <div *ngIf="!element.postre"> No tiene postre </div>
     </td>
@@ -82,7 +83,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="Colegio">
     <th mat-header-cell *matHeaderCellDef> Colegio </th>
-    <td mat-cell *matCellDef="let element;">
+    <td mat-cell *matCellDef="let element;" [routerLink]="['/super/menus', element.uid]">
       <div *ngIf="element.colegio"> {{element.colegio.nombre}} </div>
       <div *ngIf="!element.colegio"> - </div>
     </td>
@@ -91,7 +92,9 @@
   <!-- Weight Column -->
   <ng-container matColumnDef="Coste">
     <th mat-header-cell *matHeaderCellDef> Coste menú </th>
-    <td mat-cell *matCellDef="let element"> {{element.coste | number : '1.2-2'}} € </td>
+    <td mat-cell *matCellDef="let element" [routerLink]="['/super/menus', element.uid]">
+      {{element.coste | number : '1.2-2'}} €
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="borrar">
@@ -104,7 +107,7 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/super/menus', row.uid]"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
 <mat-paginator #paginator

@@ -25,26 +25,25 @@
 </div>
 
 <table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
     <!-- Position Column -->
     <ng-container matColumnDef="Fecha">
       <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let element"> {{element.fecha | date : 'dd/MM/yyyy'}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/cocinero/comensales', element.uid]">
+        {{element.fecha | date : 'dd/MM/yyyy'}}
+      </td>
     </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="Comensales">
       <th mat-header-cell *matHeaderCellDef> Comensales </th>
-      <td mat-cell *matCellDef="let element"> {{element.num_comensales}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/cocinero/comensales', element.uid]">
+        {{element.num_comensales}}
+      </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="Colegio">
       <th mat-header-cell *matHeaderCellDef> Colegio </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" [routerLink]="['/cocinero/comensales', element.uid]">
         <div *ngIf="element.colegio"> {{element.colegio.nombre}} </div>
         <div *ngIf="!element.colegio"> - </div>
       </td>
@@ -53,7 +52,7 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="Usuario">
       <th mat-header-cell *matHeaderCellDef> Registrado por </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" [routerLink]="['/cocinero/comensales', element.uid]">
         <div *ngIf="element.usuario"> {{element.usuario.nombre}} </div>
         <div *ngIf="!element.usuario"> - </div>
       </td>
@@ -69,7 +68,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/cocinero/comensales', row.uid]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
 <mat-paginator #paginator

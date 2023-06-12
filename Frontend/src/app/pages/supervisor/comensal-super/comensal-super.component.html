@@ -4,7 +4,8 @@
           <div class="card-body">
                <!-- Creamos comensales-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearComensal()">
-                    <div style="margin-top: 1.5rem;" class="form-group">
+                <h2 style="text-align: center;"> Crear registro de comensales </h2>
+                <div style="margin-top: 1.5rem;" class="form-group">
                       <input type="date" placeholder="Fecha *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('fecha')}" formControlName="fecha" id="fecha">
                         <div class="invalid-feedback">
                           La fecha es obligatoria y debe ser válida
@@ -25,6 +26,7 @@
               </form>
               <!-- Editamos comensal -->
               <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarComensal()">
+                <h2 style="text-align: center;"> Editar registro de comensales </h2>
                 <div class="form-group mar-bottom1">
                   <label>Día de registro *</label>
                   <input type="date" placeholder="Fecha *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('fecha')}" formControlName="fecha" id="fecha">

@@ -50,6 +50,16 @@ export class PedidoCocineroComponent implements OnInit {
     cantidad: [[], Validators.required]
   });
 
+  public datosFormEdit = this.fb.group({
+    uid: [{value: '', disabled: true}, Validators.required],
+    proveedor: [{value: '', disabled: true}, Validators.required],
+    fecha_esperada: [ '', Validators.required],
+    anotaciones: [''],
+    ingredientes: [''],
+    ingerpedidos: [[], Validators.required],
+    cantidad: [[], Validators.required]
+  });
+
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
               private ingredienteServicio: IngredienteService,
@@ -60,20 +70,58 @@ export class PedidoCocineroComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['id'];
     if(this.uid !== 'nuevo'){
-      this.datosForm.get('uid')?.setValue(this.uid);
-      this.wait_form = true;
+      this.getValuesPedido();
     } else {
       this.esnuevo = true;
     }
     this.getProveedores();
   }
 
+  getValuesPedido() {
+    this.wait_form = true;
+    this.pedidoServicio.getPedido(this.uid).subscribe((res: any) => {
+      const pedido = res['pedidos'];
+      let date = new Date(pedido.fecha_esperada);
+      let currentDate = date.toISOString().substring(0,10);
+      this.datosFormEdit.get('uid')?.setValue(this.uid);
+      this.datosFormEdit.get('fecha_esperada')?.setValue(currentDate);
+      this.datosFormEdit.get('proveedor')?.setValue(pedido.proveedor.nombre);
+      this.proveedorIng = pedido.proveedor;
+      this.ing_pedidos = pedido.ingredientes;
+      this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_pedidos);
+      this.filteredOptionsIngredientes = null;
+      this.cantidad_ing = pedido.cantidad;
+      this.datosFormEdit.get('ingredientes')?.setValue('');
+      this.datosFormEdit.get('ingerpedidos')?.setValue(this.ing_pedidos);
+      this.datosFormEdit.get('cantidad')?.setValue(this.cantidad_ing);
+      for(let i = 0; i < this.cantidad_ing.length; i++){
+        this.total_pedido += this.cantidad_ing[i] * this.ing_pedidos[i].precio;
+      }
+      this.getIngredientes(pedido.proveedor._id, this.ing_pedidos);
+      console.log(pedido);
+      this.wait_form = false;
+    }, (err) => {
+      this.wait_form = false;
+      console.log(err);
+    })
+  }
+
+  editarPedido() {
+
+  }
+
   private filtro(): Usuario[] {
-    return this.proveedores.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.proveedor.toLowerCase()));
+    return this.proveedores.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.proveedor.toLowerCase() || this.datosFormEdit.value.proveedor.toLowerCase())
+      )
+    );
   }
 
   private filtroIngredientes(): Ingrediente[] {
-    return this.ingredientes.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value.ingredientes.toLowerCase()));
+    return this.ingredientes.filter(option => option.nombre!.toLowerCase().includes(
+        (this.datosForm.value.ingredientes.toLowerCase() || this.datosFormEdit.value.ingredientes.toLowerCase())
+      )
+    );
   }
 
   getProveedores() {
@@ -86,14 +134,41 @@ export class PedidoCocineroComponent implements OnInit {
     });
   }
 
+  getIngredientes(proveedor: string, ingred_selec?: any) {
+    this.ingredienteServicio.getIngredientes('', proveedor).subscribe((res: any) => {
+      this.ingredientes = this.uid === 'nuevo' ? res['ingredientes'] : this.devolverValoresNoIguales(res['ingredientes'], ingred_selec);
+      console.log(this.ingredientes);
+      this.filteredOptionsIngredientes = this.filterIngredientes.valueChanges.pipe(
+        startWith(''),
+        map(value => this.filtroIngredientes()),
+      );
+    });
+  }
+
+  devolverValoresNoIguales(ingredientes: any [], ingred_selec: any []): Ingrediente[] {
+    let listaIng: any = [];
+    console.log(ingredientes);
+    console.log(ingred_selec);
+    for (var i = 0; i < ingredientes.length; i++) {
+      var igual = false;
+      for (var j = 0; j < ingred_selec.length && !igual; j++) {
+          if(ingredientes[i].uid === ingred_selec[j]._id){
+                igual = true;
+          }
+        }
+      if(!igual) listaIng.push(ingredientes[i]);
+    }
+    return listaIng;
+  }
+
   selectProveedor(){
-    if(this.datosForm.get('proveedor')?.value.length > 0){
+    if(this.datosForm.get('proveedor')?.value.length > 0 || this.datosFormEdit.get('proveedor')?.value.length > 0){
       this.select_proveedor = true;
     }
   }
 
   selecProveedorTrueKey(event: any){
-    let value_proveedor = this.datosForm.get('proveedor')?.value || '';
+    let value_proveedor = this.datosForm.get('proveedor')?.value || this.datosFormEdit.get('proveedor')?.value || '';
     for(let i = 0; i < this.proveedores.length; i++){
       if(this.proveedores[i].nombre == value_proveedor){
         this.select_proveedor = false;
@@ -104,16 +179,6 @@ export class PedidoCocineroComponent implements OnInit {
         this.getIngredientes(this.proveedores[i].uid);
       }
     }
-  }
-
-  getIngredientes(proveedor: string) {
-    this.ingredienteServicio.getIngredientes('', proveedor).subscribe((res: any) => {
-      this.ingredientes = res['ingredientes'];
-      this.filteredOptionsIngredientes = this.filterIngredientes.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filtroIngredientes()),
-      );
-    });
   }
 
   getIngetot(){
@@ -127,27 +192,25 @@ export class PedidoCocineroComponent implements OnInit {
     this.total_pedido = 0;
     let v = document.getElementById(event) as HTMLInputElement;
     this.cantidad_ing[index] = Number(v.value);
+    console.log(v);
     for(let i = 0; i < this.cantidad_ing.length; i++){
       this.total_pedido += this.cantidad_ing[i] * this.ing_pedidos[i].precio;
     }
     this.total_pedido.toFixed(2);
-    this.datosForm.get('cantidad')?.setValue(this.cantidad_ing);
-    console.log(this.datosForm);
+    this.datosForm.get('cantidad')?.setValue(this.cantidad_ing) || this.datosFormEdit.get('cantidad')?.setValue(this.cantidad_ing);
   }
 
   selecIngredienteTrueKey(event: any){
-    let value_ing = this.datosForm.get('ingredientes')?.value || '';
+    let value_ing = this.datosForm.get('ingredientes')?.value || this.datosFormEdit.get('ingredientes')?.value || '';
     for(let i = 0; i < this.ingredientes.length; i++){
       if(this.ingredientes[i].nombre == value_ing){
         this.ing_pedidos.push(this.ingredientes[i]);
         this.cantidad_ing.push(0);
         this.ingredientes.splice(i, 1);
         this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_pedidos);
-        this.datosForm.get('ingredientes')?.setValue('');
+        this.datosForm.get('ingredientes')?.setValue('') || this.datosFormEdit.get('ingredientes')?.setValue('');
         this.filteredOptionsIngredientes = null;
-        this.datosForm.get('ingerpedidos')?.setValue(this.ing_pedidos);
-        console.log(this.ingredientes);
-        console.log(this.datosForm);
+        this.datosForm.get('ingerpedidos')?.setValue(this.ing_pedidos) || this.datosFormEdit.get('ingerpedidos')?.setValue(this.ing_pedidos);
       }
     }
   }
@@ -157,8 +220,8 @@ export class PedidoCocineroComponent implements OnInit {
     this.ing_pedidos.splice(i, 1);
     this.cantidad_ing.splice(i, 1);
     this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_pedidos);
-    this.datosForm.get('ingerpedidos')?.setValue(this.ing_pedidos);
-    this.datosForm.get('cantidad')?.setValue(this.cantidad_ing);
+    this.datosForm.get('ingerpedidos')?.setValue(this.ing_pedidos) || this.datosFormEdit.get('ingerpedidos')?.setValue(this.ing_pedidos);
+    this.datosForm.get('cantidad')?.setValue(this.cantidad_ing) || this.datosFormEdit.get('cantidad')?.setValue(this.cantidad_ing);
     this.total_pedido = 0;
     for(let x = 0; x < this.cantidad_ing.length; x++){
       this.total_pedido += this.cantidad_ing[x] * this.ing_pedidos[x].precio;
@@ -193,7 +256,8 @@ export class PedidoCocineroComponent implements OnInit {
   }
 
   campoNoValido(campo: string) {
-    return this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine;
+    return (this.datosForm.get(campo)?.invalid && !this.datosForm.get(campo)?.pristine ||
+            this.datosFormEdit.get(campo)?.invalid && !this.datosFormEdit.get(campo)?.pristine);
   }
 
   crearPedido(){

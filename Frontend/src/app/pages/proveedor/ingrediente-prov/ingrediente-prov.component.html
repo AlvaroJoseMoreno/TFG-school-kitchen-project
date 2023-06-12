@@ -4,6 +4,7 @@
           <div class="card-body">
                <!-- Creamos Ingredientes-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearIngrediente()">
+                <h2 style="text-align: center; margin-bottom: 20px;"> Crear Ingrediente </h2>
                   <img for="fotosubidas" [src]="filePicture" alt="Image" class="shadow">
                     <div style="margin-top: 1.5rem;" class="form-group">
                       <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': campoNoValido('nombre')}" id="nombre">
@@ -44,6 +45,7 @@
             </form>
             <!-- Editar ingrediente -->
             <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarIngrediente()">
+              <h2 style="text-align: center; margin-bottom: 20px;"> Editar Ingrediente </h2>
               <img for="fotosubidas" [src]="filePicture" alt="Image" class="shadow">
                 <div style="margin-top: 1.5rem;" class="form-group mar-bottom1">
                   <label>Nombre *</label>

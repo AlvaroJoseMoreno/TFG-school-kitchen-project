@@ -32,20 +32,18 @@
 </div>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
     <!-- Position Column -->
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/colegios', element.uid]">
+        {{element.nombre}}
+      </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="Provincia">
       <th mat-header-cell *matHeaderCellDef> Provincia </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/colegios', element.uid]">
         <div *ngIf="element.provincia">{{element.provincia.nombre}}</div>
         <div *ngIf="!element.provincia">No hay provincia</div>
       </td>
@@ -54,13 +52,17 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="Telefono">
       <th mat-header-cell *matHeaderCellDef> Teléfono </th>
-      <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/colegios', element.uid]">
+        {{element.telefono}}
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="Direccion">
       <th mat-header-cell *matHeaderCellDef> Dirección </th>
-      <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/admin/colegios', element.uid]">
+        {{element.direccion}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="borrar">
@@ -73,7 +75,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/admin/colegios', row.uid]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
 <mat-paginator #paginator

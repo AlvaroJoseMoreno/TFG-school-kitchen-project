@@ -25,55 +25,57 @@
 </div>
 
 <table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
     <!-- Position Column -->
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
+        {{element.nombre}}
+      </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Proveedor">
       <th mat-header-cell *matHeaderCellDef> Proveedor </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
         <div *ngIf="element.proveedor"> {{element.proveedor.nombre}} </div>
         <div *ngIf="!element.proveedor"> - </div>
       </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Categoria">
       <th mat-header-cell *matHeaderCellDef> Categoria </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
         <div *ngIf="element.proveedor"> {{element.proveedor.tipo_proveedor}} </div>
         <div *ngIf="!element.proveedor"> - </div>
       </td>
     </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="Medida">
       <th mat-header-cell *matHeaderCellDef> Unidad de medida </th>
-      <td mat-cell *matCellDef="let element"> {{element.unidad_medida}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
+        {{element.unidad_medida}}
+      </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Precio">
       <th mat-header-cell *matHeaderCellDef> Precio / medida </th>
-      <td mat-cell *matCellDef="let element"> {{element.precio}} € </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
+        {{element.precio}} €
+      </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Alergenos">
       <th mat-header-cell *matHeaderCellDef> Alérgenos </th>
-      <td mat-cell *matCellDef="let element"> {{element.alergenos.length}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
+        {{element.alergenos.length}}
+      </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Stock">
       <th mat-header-cell *matHeaderCellDef> Stock actual </th>
-      <td mat-cell *matCellDef="let element"> {{element.stock_actual}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/prov/ingredientes', element.uid]">
+        {{element.stock_actual}}
+      </td>
     </ng-container>
-
     <ng-container matColumnDef="borrar">
       <th mat-header-cell *matHeaderCellDef> Borrar </th>
       <td mat-cell *matCellDef="let element;let i = index">
@@ -82,9 +84,8 @@
         </div>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/prov/ingredientes', row.uid]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
 <mat-paginator #paginator
