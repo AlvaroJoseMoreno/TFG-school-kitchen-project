@@ -40,39 +40,39 @@
     <!-- Position Column -->
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element" [routerLink]="['/super/usuarios', element.uid ]">
+      <td mat-cell *matCellDef="let element" [routerLink]="(element.rol !== 'ROL_SUPERVISOR')
+      ? ['/super/usuarios', element.uid ] : '/super/usuarios'">
         {{element.nombre}}
       </td>
     </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="Email">
       <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element" [routerLink]="['/super/usuarios', element.uid ]">
+      <td mat-cell *matCellDef="let element" [routerLink]="(element.rol !== 'ROL_SUPERVISOR')
+      ? ['/super/usuarios', element.uid ] : '/super/usuarios'">
         {{element.email}}
       </td>
     </ng-container>
-
     <!-- Weight Column -->
     <ng-container matColumnDef="Rol">
       <th mat-header-cell *matHeaderCellDef> Rol </th>
-      <td mat-cell *matCellDef="let element" [routerLink]="['/super/usuarios', element.uid ]">
+      <td mat-cell *matCellDef="let element" [routerLink]="(element.rol !== 'ROL_SUPERVISOR')
+      ? ['/super/usuarios', element.uid ] : '/super/usuarios'">
         <div *ngIf="element.rol === 'ROL_SUPERVISOR'">Supervisor</div>
         <div *ngIf="element.rol === 'ROL_PROVEEDOR'">Proveedor</div>
         <div *ngIf="element.rol === 'ROL_COCINERO'">Cocinero</div>
         <div *ngIf="element.rol === 'ROL_ADMIN'">Administrador</div>
       </td>
     </ng-container>
-
     <!-- Symbol Column -->
     <ng-container matColumnDef="Colegio">
       <th mat-header-cell *matHeaderCellDef> Colegio </th>
-      <td mat-cell *matCellDef="let element" [routerLink]="['/super/usuarios', element.uid ]">
+      <td mat-cell *matCellDef="let element" [routerLink]="(element.rol !== 'ROL_SUPERVISOR')
+      ? ['/super/usuarios', element.uid ] : '/super/usuarios'">
         <div *ngIf="element.colegio">{{element.colegio.nombre}}</div>
         <div *ngIf="!element.colegio">No hay colegio</div>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="borrar">
       <th mat-header-cell *matHeaderCellDef> Borrar </th>
       <td mat-cell *matCellDef="let element;let i = index">
@@ -81,7 +81,6 @@
         </div>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

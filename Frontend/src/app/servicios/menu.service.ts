@@ -15,7 +15,7 @@ export class MenuService {
     return this.http.get(`${environment.base_url}/menus/${query}`, this.cabeceras);
   }
 
-  getMenus( dia?: Date, colegio?: string, tipo?: string ): Observable<object> {
+  getMenus( dia?: Date | string, colegio?: string, tipo?: string ): Observable<object> {
 
     let query = '';
     if (dia != undefined || colegio != '' || tipo != ''){
