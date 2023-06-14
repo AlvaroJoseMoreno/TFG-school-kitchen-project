@@ -33,6 +33,7 @@ import { PedidoCocineroComponent } from './cocinero/pedido-cocinero/pedido-cocin
 import { PlatoSuperComponent } from './supervisor/plato-super/plato-super.component';
 import { MenuSuperComponent } from './supervisor/menu-super/menu-super.component';
 import { RecepcionarPedidoComponent } from './cocinero/recepcionar-pedido/recepcionar-pedido.component';
+import { PedidoProvComponent } from './proveedor/pedido-prov/pedido-prov.component';
 
 const routes: Routes = [
   // path para administradores
@@ -88,6 +89,7 @@ const routes: Routes = [
       } },
       { path: 'dashboard', component: DashboardProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Administración' } },
       { path: 'pedidos', component: PedidosProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedidos' } },
+        { path: 'pedidos/:id', component: PedidoProvComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Pedido' } },
       { path: 'ingredientes', component: IngredientesProveedorComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingredientes' } },
         { path: 'ingredientes/:id', component: IngredienteProvComponent, canActivate: [AuthGuard], data: { rol: 'ROL_PROVEEDOR', titulo: 'Ingrediente' } },
       { path: '**', redirectTo: 'dashboard'}

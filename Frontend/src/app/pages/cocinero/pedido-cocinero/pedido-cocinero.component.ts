@@ -86,6 +86,7 @@ export class PedidoCocineroComponent implements OnInit {
       this.datosFormEdit.get('uid')?.setValue(this.uid);
       this.datosFormEdit.get('fecha_esperada')?.setValue(currentDate);
       this.datosFormEdit.get('proveedor')?.setValue(pedido.proveedor.nombre);
+      this.datosFormEdit.get('anotaciones')?.setValue(pedido.anotaciones);
       this.proveedorIng = pedido.proveedor;
       this.ing_pedidos = pedido.ingredientes;
       this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_pedidos);

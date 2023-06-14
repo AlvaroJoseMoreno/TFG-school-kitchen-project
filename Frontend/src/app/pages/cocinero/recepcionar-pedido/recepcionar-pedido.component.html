@@ -3,12 +3,23 @@
       <div class="card">
           <div>
             <div class="pedidos_datos">
-              <h2 style="margin-bottom: 0;"> {{nombre_pedido}} </h2>
-              <h4> {{estado}}</h4>
+              <div>
+                <h1 style="margin-bottom: 0; margin-top: .5em;"><b>{{nombre_pedido}}</b> </h1>
+                <h4> <b>Estado:</b> {{estado}}</h4>
+              </div>
+              <div>
+                <h3 style="margin-bottom: 0; margin-top: .5em;"><b>Proveedor:</b> {{proveedor}}</h3>
+                <h4><b>Tipo:</b> {{tipo_proveedor}}</h4>
+              </div>
+            </div>
+            <div style="padding-left: 1.5em;">
+              <p><b>Fecha de pedido:</b> {{pedido?.fecha_pedido | date : 'dd/MM/yyyy'}}</p>
+              <p><b>Fecha esperada:</b> {{pedido?.fecha_esperada | date : 'dd/MM/yyyy'}}</p>
             </div>
               <!-- Creamos Pedidos-->
               <form class="form-horizontal m-t-20" *ngIf="!wait_form" [formGroup]="datosForm" (ngSubmit)="enviarRecepcion()">
-                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <h2 style="padding-left: 20px; margin-bottom: 0.5em;"> <b>Ingredientes:</b></h2>
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                       <!-- Position Column -->
                       <ng-container style="width: 25%;" matColumnDef="nombre">
                         <th mat-header-cell *matHeaderCellDef> Ingrediente </th>

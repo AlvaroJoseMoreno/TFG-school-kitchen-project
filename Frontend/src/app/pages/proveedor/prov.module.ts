@@ -14,6 +14,7 @@ import { DashboardProveedorComponent } from './dashboard-proveedor/dashboard-pro
 import { IngredientesProvPedidos, PedidosProveedorComponent } from './pedidos-proveedor/pedidos-proveedor.component';
 import { IngredientesProveedorComponent } from './ingredientes-proveedor/ingredientes-proveedor.component';
 import { IngredienteProvComponent } from './ingrediente-prov/ingrediente-prov.component';
+import { PedidoProvComponent } from './pedido-prov/pedido-prov.component';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -22,7 +23,8 @@ import { IngredienteProvComponent } from './ingrediente-prov/ingrediente-prov.co
     PedidosProveedorComponent,
     IngredientesProveedorComponent,
     IngredienteProvComponent,
-    IngredientesProvPedidos
+    IngredientesProvPedidos,
+    PedidoProvComponent
   ],
   exports: [
     DashboardProveedorComponent,

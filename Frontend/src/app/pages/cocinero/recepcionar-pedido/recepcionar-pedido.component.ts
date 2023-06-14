@@ -20,6 +20,8 @@ export class RecepcionarPedidoComponent implements OnInit {
   public wait_form = false;
   public pedido: Pedido | null = null;
   public estado: String | undefined = '';
+  public proveedor: string | undefined = '';
+  public tipo_proveedor: string | undefined = '';
   public nombre_pedido = '';
   public cantidad_pedida: number [] = [];
   public cantidad_recepcionada: number [] = [];
@@ -51,6 +53,8 @@ export class RecepcionarPedidoComponent implements OnInit {
       this.cantidad_recepcionada = res['pedidos'].cantidad_recepcionada;
       this.nombre_pedido = res['pedidos'].nombre;
       this.estado = this.pedido?.estado;
+      this.tipo_proveedor = this.setTypeProveedor(this.pedido?.proveedor.tipo_proveedor);
+      this.proveedor = this.pedido?.proveedor.nombre;
       for(let i = 0; i < this.cantidad_pedida.length; i++){
         this.cantidad_enviar.push(0);
       }
@@ -115,6 +119,33 @@ export class RecepcionarPedidoComponent implements OnInit {
     this.formValid = true;
     this.datosForm.get('cantidad')?.setValue(this.cantidad_enviar);
     console.log(this.datosForm);
+  }
+
+  setTypeProveedor(tipo: any): string{
+    let tipo_proveedor = '';
+    switch (tipo) {
+      case 'CARNE':
+        tipo_proveedor = 'carne'
+        break;
+      case 'PESCADO':
+        tipo_proveedor = 'pescado'
+        break;
+      case 'FRUTAVERDURA':
+        tipo_proveedor = 'fruta y verdura'
+        break;
+      case 'LACTEOS':
+        tipo_proveedor = 'lacteos'
+        break;
+      case 'ESPECIAS':
+        tipo_proveedor = 'especias'
+        break;
+      case 'DULCES':
+        tipo_proveedor = 'dulces'
+        break;
+      default:
+        break;
+    }
+    return tipo_proveedor;
   }
 
   cancelar() {

@@ -34,7 +34,7 @@ const getPedidos = async(req, res = response) => {
             .populate('ingredientes', '-__v'),
                 Pedido.countDocuments({_id: id}),
             ]);
-            if(infoToken(token).uid.token === pedidos.proveedor._id.toString()){
+            if(infoToken(token).uid === pedidos.proveedor._id.toString()){
                 pedidos.visto_por = true;
                 await pedidos.save();
             }

@@ -28,4 +28,11 @@ th.mat-header-cell{
 .pedidos_datos {
   padding-left: 1.5em;
   padding-top: 0.5em;
+  padding-right: 1.5em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.pedidos_datos > div {
+  width: 43%;
 }
