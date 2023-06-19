@@ -31,11 +31,11 @@
   </form>
 </div>
 
-<div class="class_div_title">
-  <h2 *ngIf="length == 0"> No hay menús que cumplan estos requisitos </h2>
+<mat-spinner *ngIf="wait_form"></mat-spinner>
+<div *ngIf="length == 0 && !wait_form" class="class_div_title">
+  <h2> No hay menús que cumplan estos requisitos </h2>
 </div>
-
-<table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table *ngIf="length > 0 && !wait_form" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <!-- Position Column -->
   <ng-container matColumnDef="Dia">
     <th mat-header-cell *matHeaderCellDef> Dia </th>

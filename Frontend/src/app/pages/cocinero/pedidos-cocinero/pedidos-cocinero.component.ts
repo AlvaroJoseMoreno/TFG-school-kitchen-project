@@ -26,6 +26,7 @@ export class PedidosCocineroComponent implements OnInit {
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
   public dataSource2: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     texto: [''],
@@ -50,7 +51,7 @@ export class PedidosCocineroComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido',
-                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
+                                'Estado', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private pedidosservicio: PedidoService,
@@ -93,22 +94,20 @@ export class PedidosCocineroComponent implements OnInit {
   getPedidos(){
     const texto = this.searchForm.get('texto')?.value || '';
     const estado = this.searchForm.get('estado')?.value || '';
-
+    this.wait_form = true;
     this.pedidosservicio.getPedidos(texto, this.usuarioservicio.colegio, estado).subscribe((res: any) => {
-        this.pedidos = res['pedidos'];
-        this.length = res['pedidos'].length;
-        this.dataSource = new MatTableDataSource<Pedido>(this.pedidos);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.pedidos = res['pedidos'];
+      this.length = res['pedidos'].length;
+      this.dataSource = new MatTableDataSource<Pedido>(this.pedidos);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

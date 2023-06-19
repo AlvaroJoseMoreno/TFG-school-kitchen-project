@@ -27,11 +27,11 @@
   </form>
 </div>
 
-<div class="class_div_title">
-  <h2 *ngIf="length == 0"> No hay pedidos que cumplan estos requisitos </h2>
+<div *ngIf="length == 0 && !wait_form" class="class_div_title">
+  <h2> No hay pedidos que cumplan estos requisitos </h2>
 </div>
-
-<table *ngIf="length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-spinner *ngIf="wait_form"></mat-spinner>
+<table *ngIf="length > 0 && !wait_form" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Position Column -->
   <ng-container matColumnDef="Nombre">

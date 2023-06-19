@@ -124,6 +124,33 @@ export class UsuarioService {
     return this.validar(false, true);
   }
 
+  setTypeProveedor(tipo: any): string{
+    let tipo_proveedor = '';
+    switch (tipo) {
+      case 'CARNE':
+        tipo_proveedor = 'Carne'
+        break;
+      case 'PESCADO':
+        tipo_proveedor = 'Pescado'
+        break;
+      case 'FRUTAVERDURA':
+        tipo_proveedor = 'Fruta y verdura'
+        break;
+      case 'LACTEOS':
+        tipo_proveedor = 'Lacteos'
+        break;
+      case 'ESPECIAS':
+        tipo_proveedor = 'Especias'
+        break;
+      case 'DULCES':
+        tipo_proveedor = 'Dulces'
+        break;
+      default:
+        break;
+    }
+    return tipo_proveedor;
+  }
+
   get cabeceras() {
     return {
       headers: {

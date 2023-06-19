@@ -15,6 +15,7 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { ComensalesCocineroComponent } from './comensales-cocinero/comensales-cocinero.component';
 import { PedidoCocineroComponent } from './pedido-cocinero/pedido-cocinero.component';
 import { RecepcionarPedidoComponent } from './recepcionar-pedido/recepcionar-pedido.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -44,7 +45,8 @@ import { RecepcionarPedidoComponent } from './recepcionar-pedido/recepcionar-ped
     MatAutocompleteModule,
     MatDialogModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ]
 })
 export class CocineroModule { }

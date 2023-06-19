@@ -21,6 +21,7 @@ export class UsuariosSuperComponent implements OnInit {
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     text: [''],
@@ -43,7 +44,7 @@ export class UsuariosSuperComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Colegio', 'borrar'];
+  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Tipo','Colegio', 'borrar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private paginator1: MatPaginatorIntl,
@@ -64,23 +65,20 @@ export class UsuariosSuperComponent implements OnInit {
   getUsuarios(){
     const texto = this.searchForm.get('text')?.value || '';
     const rol = this.searchForm.get('rol')?.value || '';
-
+    this.wait_form = true;
     this.usuarioservicio.getUsuarios(texto, rol, this.usuarioservicio.colegio).subscribe((res: any) => {
-        console.log(res);
-        this.usuarios = res['usuarios'];
-        this.length = res['usuarios'].length;
-        this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.usuarios = res['usuarios'];
+      this.length = res['usuarios'].length;
+      this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 
@@ -127,6 +125,10 @@ export class UsuariosSuperComponent implements OnInit {
   borrar() {
     this.searchForm.controls['text'].reset();
     this.searchForm.controls['rol'].setValue('');
+  }
+
+  setTypeProveedor(tipo: string): string{
+    return this.usuarioservicio.setTypeProveedor(tipo);
   }
 
 }

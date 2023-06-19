@@ -24,6 +24,7 @@ export class PlatosSuperComponent implements OnInit {
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     texto: [''],
@@ -45,7 +46,7 @@ export class PlatosSuperComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Categoria', 'Colegio', 'Ingredientes', 'Coste', 'borrar'];
+  displayedColumns: string[] = ['Nombre', 'Categoria', 'Ingredientes', 'Coste', 'borrar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private platoServicio: PlatoService,
@@ -68,22 +69,20 @@ export class PlatosSuperComponent implements OnInit {
 
   getPlatos(){
     const texto = this.searchForm.get('texto')?.value || '';
-
+    this.wait_form = true;
     this.platoServicio.getPlatos(texto, this.usuarioservicio.colegio).subscribe((res: any) => {
-        this.platos = res['platos'];
-        this.length = res['platos'].length;
-        this.dataSource = new MatTableDataSource<Plato>(this.platos);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.platos = res['platos'];
+      this.length = res['platos'].length;
+      this.dataSource = new MatTableDataSource<Plato>(this.platos);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

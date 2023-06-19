@@ -22,6 +22,7 @@ export class MenusSuperComponent implements OnInit {
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     dia: [''],
@@ -66,21 +67,20 @@ export class MenusSuperComponent implements OnInit {
   getMenus(){
     const dia = this.searchForm.get('dia')?.value || undefined;
     const tipo = this.searchForm.get('tipo')?.value || '';
-
+    this.wait_form = true;
     this.menuservicio.getMenus(dia, this.usuarioservicio.colegio, tipo).subscribe((res: any) => {
-        this.menus = res['menus'];
-        this.length = res['menus'].length;
-        this.dataSource = new MatTableDataSource<Menu>(this.menus);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
+      this.menus = res['menus'];
+      this.length = res['menus'].length;
+      this.dataSource = new MatTableDataSource<Menu>(this.menus);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

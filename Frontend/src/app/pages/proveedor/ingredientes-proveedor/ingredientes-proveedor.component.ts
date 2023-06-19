@@ -22,6 +22,7 @@ export class IngredientesProveedorComponent implements OnInit {
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     texto: ['']
@@ -64,22 +65,20 @@ export class IngredientesProveedorComponent implements OnInit {
 
   getIngredientes(){
     const texto = this.searchForm.get('texto')?.value || '';
-
+    this.wait_form = true;
     this.ingredienteservicio.getIngredientes(texto, this.usuarioservicio.uid).subscribe((res: any) => {
-        this.ingredientes = res['ingredientes'];
-        this.length = res['ingredientes'].length;
-        this.dataSource = new MatTableDataSource<Ingrediente>(this.ingredientes);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.ingredientes = res['ingredientes'];
+      this.length = res['ingredientes'].length;
+      this.dataSource = new MatTableDataSource<Ingrediente>(this.ingredientes);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

@@ -51,7 +51,7 @@ export class UsuariosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Colegio', 'borrar'];
+  displayedColumns: string[] = ['Nombre', 'Email', 'Rol', 'Colegio', 'Ciudad', 'Tipo', 'borrar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private paginator1: MatPaginatorIntl,
@@ -171,6 +171,10 @@ export class UsuariosComponent implements OnInit {
     this.searchForm.controls['text'].reset();
     this.searchForm.controls['rol'].setValue('');
     this.searchForm.controls['colegio'].setValue('');
+  }
+
+  setTypeProveedor(tipo: string): string{
+    return this.usuarioservicio.setTypeProveedor(tipo);
   }
 
 }

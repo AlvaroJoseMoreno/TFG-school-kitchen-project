@@ -22,6 +22,7 @@ import { PlatoSuperComponent } from './plato-super/plato-super.component';
 import { MenuSuperComponent } from './menu-super/menu-super.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -61,7 +62,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTabsModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SuperModule { }

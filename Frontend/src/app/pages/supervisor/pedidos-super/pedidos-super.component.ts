@@ -9,7 +9,6 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { IngredienteService } from 'src/app/servicios/ingrediente.service';
 import { FicherosService } from 'src/app/servicios/ficheros.service';
 import { Router } from '@angular/router';
 
@@ -29,6 +28,7 @@ export class PedidosSuperComponent implements OnInit {
   public dataSource: any;
   public dataSource2: any;
   public imagenes: string [] = [];
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     texto: [''],
@@ -96,22 +96,20 @@ export class PedidosSuperComponent implements OnInit {
   getPedidos(){
     const texto = this.searchForm.get('texto')?.value || '';
     const estado = this.searchForm.get('estado')?.value || '';
-
+    this.wait_form = true;
     this.pedidosservicio.getPedidos(texto, this.usuarioservicio.colegio, estado).subscribe((res: any) => {
-        this.pedidos = res['pedidos'];
-        this.length = res['pedidos'].length;
-        this.dataSource = new MatTableDataSource<Pedido>(this.pedidos);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.pedidos = res['pedidos'];
+      this.length = res['pedidos'].length;
+      this.dataSource = new MatTableDataSource<Pedido>(this.pedidos);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

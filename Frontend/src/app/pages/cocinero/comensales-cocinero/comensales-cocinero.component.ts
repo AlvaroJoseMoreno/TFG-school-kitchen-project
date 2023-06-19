@@ -22,6 +22,7 @@ export class ComensalesCocineroComponent implements OnInit {
   public pageIndex = 0;
   public pageSizeOptions = [5, 10, 25];
   public dataSource: any;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     fecha: ['']
@@ -64,22 +65,20 @@ export class ComensalesCocineroComponent implements OnInit {
 
   getComensales(){
     const texto = this.searchForm.get('fecha')?.value || undefined;
-    console.log(this.usuarioservice.colegio);
-    this.comensaleservicio.getComensales(texto, '642a9fbef47760849735ed99').subscribe((res: any) => {
-        this.comensales = res['comensales'];
-        this.length = res['comensales'].length;
-        this.dataSource = new MatTableDataSource<Comensal>(this.comensales);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+    this.wait_form = true;
+    this.comensaleservicio.getComensales(texto, this.usuarioservice.colegio).subscribe((res: any) => {
+      this.comensales = res['comensales'];
+      this.length = res['comensales'].length;
+      this.dataSource = new MatTableDataSource<Comensal>(this.comensales);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

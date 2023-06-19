@@ -15,6 +15,7 @@ import { IngredientesProvPedidos, PedidosProveedorComponent } from './pedidos-pr
 import { IngredientesProveedorComponent } from './ingredientes-proveedor/ingredientes-proveedor.component';
 import { IngredienteProvComponent } from './ingrediente-prov/ingrediente-prov.component';
 import { PedidoProvComponent } from './pedido-prov/pedido-prov.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -43,7 +44,8 @@ import { PedidoProvComponent } from './pedido-prov/pedido-prov.component';
     MatAutocompleteModule,
     MatDialogModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ProveedorModule { }

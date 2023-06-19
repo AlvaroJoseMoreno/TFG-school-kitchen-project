@@ -70,3 +70,12 @@ th.mat-header-cell{
   background: white;
   padding: 15px;
 }
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #940BAA;
+  margin: auto;
+}
+
+::ng-deep .mat-spinner {
+  margin: auto;
+}
