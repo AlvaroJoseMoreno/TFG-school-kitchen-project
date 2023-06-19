@@ -103,6 +103,8 @@ export class IngredientesComponent implements OnInit {
         return `página ${start} - ${end} de ${length}`;
       };
       this.wait_form = false;
+    }, (err) => {
+      this.wait_form = false;
     });
   }
 

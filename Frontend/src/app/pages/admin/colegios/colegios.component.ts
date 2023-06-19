@@ -91,19 +91,19 @@ export class ColegiosComponent implements OnInit {
     if(this.searchForm.get('provincia')?.value.length > 0 && provincia == '') { return; }
     this.wait_form = true;
     this.colegioservicio.getColegios(texto, provincia).subscribe((res: any) => {
-        this.colegios = res['colegios'];
-        this.length = res['colegios'].length;
-        this.dataSource = new MatTableDataSource<Colegio>(this.colegios);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
+      this.colegios = res['colegios'];
+      this.length = res['colegios'].length;
+      this.dataSource = new MatTableDataSource<Colegio>(this.colegios);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
+    }, (err) => {
       this.wait_form = false;
     });
   }

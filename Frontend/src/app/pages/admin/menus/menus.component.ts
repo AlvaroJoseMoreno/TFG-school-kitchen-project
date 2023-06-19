@@ -91,11 +91,9 @@ export class MenusComponent implements OnInit {
     const dia = this.searchForm.get('dia')?.value || undefined;
     const colegio = this.obtainColegioId();
     const tipo = this.searchForm.get('tipo')?.value || '';
-
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
     this.wait_form = true;
     this.menuservicio.getMenus(dia, colegio, tipo).subscribe((res: any) => {
-      console.log(res);
       this.menus = res['menus'];
       this.length = this.menus.length;
       this.dataSource = new MatTableDataSource<Menu>(this.menus);
@@ -108,9 +106,8 @@ export class MenusComponent implements OnInit {
         return `página ${start} - ${end} de ${length}`;
       };
       this.wait_form = false;
-      console.log(this.length)
     }, (err) =>{
-      console.log(err);
+      this.wait_form = false;
     });
   }
 

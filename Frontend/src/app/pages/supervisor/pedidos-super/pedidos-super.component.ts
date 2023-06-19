@@ -53,7 +53,7 @@ export class PedidosSuperComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido',
-                                'Estado', 'Colegio', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
+                                'Estado', 'Ingredientes', 'Precio', 'borrar', 'recepcionar'];
 
   constructor(private usuarioservicio: UsuarioService,
               private pedidosservicio: PedidoService,
@@ -109,6 +109,8 @@ export class PedidosSuperComponent implements OnInit {
         end = length
         return `página ${start} - ${end} de ${length}`;
       };
+      this.wait_form = false;
+    }, (err) => {
       this.wait_form = false;
     });
   }

@@ -13,6 +13,7 @@ export class DashboardProveedorComponent implements OnInit {
   public total_pedidos = 0;
   public total_pedidos_no_vistos = 0;
   public total_ingredientes = 0;
+  public total_dinero = 0;
 
   constructor(private usuarioservicio: UsuarioService,
               private ingredienteservicio: IngredienteService,
@@ -25,7 +26,6 @@ export class DashboardProveedorComponent implements OnInit {
 
   getIngredientes(){
     this.ingredienteservicio.getIngredientes('', this.usuarioservicio.uid).subscribe((res: any) => {
-      console.log(res);
       this.total_ingredientes = res['total'];
     }, (err) => {
       console.log(err);
@@ -34,9 +34,11 @@ export class DashboardProveedorComponent implements OnInit {
 
   getPedidosTotales(){
     this.pedidoservicio.getPedidosMetricas(this.usuarioservicio.uid).subscribe((res: any) => {
-      console.log(res);
       this.total_pedidos = res['total_p'];
       this.total_pedidos_no_vistos = res['total'];
+      for(let i = 0; i < res['total_pedidos'].length; i++){
+        this.total_dinero += res['total_pedidos'][i].precio;
+      }
     }, (err) => {
       console.log(err);
     })
