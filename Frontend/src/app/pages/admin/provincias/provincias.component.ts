@@ -34,6 +34,7 @@ export class ProvinciasComponent implements OnInit {
   public disabled = false;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public pageEvent: PageEvent | undefined;
+  public wait_form = false;
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -63,22 +64,20 @@ export class ProvinciasComponent implements OnInit {
 
   getProvincias(){
     const texto = this.searchForm.get('text')?.value || '';
-
+    this.wait_form = true;
     this.provinciaservicio.getProvincias(texto).subscribe((res: any) => {
-        this.provincias = res['provincias'];
-        this.length = res['provincias'].length;
-        this.dataSource = new MatTableDataSource<Provincia>(this.provincias);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.provincias = res['provincias'];
+      this.length = res['provincias'].length;
+      this.dataSource = new MatTableDataSource<Provincia>(this.provincias);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

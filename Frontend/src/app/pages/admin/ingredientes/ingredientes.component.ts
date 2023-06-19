@@ -27,6 +27,7 @@ export class IngredientesComponent implements OnInit {
   public dataSource: any;
   public filterProveedor = new FormControl();
   public filteredOptions!: Observable<Usuario[]>;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     texto: [''],
@@ -87,24 +88,21 @@ export class IngredientesComponent implements OnInit {
   getIngredientes(){
     const texto = this.searchForm.get('texto')?.value || '';
     const proveedor = this.obtainProveedorId();
-
     if(this.searchForm.get('proveedor')?.value.length > 0 && proveedor == '') { return; }
-
+    this.wait_form = true;
     this.ingredienteservicio.getIngredientes(texto, proveedor).subscribe((res: any) => {
-        this.ingredientes = res['ingredientes'];
-        this.length = res['ingredientes'].length;
-        this.dataSource = new MatTableDataSource<Ingrediente>(this.ingredientes);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.ingredientes = res['ingredientes'];
+      this.length = res['ingredientes'].length;
+      this.dataSource = new MatTableDataSource<Ingrediente>(this.ingredientes);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

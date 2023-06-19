@@ -26,6 +26,7 @@ export class ColegiosComponent implements OnInit {
   public dataSource: any;
   public filterProvince = new FormControl();
   public filteredOptions!: Observable<Provincia[]>;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     text: [''],
@@ -87,9 +88,8 @@ export class ColegiosComponent implements OnInit {
   getColegios(){
     const texto = this.searchForm.get('text')?.value || '';
     const provincia = this.obtainProvinceId();
-
     if(this.searchForm.get('provincia')?.value.length > 0 && provincia == '') { return; }
-
+    this.wait_form = true;
     this.colegioservicio.getColegios(texto, provincia).subscribe((res: any) => {
         this.colegios = res['colegios'];
         this.length = res['colegios'].length;
@@ -104,7 +104,7 @@ export class ColegiosComponent implements OnInit {
 
           return `página ${start} - ${end} de ${length}`;
         };
-      console.log(res);
+      this.wait_form = false;
     });
   }
 

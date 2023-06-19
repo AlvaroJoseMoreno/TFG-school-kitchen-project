@@ -9,6 +9,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { FicherosService } from 'src/app/servicios/ficheros.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pedidos-proveedor',
@@ -47,13 +48,14 @@ export class PedidosProveedorComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Proveedor', 'Usuario_pedido', 'Estado', 'Colegio', 'Ingredientes', 'Precio'];
+  displayedColumns: string[] = ['Nombre', 'Fecha_pedido', 'Fecha_esperada', 'Usuario_pedido', 'Estado', 'Ingredientes', 'Precio'];
 
   constructor(private usuarioservicio: UsuarioService,
               private pedidosservicio: PedidoService,
               private ficheroservicio: FicherosService,
               private paginator1: MatPaginatorIntl,
               private fb: FormBuilder,
+              private route: ActivatedRoute,
               public dialog: MatDialog) {
                 this.paginator1.itemsPerPageLabel = "Registros por página";
                }
@@ -73,8 +75,8 @@ export class PedidosProveedorComponent implements OnInit {
   getPedidos(){
     const texto = this.searchForm.get('texto')?.value || '';
     const estado = this.searchForm.get('estado')?.value || '';
-
-    this.pedidosservicio.getPedidosProveedor(texto, this.usuarioservicio.uid, estado).subscribe((res: any) => {
+    const visto = this.route.snapshot.queryParams['visto_por'];
+    this.pedidosservicio.getPedidosProveedor(texto, this.usuarioservicio.uid, estado, visto).subscribe((res: any) => {
         this.pedidos = res['pedidos'];
         this.length = res['pedidos'].length;
         this.dataSource = new MatTableDataSource<Pedido>(this.pedidos);

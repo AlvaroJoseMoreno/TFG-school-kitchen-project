@@ -27,6 +27,7 @@ export class UsuariosComponent implements OnInit {
   public dataSource: any;
   public filterColegio = new FormControl();
   public filteredOptions!: Observable<Colegio[]>;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     text: [''],
@@ -90,24 +91,21 @@ export class UsuariosComponent implements OnInit {
     const texto = this.searchForm.get('text')?.value || '';
     const rol = this.searchForm.get('rol')?.value || '';
     const colegio = this.obtainColegioId() || '';
-
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
-
+    this.wait_form = true;
     this.usuarioservicio.getUsuarios(texto, rol, colegio).subscribe((res: any) => {
-        this.usuarios = res['usuarios'];
-        this.length = res['usuarios'].length;
-        this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.usuarios = res['usuarios'];
+      this.length = res['usuarios'].length;
+      this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+        if(end > length)
+          end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

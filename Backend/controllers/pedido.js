@@ -15,6 +15,7 @@ const getPedidos = async(req, res = response) => {
     const proveedor = req.query.proveedor || '';
     const colegio = req.query.colegio || '';
     const status = req.query.estado || '';
+    const visto = req.query.visto_por || ''
     let query = "{";
     let total = 0;
     try {
@@ -59,6 +60,10 @@ const getPedidos = async(req, res = response) => {
                 query += `"$or": [{"nombre": {"$regex": ".*${text}.*", "$options": "i"}},
                                   {"anotaciones": {"$regex": ".*${text}.*", "$options": "i"}}]`;
             }
+            if(visto === 'false'){
+                if(proveedor != '' || colegio != '' || status != '' || text != '' ) { query += "," };
+                query += `"visto_por":` + false +``;
+            }
             query += "}";
             const queryJSON = JSON.parse(query);
             [pedidos, total] = await Promise.all([Pedido.find(queryJSON).sort({ nombre: -1 })
@@ -72,6 +77,48 @@ const getPedidos = async(req, res = response) => {
             message: 'Aquí están los pedidos',
             pedidos,
             total
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error obteniendo los pedidos'
+        });
+    }
+}
+
+const getPedidosByProveedor = async(req, res = response) => {
+    
+    const proveedor = req.query.proveedor || '';
+    let query = { proveedor: proveedor, visto_por: false }
+    let total = 0; let total_p = 0;
+    try {
+        const token = req.header('x-token');
+
+        if (infoToken(token).rol !== 'ROL_PROVEEDOR') {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tienes permisos para realizar esta acción',
+            });
+        }
+
+        let pedidos = [];
+
+        [pedidos, total] = await Promise.all([Pedido.find(query).sort({ nombre: -1 }),
+            Pedido.countDocuments(query)
+        ]);
+
+        [total_pedidos, total_p] = await Promise.all([Pedido.find({proveedor: proveedor}).sort({ nombre: -1 }),
+            Pedido.countDocuments({proveedor: proveedor})
+        ]);
+
+        res.json({
+            ok: true,
+            message: 'Aquí están los pedidos',
+            pedidos,
+            total_pedidos,
+            total,
+            total_p
         });
     } catch (error) {
         console.log(error);
@@ -466,4 +513,4 @@ const borrarPedido = async(req, res = response) => {
 
 }
 
-module.exports = { getPedidos, crearPedidos, updatePedido, recepcionarPedido, borrarPedido }
+module.exports = { getPedidos, getPedidosByProveedor, crearPedidos, updatePedido, recepcionarPedido, borrarPedido }

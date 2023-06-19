@@ -23,7 +23,7 @@ export class PedidoService {
     return this.http.get(`${environment.base_url}/pedidos/${query}`, this.cabeceras);
   }
 
-  getPedidosProveedor( texto?: string, proveedor?: string, estado?: string ): Observable<object> {
+  getPedidosProveedor( texto?: string, proveedor?: string, estado?: string, visto_por?: string): Observable<object> {
 
     let query = '';
     if (texto != '' || proveedor != '' || estado != ''){
@@ -32,8 +32,14 @@ export class PedidoService {
     if (texto != '') {query += `&texto=${texto}`;}
     if (proveedor != '') { query += `&proveedor=${proveedor}`; }
     if (estado != '') { query += `&estado=${estado}`; }
+    if (visto_por != '') { query += `&visto_por=${visto_por}`; }
 
     return this.http.get(`${environment.base_url}/pedidos/${query}`, this.cabeceras);
+  }
+
+  getPedidosMetricas(proveedor: string): Observable<object> {
+    let query = `?proveedor=${proveedor}`;
+    return this.http.get(`${environment.base_url}/pedidos/pedidosProveedor/${query}`, this.cabeceras);
   }
 
   getPedido( uid: string): Observable<object> {

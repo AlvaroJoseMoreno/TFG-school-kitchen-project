@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getPedidos, crearPedidos, borrarPedido, updatePedido, recepcionarPedido } = require('../controllers/pedido');
+const { getPedidos, crearPedidos, borrarPedido, updatePedido, recepcionarPedido, getPedidosByProveedor } = require('../controllers/pedido');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar_jwt');
@@ -13,6 +13,8 @@ router.get('/', [
     check('text', 'La busqueda debe contener texto').optional().trim(),
     validarCampos
 ], getPedidos);
+
+router.get('/pedidosProveedor', validarJWT, getPedidosByProveedor);
 
 router.post('/', [
     validarJWT,

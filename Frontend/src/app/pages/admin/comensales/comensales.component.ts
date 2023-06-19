@@ -26,6 +26,7 @@ export class ComensalesComponent implements OnInit {
   public dataSource: any;
   public filterColegio = new FormControl();
   public filteredOptions!: Observable<Colegio[]>;
+  public wait_form = false;
 
   public searchForm = this.fb.group({
     fecha: [''],
@@ -88,22 +89,20 @@ export class ComensalesComponent implements OnInit {
     const colegio = this.obtainColegioId();
 
     if(this.searchForm.get('colegio')?.value.length > 0 && colegio == '') { return; }
-
+    this.wait_form = true;
     this.comensaleservicio.getComensales(texto, colegio).subscribe((res: any) => {
-        this.comensales = res['comensales'];
-        this.length = res['comensales'].length;
-        this.dataSource = new MatTableDataSource<Comensal>(this.comensales);
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-          const start = page * pageSize + 1;
-          let end = (page + 1) * pageSize;
-
-          if(end > length)
-            end = length
-
-          return `página ${start} - ${end} de ${length}`;
-        };
-      console.log(res);
+      this.comensales = res['comensales'];
+      this.length = res['comensales'].length;
+      this.dataSource = new MatTableDataSource<Comensal>(this.comensales);
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      const start = page * pageSize + 1;
+      let end = (page + 1) * pageSize;
+      if(end > length)
+        end = length
+        return `página ${start} - ${end} de ${length}`;
+      };
+      this.wait_form = false;
     });
   }
 

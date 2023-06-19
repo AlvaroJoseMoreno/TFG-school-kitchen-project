@@ -19,12 +19,11 @@
       </div>
   </form>
 </div>
-
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
+  <div *ngIf="length == 0 && !wait_form" class="class_div_title">
+    <h2> No hay provincias que cumplan estos requisitos </h2>
+  </div>
+  <mat-spinner *ngIf="wait_form"></mat-spinner>
+  <table *ngIf="length > 0 && !wait_form" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Position Column -->
     <ng-container class="col-4" matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>

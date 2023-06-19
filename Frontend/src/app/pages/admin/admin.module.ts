@@ -26,6 +26,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { ProvinciaComponent } from './provincia/provincia.component';
 import { ColegioComponent } from './colegio/colegio.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -72,7 +73,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTabsModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AdminModule { }

@@ -47,12 +47,11 @@
       </div>
   </form>
 </div>
-
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
+<div *ngIf="length == 0 && !wait_form" class="class_div_title">
+  <h2> No hay usuarios que cumplan estos requisitos </h2>
+</div>
+<mat-spinner *ngIf="wait_form"></mat-spinner>
+<table *ngIf="length > 0 && !wait_form" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Position Column -->
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
@@ -110,7 +109,7 @@
                (page)="handlePageEvent($event)"
                [length]="length"
                [pageSize]="pageSize"
-               [disabled]="disabled"
+               [disabled]="wait_form"
                [showFirstLastButtons]="showFirstLastButtons"
                [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
                [hidePageSize]="hidePageSize"

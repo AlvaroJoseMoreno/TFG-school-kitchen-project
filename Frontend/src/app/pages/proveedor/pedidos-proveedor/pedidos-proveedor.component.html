@@ -55,15 +55,6 @@
     </td>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="Proveedor">
-    <th mat-header-cell *matHeaderCellDef> Proveedor </th>
-    <td mat-cell *matCellDef="let element" [routerLink]="['/prov/pedidos', element.uid]">
-      <div *ngIf="element.proveedor"> {{element.proveedor.nombre}} </div>
-      <div *ngIf="!element.proveedor"> - </div>
-    </td>
-  </ng-container>
-
   <ng-container matColumnDef="Usuario_pedido">
     <th mat-header-cell *matHeaderCellDef> Pedido por </th>
     <td mat-cell *matCellDef="let element" [routerLink]="['/prov/pedidos', element.uid]">
@@ -77,15 +68,6 @@
     <th mat-header-cell *matHeaderCellDef> Estado </th>
     <td mat-cell *matCellDef="let element" [routerLink]="['/prov/pedidos', element.uid]">
       {{element.estado}}
-    </td>
-  </ng-container>
-
-  <!-- Weight Column -->
-  <ng-container matColumnDef="Colegio">
-    <th mat-header-cell *matHeaderCellDef> Colegio </th>
-    <td mat-cell *matCellDef="let element" [routerLink]="['/prov/pedidos', element.uid]">
-      <div *ngIf="element.colegio"> {{element.colegio.nombre}} </div>
-      <div *ngIf="!element.colegio"> - </div>
     </td>
   </ng-container>
 

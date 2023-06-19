@@ -59,6 +59,17 @@ export class ProvinciaComponent implements OnInit {
 
   editarProvincia(){
     console.log(this.datosFormEdit);
+    Swal.fire({
+      title: 'Provincia editada',
+      text: `La provincia Álava ha sido editada con éxito`,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigateByUrl('admin/provincias');
+      }
+    });
   }
 
   campoNoValido( campo: string) {

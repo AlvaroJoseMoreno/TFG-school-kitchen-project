@@ -41,13 +41,16 @@
                       <ng-container matColumnDef="cantidad_enviar">
                         <th mat-header-cell *matHeaderCellDef> Recibida </th>
                         <td class="cantidadPed" mat-cell *matCellDef="let element; let i = index"> {{element.cantidad}}
-                          <input type="number" [disabled]="cantidad_pedida[i] == cantidad_recepcionada[i]" value="0" [max]="cantidad_pedida[i] - cantidad_recepcionada[i]"
+                          <input *ngIf="cantidad_recepcionada[i] !== cantidad_pedida[i]" type="number" [disabled]="cantidad_pedida[i] == cantidad_recepcionada[i]" value="0" [max]="cantidad_pedida[i] - cantidad_recepcionada[i]"
                             [min]="0" (keyup)="setInputCantidad(element._id, i)" placeholder="Cantidad *"
                             [ngClass]="{'is-invalid': cantidad_recepcionada[i] + cantidad_enviar[i] > cantidad_pedida[i] }"
                             [id]="element._id"
                             class="form-control cantidad_ing">
                           <div class="invalid-feedback">
                             Valor no válido
+                          </div>
+                          <div *ngIf="cantidad_recepcionada[i]=== cantidad_pedida[i]">
+                            {{cantidad_recepcionada[i]}}
                           </div>
                         </td>
                       </ng-container>
