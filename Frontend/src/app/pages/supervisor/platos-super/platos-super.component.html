@@ -59,6 +59,13 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="Alergenos">
+    <th mat-header-cell *matHeaderCellDef> Alérgenos </th>
+    <td mat-cell *matCellDef="let element">
+      {{element.alergenos.length}}
+    </td>
+  </ng-container>
+
   <!-- Weight Column -->
   <ng-container matColumnDef="Coste">
     <th mat-header-cell *matHeaderCellDef> Coste / ración </th>

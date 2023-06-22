@@ -1,1 +1,19 @@
 @import url('../../cocinero/pedido-cocinero/pedido-cocinero.component.css');
+::ng-deep .multiselect-dropdow .dropdown-btn .dropdown-multiselect__caret::before {
+  color: #940BAA !important;
+  border-color: #940BAA !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn {
+  border-color: #940BAA !important;
+}
+
+::ng-deep .dropdown-list{
+  border-color: #940BAA !important;
+  box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6) !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+  border-color: #940BAA !important;
+  background: #940BAA !important;;
+}

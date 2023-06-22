@@ -35,6 +35,15 @@ export class PlatoSuperComponent implements OnInit {
   public cantidad_ing: number [] = [];
   displayedColumns: string[] = ['nombre', 'unidad_medida', 'cantidad', 'borrar'];
   public dataSource: any;
+  public lista_alergenos = ['gluten', 'crustaceos', 'huevos', 'pescado', 'cacahuetes', 'soja', 'lacteos',
+                            'frutos', 'apio', 'mostaza', 'sesamo', 'sulfitos', 'altramuces', 'moluscos'];
+
+  dropdownSettings = {
+    singleSelection: false,
+    selectAllText: 'Selecciona todos',
+    unSelectAllText: 'Deselecciona todos',
+    allowSearchFilter: true
+  }
 
   // formulario con el que se creará un nuevo usuario
   public datosForm = this.fb.group({
@@ -45,6 +54,7 @@ export class PlatoSuperComponent implements OnInit {
     ingredientes: [''],
     ingerplatos: [[], Validators.required],
     cantidad_ingredientes: [[], Validators.required],
+    alergenos: [[]],
     colegio: ['']
   });
 
@@ -56,6 +66,7 @@ export class PlatoSuperComponent implements OnInit {
     ingredientes: [''],
     ingerplatos: [[], Validators.required],
     cantidad_ingredientes: [[], Validators.required],
+    alergenos: [[]],
     colegio: ['']
   });
 
@@ -84,6 +95,7 @@ export class PlatoSuperComponent implements OnInit {
       this.datosFormEdit.get('nombre')?.setValue(plato.nombre);
       this.datosFormEdit.get('receta')?.setValue(plato?.receta);
       this.datosFormEdit.get('categoria')?.setValue(plato.categoria);
+      this.datosFormEdit.get('alergenos')?.setValue(plato?.alergenos);
       this.ing_platos = plato.ingredientes;
       this.cantidad_ing = plato.cantidad_ingredientes;
       this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_platos);
@@ -119,7 +131,6 @@ export class PlatoSuperComponent implements OnInit {
           this.ingredientes.push(auxIngColegio[i]);
         }
       }
-      console.log('Ingredientes: ',this.ingredientes);
       this.filteredOptionsIngredientes = this.filterIngredientes.valueChanges.pipe(
         startWith(''),
         map(value => this.filtroIngredientes()),
@@ -136,7 +147,6 @@ export class PlatoSuperComponent implements OnInit {
 
   getInputCantidad(event: any, index: number){
     this.total_plato = 0;
-    console.log(event);
     let v = document.getElementById(event) as HTMLInputElement;
     this.cantidad_ing[index] = Number(v.value);
     for(let i = 0; i < this.cantidad_ing.length; i++){
@@ -152,7 +162,6 @@ export class PlatoSuperComponent implements OnInit {
       if(this.ingredientes[i].nombre == value_ing){
         this.ing_platos.push(this.ingredientes[i]);
         this.cantidad_ing.push(0);
-        console.log(this.ing_platos);
         this.ingredientes.splice(i, 1);
         this.dataSource = new MatTableDataSource<Ingrediente>(this.ing_platos);
         this.datosForm.get('ingredientes')?.setValue('') || this.datosFormEdit.get('ingredientes')?.setValue('');;

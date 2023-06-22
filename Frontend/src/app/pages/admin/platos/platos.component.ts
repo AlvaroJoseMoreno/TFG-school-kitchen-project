@@ -51,7 +51,7 @@ export class PlatosComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Categoria', 'Colegio', 'Ingredientes', 'Coste', 'borrar'];
+  displayedColumns: string[] = ['Nombre', 'Categoria', 'Colegio', 'Ingredientes', 'Alergenos', 'Coste', 'borrar'];
 
   constructor(private colegioservicio: ColegioService,
               private platoServicio: PlatoService,

@@ -22,6 +22,14 @@
                           Selecciona un tipo de plato de la lista
                         </div>
                   </div>
+                  <div class="form-group">
+                    <ng-multiselect-dropdown formControlName="alergenos"
+                      [placeholder]="'Seleccione los alérgenos del plato'"
+                      [settings]="dropdownSettings"
+                      [data]="lista_alergenos"
+                      >
+                    </ng-multiselect-dropdown>
+                  </div>
                     <div class="form-group">
                         <textarea placeholder="Receta" class="form-control" formControlName="receta" id="receta">
                         </textarea>
@@ -110,6 +118,15 @@
                   <div class="invalid-feedback">
                     Selecciona un tipo de plato de la lista
                   </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Alérgenos</label>
+              <ng-multiselect-dropdown formControlName="alergenos"
+                [placeholder]="'Seleccione los alérgenos del plato'"
+                [settings]="dropdownSettings"
+                [data]="lista_alergenos"
+                >
+              </ng-multiselect-dropdown>
             </div>
               <div class="form-group mar-bottom1">
                 <label>Receta</label>

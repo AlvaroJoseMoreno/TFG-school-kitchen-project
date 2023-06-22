@@ -11,6 +11,7 @@ export class Plato {
                public coste: number,
                public ingredientes: Ingrediente [],
                public cantidad_ing: number [],
+               public alergenos: string [],
                public colegio: Colegio,
                public receta?: string
                ) {}

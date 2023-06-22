@@ -20,6 +20,9 @@ const PlatoSchema = Schema({
         ref: 'Ingrediente',
         require: true
     }],
+    alergenos: [{
+        type: String
+    }],
     cantidad_ingredientes: [{
         type: Number,
         require: true

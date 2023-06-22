@@ -120,7 +120,7 @@ const getPlatosByCategory = async(req, res = response) => {
 }
 
 const crearPlato = async(req, res = response) => {
-    const { nombre, categoria, colegio, ingredientes, cantidad_ingredientes } = req.body;
+    const { nombre, categoria, colegio, alergenos, ingredientes, cantidad_ingredientes } = req.body;
 
     try {
         const token = req.header('x-token');
@@ -211,6 +211,7 @@ const crearPlato = async(req, res = response) => {
             cantidad_ingredientes: cantidad_ingredientes,
             colegio: colegio,
             coste_racion: coste,
+            alergenos: alergenos
         }
         //Creamos nuevo plato
         const plato = new Plato(object);

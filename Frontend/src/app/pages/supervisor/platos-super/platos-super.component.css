@@ -10,7 +10,7 @@ td.mat-cell {
   cursor: pointer;
 }
 th.mat-header-cell{
-  min-width: 130px;
+  min-width: 115px;
 }
 
 ::ng-deep .mat-tab-labels{

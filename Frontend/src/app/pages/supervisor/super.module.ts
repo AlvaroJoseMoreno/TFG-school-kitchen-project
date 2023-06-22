@@ -23,6 +23,7 @@ import { MenuSuperComponent } from './menu-super/menu-super.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   schemas:[NO_ERRORS_SCHEMA],
@@ -63,7 +64,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgMultiSelectDropDownModule
   ]
 })
 export class SuperModule { }
