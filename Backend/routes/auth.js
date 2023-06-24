@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { token, login, verifyLinkConfirmAcount, cambiarContraseña } = require('../controllers/auth');
+const { token, login, verifyLinkConfirmAcount, cambiarContraseña, sendRecovery } = require('../controllers/auth');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -17,6 +17,15 @@ router.post('/', [
 ], login);
 
 router.get('/validar/:code', verifyLinkConfirmAcount);
+
+router.post('/sendrecovery', [
+    check('email', 'El argumento email es obligatorio').not().isEmpty().isEmail(),
+    validarCampos,
+], sendRecovery);
+
+router.get('/validar/:code', verifyLinkConfirmAcount);
+
+router.get('/recovery/:code', verifyLinkConfirmAcount);
 
 router.put('/cambiarpwd/:code', [
     check('password', 'El argumento pasword es obligatorio').not().isEmpty(),

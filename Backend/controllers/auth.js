@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 const jwt = require('jsonwebtoken');
+const { sendEmailRecovery } = require('../helpers/email_recovery');
 
 const token = async(req, res = response) => {
 
@@ -159,10 +160,9 @@ const cambiarContraseña = async(req, res = response) => {
     const uid = req.query.id;
     const code = req.params.code || '';
     const { password, repeatPwd } = req.body;
-    console.log(uid);
+
     try {
         const usuario = await Usuario.findById(uid);
-        console.log(usuario);
         //Si el usuario no existe no se puede cambiar la contraseña
         if (!usuario) {
             return res.status(400).json({
@@ -213,4 +213,24 @@ const cambiarContraseña = async(req, res = response) => {
     }
 }
 
-module.exports = { token, login, verifyLinkConfirmAcount, cambiarContraseña }
+const sendRecovery = async(req, res = response) => {
+    const { email } = req.body;
+    
+    try {
+        const usuario = await Usuario.findOne({ email: email });
+        if(usuario) {
+          await sendEmailRecovery(email, usuario.nombre, usuario?.code, usuario._id);
+        }
+        res.json({
+            ok: true,
+            msg: 'Email sended'
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error modificando la contraseña',
+        });
+    }
+}
+
+module.exports = { token, login, verifyLinkConfirmAcount, cambiarContraseña, sendRecovery }

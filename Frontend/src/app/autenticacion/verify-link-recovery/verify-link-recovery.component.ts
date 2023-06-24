@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { UsuarioService } from '../../servicios/usuario.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-verify-link-confirmation',
-  templateUrl: './verify-link-confirmation.component.html',
-  styleUrls: ['./verify-link-confirmation.component.css']
+  selector: 'app-verify-link-recovery',
+  templateUrl: './verify-link-recovery.component.html',
+  styleUrls: ['./verify-link-recovery.component.css']
 })
-export class VerifyLinkConfirmationComponent implements OnInit {
+export class VerifyLinkRecoveryComponent implements OnInit {
 
   public uid: string = '';
   public code: string = '';
@@ -20,11 +20,10 @@ export class VerifyLinkConfirmationComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(8)]],
     repeatPwd: ['', [Validators.required, Validators.minLength(8)]],
   });
-
-  constructor(private router: Router,
-              private formbuilder: FormBuilder,
-              private usuarioServcio: UsuarioService,
-              private route: ActivatedRoute) { }
+  constructor(private formbuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
+              private usuarioServcio: UsuarioService) { }
 
   ngOnInit(): void {
     this.getVerifyLink();
@@ -33,7 +32,7 @@ export class VerifyLinkConfirmationComponent implements OnInit {
   getVerifyLink(){
     this.uid = this.route.snapshot.queryParams['id'];
     this.code = this.route.snapshot.params['code'];
-    this.usuarioServcio.getVerifyLink(this.code, this.uid)
+    this.usuarioServcio.getRecoveryLink(this.code, this.uid)
       .subscribe((res: any)=> {
       },(err: any) => {
         this.router.navigateByUrl('/login');

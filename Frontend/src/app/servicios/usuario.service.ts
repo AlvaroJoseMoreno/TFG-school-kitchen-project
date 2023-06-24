@@ -43,6 +43,10 @@ export class UsuarioService {
     return this.http.get(`${environment.base_url}/login/validar/${code}?id=${uid}`, this.cabeceras);
   }
 
+  getRecoveryLink(code: string, uid: string): Observable<object> {
+    return this.http.get(`${environment.base_url}/login/recovery/${code}?id=${uid}`, this.cabeceras);
+  }
+
   cambiarPWD(code: string, uid: string, data: any): Observable<object> {
     return this.http.put(`${environment.base_url}/login/cambiarpwd/${code}?id=${uid}`, data, this.cabeceras);
   }
@@ -65,6 +69,10 @@ export class UsuarioService {
 
   borrarUsuario(uid: string){
     return this.http.delete(`${environment.base_url}/usuarios/${uid}`, this.cabeceras);
+  }
+
+  sendEmailRecovery(email: any){
+    return this.http.post(`${environment.base_url}/login/sendrecovery`, email, this.cabeceras);
   }
 
   login( formData: any) {

@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonsModule } from '../commons/commons.module';
 import { AutenticationLayoutComponent } from '../layouts/autentication-layout/autentication-layout.component';
 import { VerifyLinkConfirmationComponent } from './verify-link-confirmation/verify-link-confirmation.component';
+import { VerifyLinkRecoveryComponent } from './verify-link-recovery/verify-link-recovery.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { VerifyLinkConfirmationComponent } from './verify-link-confirmation/veri
     LoginComponent,
     RecoveryComponent,
     AutenticationLayoutComponent,
-    VerifyLinkConfirmationComponent
+    VerifyLinkConfirmationComponent,
+    VerifyLinkRecoveryComponent
   ],
   exports:[
     LoginComponent,
