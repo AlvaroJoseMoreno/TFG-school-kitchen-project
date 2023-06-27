@@ -14,9 +14,10 @@ const getMenus = async(req, res = response) => {
     const plato = req.query.plato || ''
     const colegio = req.query.colegio || '';
     const tipo = req.query.tipo || '';
+
     let query = "{";
-    let texto = '';
     let total = 0;
+    
     try {
         const token = req.header('x-token');
 
@@ -63,9 +64,16 @@ const getMenus = async(req, res = response) => {
 
             query += "}";
             const queryJSON = JSON.parse(query);
-            [menus, total] = await Promise.all([Menu.find(queryJSON).sort({ dia: -1 })
-                .populate('colegio', '-__v').populate('plato1', '-__v').populate('plato2', '-__v')
-                .populate('postre', '-__v').populate('ensalada', '-__v'),
+            [menus, total] = await Promise.all([Menu.find(queryJSON).sort({ dia: -1 }).populate({
+                path: 'plato1', 
+                populate: { path: 'ingredientes' }
+             }).populate({
+                path: 'plato2', 
+                populate: { path: 'ingredientes' }
+             }).populate({
+                path: 'ensalada', 
+                populate: { path: 'ingredientes' }
+             }).populate('colegio', '-__v').populate('postre', '-__v'),
                 Menu.countDocuments(queryJSON)
             ]);
         }
@@ -174,12 +182,12 @@ const crearMenu = async(req, res = response) => {
         // comprobamos que el dia de menú no haya pasado ya
         let date1 = new Date(dia);
         let date2 = new Date();
-        if(date1 < date2){
-            return res.status(400).json({
-                ok: false,
-                msg: 'El dia de menú no puede ser menor al actual',
-            });
-        }
+        // if(date1 < date2){
+        //     return res.status(400).json({
+        //         ok: false,
+        //         msg: 'El dia de menú no puede ser menor al actual',
+        //     });
+        // }
 
         // ahora tenemos que comprobar que el proveedor y el usuario tengan el mismo colegio
         // y que ese colegio exista

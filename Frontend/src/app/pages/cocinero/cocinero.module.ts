@@ -11,7 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { IngredientesCocineroPedidos, PedidosCocineroComponent } from './pedidos-cocinero/pedidos-cocinero.component';
-import { CalendarioComponent } from './calendario/calendario.component';
+import { CalendarioComponent, CalendarioDetalles } from './calendario/calendario.component';
 import { ComensalesCocineroComponent } from './comensales-cocinero/comensales-cocinero.component';
 import { PedidoCocineroComponent } from './pedido-cocinero/pedido-cocinero.component';
 import { RecepcionarPedidoComponent } from './recepcionar-pedido/recepcionar-pedido.component';
@@ -25,7 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ComensalesCocineroComponent,
     IngredientesCocineroPedidos,
     PedidoCocineroComponent,
-    RecepcionarPedidoComponent
+    RecepcionarPedidoComponent,
+    CalendarioDetalles
   ],
   exports: [
     PedidosCocineroComponent,

@@ -83,3 +83,7 @@ tr:hover{
 ::ng-deep .mat-spinner {
   margin: auto;
 }
+
+::ng-deep .cdk-overlay-pane {
+  transform: none !important;
+}

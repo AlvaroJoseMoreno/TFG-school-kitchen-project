@@ -1,4 +1,3 @@
-import { environment } from '../../environments/environment';
 import { Colegio } from './colegio.model';
 import { Ingrediente } from './ingrediente.model';
 

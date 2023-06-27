@@ -45,7 +45,7 @@ export class MenusSuperComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Colegio', 'Coste', 'borrar'];
+  displayedColumns: string[] = ['Dia', 'Plato1', 'Plato2', 'Ensalada', 'Postre', 'Coste', 'borrar'];
 
   constructor(private menuservicio: MenuService,
               private usuarioservicio: UsuarioService,

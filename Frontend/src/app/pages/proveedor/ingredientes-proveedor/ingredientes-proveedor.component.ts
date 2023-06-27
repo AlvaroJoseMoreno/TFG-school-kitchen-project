@@ -44,7 +44,7 @@ export class IngredientesProveedorComponent implements OnInit {
     this.pageIndex = e.pageIndex;
   }
 
-  displayedColumns: string[] = ['Nombre', 'Proveedor', 'Categoria', 'Medida', 'Precio', 'Stock', 'borrar'];
+  displayedColumns: string[] = ['Nombre', 'Categoria', 'Medida', 'Precio', 'borrar'];
 
   constructor(private ingredienteservicio: IngredienteService,
               private usuarioservicio: UsuarioService,

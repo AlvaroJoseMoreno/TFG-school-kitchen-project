@@ -1,0 +1,61 @@
+@import url('../../cocinero/pedido-cocinero/pedido-cocinero.component.css');
+
+.information {
+  border: 2px solid #940BAA;
+  border-radius: 10px;
+  padding: .5em;
+  margin-top: 1em;
+}
+
+.titlePlatos {
+  margin-bottom: 0;
+  text-align: center;
+  text-decoration: underline;
+}
+
+h3 {
+  text-align: center;
+}
+
+.divsbuttons {
+  margin-right: auto;
+  width: 200px;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+
+.input-submit {
+  width: 90px;
+  padding: .5em;
+}
+
+.not_active {
+  background: white;
+  color: #940BAA;
+  border: 2px solid #940BAA;
+}
+
+::ng-deep .mat-tab-labels{
+  display: block !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 95% !important;
+  max-height: 460px;
+}
+
+.mat-table-p{
+  font-size: 18px;
+  margin-top: 1em;
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 0.2em;
+}
+
+.h3-platos {
+  color: #940BAA;
+}
+
+.h3-platos:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -1,1 +1,51 @@
-<p>calendario works!</p>
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+              <!-- Calendario del colegio-->
+              <h2 style="text-align: center; margin-bottom: .2em;"> Dia </h2>
+              <form [formGroup]="datosForm" (change)="changeDay()">
+                <input type="date" placeholder="Día *" class="form-control" formControlName="dia" id="fecha">
+              </form>
+              <h2 style="text-align: center; margin-bottom: .2em; margin-top: .5em;"> {{selected_day}} </h2>
+              <mat-spinner *ngIf="waiting"></mat-spinner>
+              <div *ngIf="!waiting && !es_festivo" class="information">
+                <div *ngIf="!there_menu">
+                  <h2 style="text-align: center; margin-bottom: .2em; margin-top: .5em;">No hay este tipo de menú este día</h2>
+                </div>
+                <div *ngIf="there_menu">
+                  <h2 class="titlePlatos">Primer Plato</h2>
+                  <h3 class="h3-platos" (click)="openDetails('plato1')">{{plato1?.nombre}}</h3>
+                </div>
+                <div *ngIf="there_menu">
+                  <h2 class="titlePlatos">Segundo plato</h2>
+                  <h3 class="h3-platos" (click)="openDetails('plato2')">{{plato2?.nombre}}</h3>
+                </div>
+                <div *ngIf="there_menu">
+                  <h2 class="titlePlatos">Ensalada</h2>
+                  <h3 class="h3-platos" (click)="openDetails('ensalada')">{{ensalada?.nombre}}</h3>
+                </div>
+                <div *ngIf="there_menu">
+                  <h2 class="titlePlatos">Postre</h2>
+                  <h3>{{postre?.nombre}}</h3>
+                </div>
+                <h3 *ngIf="there_menu">El menú incluye pan y bebida</h3>
+                <div class="divsbuttons align-content-center">
+                  <button id="estandar_menu" class="input-submit" [ngClass]="{'not_active': type_menu === 'alergicos'}" (click)="changeTypeMenu('estandar')" >Estándar</button>
+                  <button id="aler_menu" class="input-submit" [ngClass]="{'not_active': type_menu === 'estandar'}" (click)="changeTypeMenu('alergicos')">Alérgicos</button>
+                </div>
+              </div>
+              <div *ngIf="!waiting && es_festivo" class="information">
+                <div>
+                  <h2 style="text-align: center; margin-bottom: .2em; margin-top: .5em;">No hay menú porque hoy no es día lectivo</h2>
+                </div>
+              </div>
+              <div style="text-align: center; margin-top: .8em;">
+                <i (click)="downDay();" class="fa-solid fa-angle-left" style="margin-right: 10px; font-size: 20px;"></i>
+                <i (click)="upDay();" class="fa-solid fa-angle-right" style="font-size: 20px;"></i>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+

@@ -9,7 +9,7 @@ export class Ingrediente {
                public medida: string,
                public precio: number,
                public alergenos: string [],
-               public foto: string,
+               public imagen: string,
                public proveedor: Usuario,
                public stock_actual: number,
                ) {}
