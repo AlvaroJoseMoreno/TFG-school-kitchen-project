@@ -1,0 +1,30 @@
+@import url('../usuarios/usuarios.component.css');
+td.mat-cell {
+  text-align: center;
+}
+.ingredientes_table{
+  color: #940BAA;
+}
+.ingredientes_table:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+th.mat-header-cell{
+  min-width: 105px;
+}
+
+::ng-deep .mat-tab-labels{
+  display: block !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 95% !important;
+  max-height: 460px;
+}
+
+.mat-table-p{
+  font-size: 18px;
+  margin-top: 1em;
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 0.2em;
+}

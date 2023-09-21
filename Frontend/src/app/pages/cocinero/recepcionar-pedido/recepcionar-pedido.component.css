@@ -1,0 +1,38 @@
+@import url('../../admin/usuarios/usuarios.component.css');
+@import url('../../admin/usuario/usuario.component.css');
+.cantidad_ing{
+  width: 60px;
+  text-align: center;
+  border-radius: 5px !important;
+}
+td.mat-cell {
+  text-align: center;
+}
+tr.mat-row:hover{
+  background: white !important;
+}
+th.mat-header-cell{
+  min-width: 25%;
+  width: 25% !important;
+}
+.form-control{
+   border-radius: 5px !important;
+}
+.cantidad_ing:disabled{
+  background: gainsboro;
+}
+.form-control.is-invalid {
+  box-shadow: 0 0 0 0.1rem rgb(255 0 0 / 25%);
+  border-color:  red !important;
+}
+.pedidos_datos {
+  padding-left: 1.5em;
+  padding-top: 0.5em;
+  padding-right: 1.5em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.pedidos_datos > div {
+  width: 43%;
+}

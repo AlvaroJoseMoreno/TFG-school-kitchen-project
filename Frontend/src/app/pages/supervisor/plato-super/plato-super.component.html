@@ -1,0 +1,196 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+              <!-- Creamos Plato-->
+              <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPlato()">
+                <h2 style="text-align: center;"> Crear Plato </h2>
+                    <div style="margin-top: 1.5rem;" class="form-group">
+                      <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
+                          <div class="invalid-feedback">
+                              El nombre del plato es obligatorio
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <select class="select2 form-control custom-select" name="Elige una categoria" [ngClass]="{'is-invalid': campoNoValido('categoria')}" formControlName="categoria" id="categoria">
+                        <option value="">Tipo de plato</option>
+                        <option value="primeros" selected>Primer Plato</option>
+                        <option value="segundos">Segundo Plato</option>
+                        <option value="ensaladas">Ensalada</option>
+                      </select>
+                        <div class="invalid-feedback">
+                          Selecciona un tipo de plato de la lista
+                        </div>
+                  </div>
+                  <div class="form-group">
+                    <ng-multiselect-dropdown formControlName="alergenos"
+                      [placeholder]="'Seleccione los alérgenos del plato'"
+                      [settings]="dropdownSettings"
+                      [data]="lista_alergenos"
+                      >
+                    </ng-multiselect-dropdown>
+                  </div>
+                    <div class="form-group">
+                        <textarea placeholder="Receta" class="form-control" formControlName="receta" id="receta">
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (input)="getIngetot();" (keyup)="selecIngredienteTrueKey($event)" class="form-control" style="border-radius: 5px;" placeholder="Ingredientes *"
+                          formControlName="ingredientes" [formControl]="filterIngredientes" [matAutocomplete]="auto">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                            <mat-option (click)="selecIngredienteTrueKey($event)" *ngFor="let option of filteredOptionsIngredientes | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+
+                    <table *ngIf="ing_platos.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                      <!-- Position Column -->
+                      <ng-container style="width: 25%;" matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="unidad_medida">
+                        <th mat-header-cell *matHeaderCellDef> Unidad de medida </th>
+                        <td mat-cell *matCellDef="let element">
+                          {{element.unidad_medida}}
+                        </td>
+                      </ng-container>
+
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> {{element.cantidad}}
+                          <input type="number" value="0" (keyup)="getInputCantidad(element.uid, i)" placeholder="Cantidad *" [ngClass]="{'is-invalid': cantidad_ing[i] == 0 }" [id]="element.uid" class="form-control cantidad_ing">
+                          <div class="invalid-feedback">
+                            Introduzca un valor mayor a 0
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="borrar">
+                        <th mat-header-cell *matHeaderCellDef> Borrar </th>
+                        <td mat-cell *matCellDef="let element;let i = index">
+                          <div class="text-center" (click)="borrarIngrediente(i)">
+                            <i class="fa fa-trash"></i>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <div style="margin-top: 1em" class="form-group">
+                      <p>El precio total del plato es: {{total_plato | number : '1.2-2'}} €</p>
+                    </div>
+
+                <div class="d-flex m-t-25 m-b-10">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID' || this.cantidad_ing.includes(0)"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+            <!-- Editamos Plato-->
+            <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editarPlato()">
+              <h2 style="text-align: center;"> Editar Plato </h2>
+              <div class="form-group mar-bottom1">
+                <label>Nombre *</label>
+                <input type="text" placeholder="Nombre *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
+                    <div class="invalid-feedback">
+                        El nombre del plato es obligatorio
+                    </div>
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Tipo de plato *</label>
+                <select class="select2 form-control custom-select" name="Elige una categoria" [ngClass]="{'is-invalid': campoNoValido('categoria')}" formControlName="categoria" id="categoria">
+                  <option value="">Tipo de plato</option>
+                  <option value="primeros" selected>Primer Plato</option>
+                  <option value="segundos">Segundo Plato</option>
+                  <option value="ensaladas">Ensalada</option>
+                </select>
+                  <div class="invalid-feedback">
+                    Selecciona un tipo de plato de la lista
+                  </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Alérgenos</label>
+              <ng-multiselect-dropdown formControlName="alergenos"
+                [placeholder]="'Seleccione los alérgenos del plato'"
+                [settings]="dropdownSettings"
+                [data]="lista_alergenos"
+                >
+              </ng-multiselect-dropdown>
+            </div>
+              <div class="form-group mar-bottom1">
+                <label>Receta</label>
+                <textarea placeholder="Receta" class="form-control" formControlName="receta" id="receta"></textarea>
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Ingredientes *</label>
+                <div class="input-group">
+                <input type="text" (input)="getIngetot();" (keyup)="selecIngredienteTrueKey($event)" class="form-control" style="border-radius: 5px;" placeholder="Ingredientes *"
+                    formControlName="ingredientes" [formControl]="filterIngredientes" [matAutocomplete]="auto">
+                  <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                      <mat-option (click)="selecIngredienteTrueKey($event)" *ngFor="let option of filteredOptionsIngredientes | async" [value]="option.nombre">
+                        {{option.nombre}}
+                      </mat-option>
+                  </mat-autocomplete>
+                </div>
+              </div>
+              <table *ngIf="ing_platos.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container style="width: 25%;" matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="unidad_medida">
+                  <th mat-header-cell *matHeaderCellDef> Unidad de medida </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.unidad_medida}}
+                  </td>
+                </ng-container>
+                <!-- Weight Column -->
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                  <td mat-cell *matCellDef="let element; let i = index"> {{element.cantidad}}
+                    <input type="number" [value]="cantidad_ing[i]" (keyup)="getInputCantidad(element.uid, i)" placeholder="Cantidad *" [ngClass]="{'is-invalid': cantidad_ing[i] == 0 }" [id]="element.uid" class="form-control cantidad_ing">
+                    <div class="invalid-feedback">
+                      Introduzca un valor mayor a 0
+                    </div>
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="borrar">
+                  <th mat-header-cell *matHeaderCellDef> Borrar </th>
+                  <td mat-cell *matCellDef="let element;let i = index">
+                    <div class="text-center" (click)="borrarIngrediente(i)">
+                      <i class="fa fa-trash"></i>
+                    </div>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div style="margin-top: 1em" class="form-group">
+                <p>El precio total del plato es: {{total_plato | number : '1.2-2'}} €</p>
+              </div>
+              <div class="d-flex m-t-25 m-b-10">
+                  <div class="divsbuttons align-content-center">
+                    <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosFormEdit.pristine">Cancelar</button>
+                    <button class="input-submit" type="submit" pattern="\d*" min="0" id="enviar" [disabled]="datosFormEdit.status == 'INVALID' || this.cantidad_ing.includes(0) || datosFormEdit.pristine"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                  </div>
+              </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+

@@ -1,0 +1,35 @@
+<section class="main">
+  <div class="wrapper">
+      <div class="card">
+          <div class="title">
+            <h1 style="text-align: center;">Crea tu contraseña</h1>
+          </div>
+          <div>
+            <p>Crea tu contraseña para poder acceder al sistema</p>
+          </div>
+          <form class="form" method="post" id="loginForm" (ngSubmit)="cambiarPWD()" [formGroup]="passwordForm">
+              <div class="form-group input-css">
+                  <input type="password" name="passwor" (input)="comprobarPWD();" placeholder="Contraseña" class="form-control css_input" formControlName="password" [ngClass]="{'is-invalid': campoNoValido('password')}" id="password" #passwordfield>
+                  <span (click)="passwordfield.type=passwordfield.type=='password'?'text':'password'" class="fa fa-fw field-icon toggle-password" [ngClass]="(passwordfield.type=='password')?' fa-eye':' fa-eye-slash'"></span>
+                  <div class="invalid-feedback">
+                    El campo contraseña es obligatorio y debe tener 8 caracteres como mínimo
+                  </div>
+              </div>
+              <div class="form-group input-css">
+                  <input type="password" name="password" (input)="comprobarPWD();" placeholder="Repite contraseña" class="form-control css_input" [ngClass]="{'is-invalid': campoNoValido('repeatPwd') || (!equalPWD && !passwordForm.get('repeatPwd')?.pristine)}" formControlName="repeatPwd" id="repeatPwd" #repasswordfield>
+                  <span (click)="repasswordfield.type=repasswordfield.type=='password'?'text':'password'" class="fa fa-fw field-icon toggle-password" [ngClass]="(repasswordfield.type=='password')?' fa-eye':' fa-eye-slash'"></span>
+                  <div class="invalid-feedback">
+                    El campo repetir contraseña debe ser igual al de contraseña
+                  </div>
+              </div>
+              <div class="form-group flexing">
+                <button style="margin-left: auto;" name="submit" class="input-submit"
+                  [disabled]="this.passwordForm.invalid || !equalPWD">
+                  <i *ngIf="waiting" style="min-width: 38px;" class="fas fa-circle-notch fa-spin"></i>
+                  <div *ngIf="!waiting">Enviar</div>
+                </button>
+              </div>
+          </form>
+      </div>
+  </div>
+</section>

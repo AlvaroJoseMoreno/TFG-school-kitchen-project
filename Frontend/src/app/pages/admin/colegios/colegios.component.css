@@ -1,0 +1,7 @@
+@import url('../usuarios/usuarios.component.css');
+th.mat-header-cell{
+  min-width: 100px;
+}
+td.mat-cell {
+  text-align: center;
+}

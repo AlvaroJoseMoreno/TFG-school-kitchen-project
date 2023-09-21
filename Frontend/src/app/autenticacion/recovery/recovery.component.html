@@ -1,0 +1,24 @@
+<section class="main">
+  <div class="wrapper">
+      <div class="card">
+          <div class="title">
+            <h1 style="text-align: center;">Recuperar password</h1>
+          </div>
+          <div>
+            <p>Indica su correo para recuperar contraseña</p>
+          </div>
+          <form class="form" method="post" id="loginForm" (ngSubmit)="recovery()" [formGroup]="recoveryForm">
+              <div class="form-group input-css">
+                  <input type="email" name="email" placeholder="Email" class="form-control css_input" formControlName="email" [ngClass]="{'is-invalid' : campoValidoRecovery('email')}" id="email">
+                  <div class="invalid-feedback">
+                      El email es obligatorio y debe ser válido
+                  </div>
+              </div>
+              <div class="form-group flexing">
+                  <a [routerLink]="!waiting ? '/login' : null" routerLinkActive="not-active" class="linktext">Iniciar sesión</a>
+                  <button name="submit" class="input-submit" [disabled]="this.recoveryForm.invalid"> <i *ngIf="waiting" style="min-width: 38px;" class="fas fa-circle-notch fa-spin"></i> <div>Enviar</div></button>
+              </div>
+          </form>
+      </div>
+  </div>
+</section>

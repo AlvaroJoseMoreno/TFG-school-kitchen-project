@@ -1,0 +1,23 @@
+@import url('../../admin/usuario/usuario.component.css');
+@import url('../../admin/usuarios/usuarios.component.css');
+.cantidad_ing{
+  width: 90px;
+  border-radius: 5px !important;
+}
+td.mat-cell {
+  text-align: center;
+}
+tr.mat-row:hover{
+  background: white !important;
+}
+th.mat-header-cell{
+  min-width: 25%;
+  width: 25% !important;
+}
+.form-control{
+   border-radius: 5px !important;
+}
+.form-control.is-invalid {
+  box-shadow: 0 0 0 0.1rem rgb(255 0 0 / 25%);
+  border-color:  red !important;
+}

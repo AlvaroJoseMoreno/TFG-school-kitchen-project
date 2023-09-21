@@ -1,0 +1,70 @@
+.card {
+  width: 100%;
+}
+
+.input-submit {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  width: 75px;
+  border-radius: 5px;
+  text-align: center;
+  color: #ffffff;
+  background: #940BAA;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+
+.input-submit:disabled{
+  background: violet;
+}
+
+.input-submit:hover {
+  background: violet;
+}
+
+.form-control {
+  border-radius: 5px;
+  border-color:  #940BAA;
+}
+
+.form-control:hover {
+  border-color:  #940BAA;
+}
+
+.form-control:focus {
+  box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6);
+  border-color:  #940BAA;
+}
+
+.form-control.is-invalid{
+  box-shadow: 0 0 0 0.1rem rgb(255 0 0 / 25%);
+  border-color:  red !important;
+}
+
+.divsbuttons{
+  width: 180px;
+  margin-left: auto;
+  justify-content: space-between;
+  display: flex;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-control:disabled {
+  background: gainsboro;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+.mar-bottom1 {
+  margin-bottom: 1rem;
+}

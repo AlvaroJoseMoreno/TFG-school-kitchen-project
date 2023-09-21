@@ -1,0 +1,85 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+            <!-- Editamos Pedidos-->
+            <form class="form-horizontal m-t-20" [formGroup]="datosFormEdit">
+              <h2 style="text-align: center; margin-bottom: .5em;"> Ver Pedido </h2>
+              <div class="form-group mar-bottom1">
+                <label>Orden de pedido *</label>
+                <input type="input" class="form-control" formControlName="nombre" id="nombre">
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Fecha de pedido *</label>
+                <input type="date" class="form-control" formControlName="fecha_pedido" id="nombre">
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Fecha esperada de entrega de pedido *</label>
+                <input type="date" class="form-control" formControlName="fecha_esperada" id="nombre">
+              </div>
+              <div *ngIf="this.datosFormEdit.get('anotaciones')?.value !== ''" class="form-group mar-bottom1">
+                <label>Anotaciones</label>
+                <textarea class="form-control" formControlName="anotaciones" id="anotaciones">
+                </textarea>
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Estado *</label>
+                <input type="input" class="form-control" formControlName="estado" id="estado">
+              </div>
+              <label>Ingredientes: </label>
+              <table *ngIf="ing_pedidos.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container style="width: 25%;" matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef>  Cantidad Ing </th>
+                  <td class="cantidadPed" mat-cell *matCellDef="let element; let i = index">
+                    <div *ngIf="element.unidad_medida === 'unidad'">
+                      {{cantidad_ing[i]}} unidades
+                    </div>
+                    <div *ngIf="element.unidad_medida !== 'unidad'">
+                      {{cantidad_ing[i]}} {{element.unidad_medida}}
+                    </div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="cantida_recep">
+                  <th mat-header-cell *matHeaderCellDef>  Cantidad recepcionada </th>
+                  <td class="cantidadPed" mat-cell *matCellDef="let element; let i = index">
+                    <div *ngIf="element.unidad_medida === 'unidad'">
+                      {{cantidad_recepcionada[i]}} unidades
+                    </div>
+                    <div *ngIf="element.unidad_medida !== 'unidad'">
+                      {{cantidad_recepcionada[i]}} {{element.unidad_medida}}
+                    </div>
+                  </td>
+                </ng-container>
+                <!-- Weight Column -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef> Precio </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.precio}} €
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <div style="margin-top: 1em" class="form-group">
+                <p>El precio total del pedido es: {{total_pedido | number : '1.2-2'}} €</p>
+              </div>
+              <div class="d-flex m-t-25 m-b-10">
+                  <button class="input-submit asdads" (click)="autorizar();" type="submit " id="autorize" > Autorizar </button>
+                  <button class="input-submit" type="submit " id="enviar" routerLink="/prov/pedidos"> Volver</button>
+              </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+

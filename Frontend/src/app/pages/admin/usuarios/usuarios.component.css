@@ -1,0 +1,89 @@
+.mat-table{
+  display: inline-block;
+  width: 100%;
+  box-shadow: none;
+  overflow-x: auto;
+  margin-bottom: -5px;
+}
+
+td.mat-cell, th.mat-header-cell{
+  padding-left: 15px;
+}
+
+th.mat-header-cell{
+  text-align: center;
+}
+
+.mat-table::-webkit-scrollbar{
+  width: 12px;
+  background-color: #f5f5f5
+}
+
+.mat-table::-webkit-scrollbar-thumb{
+  width: 12px;
+  background-color: #c1c1c1
+}
+
+.form-filters{
+  background-color: white;
+  padding: 15px;
+}
+
+#form2 input{
+  border-radius: 40px ;
+}
+
+.form-control{
+  border-color:  #940BAA ;
+}
+
+.form-control {
+  border-radius: 5px 0px 0px 5px;
+}
+
+.form-control:hover {
+  border-color:  #940BAA !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 1px 1px rgba(62, 3, 49, 0.075)inset, 0 0 8px rgba(210, 4, 151, 0.6);
+  border-color:  #940BAA !important;
+}
+
+.input-group-text{
+  color: #fff;
+  background-color: #940BAA;
+  border: 1px solid #940BAA;
+}
+
+.input-submit {
+  cursor: pointer;
+  color: #ffffff;
+  background: #940BAA;
+}
+
+.input-submit:hover{
+  background: violet;
+}
+
+tr:hover{
+  background-color: #c1c1c1;
+}
+
+.class_div_title{
+  background: white;
+  padding: 15px;
+}
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #940BAA;
+  margin: auto;
+}
+
+::ng-deep .mat-spinner {
+  margin: auto;
+}
+
+::ng-deep .cdk-overlay-pane {
+  transform: none !important;
+}

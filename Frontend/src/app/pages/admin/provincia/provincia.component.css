@@ -1,0 +1,5 @@
+@import url('../usuario/usuario.component.css');
+.form-control.is-invalid {
+  box-shadow: 0 0 0 0.1rem rgb(255 0 0 / 25%);
+  border-color:  red !important;
+}

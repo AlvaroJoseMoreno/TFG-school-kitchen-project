@@ -1,0 +1,33 @@
+<header id="main-header">
+  <!-- Aquí irá el menú hamburguesa -->
+  <div class="container">
+    <div (click)="onPropagar()" class="menu">
+      <i class="fa fa-bars" style="color: #ffffff; font-size: 35px; margin: auto"></i>
+    </div>
+    <!-- Título -->
+    <div class="divTitle">
+      <h2 class="title">{{this.titulo}}</h2>
+    </div>
+    <!-- Datos de usuario -->
+    <nav class="unacosa">
+      <div class="sign-out">
+        <img [src]="imagen" [matMenuTriggerFor]="menuuu" class="imgLogout" alt="Foto de perfil">
+        <div class="infoProf">
+
+        </div>
+        <!--[matMenuTriggerFor]="menu"-->
+        <mat-menu #menuuu="matMenu">
+            <div class="infoProf">
+              <p>{{nombre}}</p>
+              <p *ngIf="this.colegio">Colegio: {{colegio}}</p>
+              <p *ngIf="this.rol == 'ROL_ADMIN'">Administrador</p>
+            </div>
+            <button class="button-matMenu" mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Cerrar Sesión</span>
+            </button>
+        </mat-menu>
+    </div>
+    </nav>
+  </div>
+</header>

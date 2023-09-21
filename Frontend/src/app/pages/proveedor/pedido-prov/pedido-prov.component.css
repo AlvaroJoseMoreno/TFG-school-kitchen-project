@@ -1,0 +1,13 @@
+@import url('../../cocinero/pedido-cocinero/pedido-cocinero.component.css');
+.form-control:disabled {
+  background-color: white !important;
+}
+.input-submit{
+  margin-left: auto;
+  margin-right: auto;
+  padding: .5em;
+}
+
+.asdads {
+  width: 100px;
+}

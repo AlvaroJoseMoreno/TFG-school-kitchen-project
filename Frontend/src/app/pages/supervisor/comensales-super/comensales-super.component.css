@@ -1,0 +1,5 @@
+@import url('../usuarios-super/usuarios-super.component.css');
+td.mat-cell {
+  width: 33%;
+  text-align: center;
+}

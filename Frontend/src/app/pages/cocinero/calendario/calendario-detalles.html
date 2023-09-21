@@ -1,0 +1,23 @@
+<div style="font-size: 16px; width: 100%; text-align: center; min-width: 95%;" >
+  <h2 style="text-align: center;">{{data.plato?.nombre}} </h2>
+  <h3><span><b>Alérgenos: </b></span><span>{{data.service.comprobarAlergenos(data.plato.alergenos)}}</span></h3>
+  <mat-tab-group>
+      <mat-tab label="Ingredientes">
+          <div class="columns">
+              <mat-list *ngFor="let item of data.plato.ingredientes; let i = index" class="example-datos">
+                  <p class="mat-table-p"><b> Ingrediente {{i+1}} </b></p>
+                  <img style="width: 40px; height: 40px; border-radius: 50%; margin-bottom: .6em;" [src]="data.service.imagenUrl(data.imagenes[i])">
+                  <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Ingrediente: </b></span> <span>{{item.nombre}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br>
+                  <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Cantidad por ración: </b></span><span>{{data.plato.cantidad_ingredientes[i]}} {{item.unidad_medida}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br>
+                  <!-- <mat-list-item style="display: block; margin-bottom: -0.6em; font-size: 14px;"><span><b>Alérgenos: </b></span><span>{{data.service.comprobarAlergenos(data.plato.alergenos)}}</span></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <br> -->
+              </mat-list>
+          </div>
+      </mat-tab>
+  </mat-tab-group>
+</div>

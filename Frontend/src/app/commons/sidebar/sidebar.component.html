@@ -1,0 +1,14 @@
+<app-navbar (propagar)="procesaPropagar($event)"></app-navbar>
+<mat-sidenav-container (backdropClick)="close('backdrop')">
+  <mat-sidenav #sidenav="matSidenav" (keydown.escape)="close('escape')" class="mat-elevation-z8">
+      <button *ngFor="let i of menuItem" mat-button class="menu-button" [routerLink]="i.url">
+        <i class="{{i.icon}} icons_menu"></i>
+        <span>{{i.title}}</span>
+      </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content" style="background: white;">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

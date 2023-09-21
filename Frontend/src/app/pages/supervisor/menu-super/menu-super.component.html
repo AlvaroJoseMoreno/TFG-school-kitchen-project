@@ -1,0 +1,220 @@
+<div class="animate__animated animate__fadeInRight animate__faster">
+  <div class="d-flex justify-content-center">
+      <div class="card">
+          <div class="card-body">
+              <!-- Creamos Menus-->
+              <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPlato()">
+                <h2 style="text-align: center;"> Crear Menú </h2>
+                  <div style="margin-top: 1.5rem;" class="form-group">
+                        <select class="select2 form-control custom-select" name="Elige un rol" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
+                          <option value="">Tipo de menu</option>
+                          <option value="estandar" selected>Menú estándar</option>
+                          <option value="alergicos">Menú alérgicos</option>
+                        </select>
+                          <div class="invalid-feedback">
+                            Seleccione un tipo de menú de la lista
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Dia de menu *" class="form-control" onfocus="(this.type='date')" [ngClass]="{'is-invalid': campoNoValido('dia')}" formControlName="dia" id="dia">
+                          <div class="invalid-feedback">
+                              La día es obligatorio
+                          </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" id="plato1" (keyup)="selectPlato1TrueKey($event)"
+                             (input)="getPrimerPlato(); selectPlato1();"
+                             class="form-control" style="border-radius: 5px;"
+                             placeholder="Primer Plato *"
+                             [ngClass]="{'is-invalid' : select_plato1 && !datosForm.get('plato1')?.pristine }"
+                             formControlName="plato1" [formControl]="filterPrimerPlato"
+                             [matAutocomplete]="auto">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                            <mat-option (click)="selectPlato1True()" *ngFor="let optio of filteredOptionsPrimerPlato | async" [value]="optio.nombre">
+                              {{optio.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                          <div class="invalid-feedback">
+                            Seleccione un plato de la lista
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (keyup)="selectPlato2TrueKey($event)"
+                             (input)="getSegundoPlato(); selectPlato2();" class="form-control"
+                             style="border-radius: 5px;" placeholder="Segundo Plato *"
+                             [ngClass]="{'is-invalid' : select_plato2 && !datosForm.get('plato2')?.pristine }"
+                             formControlName="plato2" [formControl]="filterSegundoPlato"
+                             [matAutocomplete]="auto2">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto2="matAutocomplete">
+                            <mat-option (click)="selectPlato2True()" *ngFor="let option of filteredOptionsSegundoPlato | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                          <div class="invalid-feedback">
+                            seleccione un plato de la lista
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (keyup)="selectEnsaladaTrueKey($event)"
+                             (input)="getEnsaladas(); selectEnsalada();" class="form-control"
+                             style="border-radius: 5px;" placeholder="Ensalada *"
+                             [ngClass]="{'is-invalid' : select_ensalada && !datosForm.get('ensalada')?.pristine }"
+                             formControlName="ensalada" [formControl]="filterEnsaladas"
+                             [matAutocomplete]="auto3">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto3="matAutocomplete">
+                            <mat-option (click)="selectEnsaladaTrue()" *ngFor="let option of filteredOptionsEnsaladas | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                          <div class="invalid-feedback">
+                            Seleccione una ensalada de la lista
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <input type="text" (keyup)="selectPostreTrueKey($event)"
+                             (input)="getPostres(); selectPostre();" class="form-control"
+                             style="border-radius: 5px;" placeholder="Postre *"
+                             [ngClass]="{'is-invalid' : select_postre && !datosForm.get('postre')?.pristine }"
+                             formControlName="postre" [formControl]="filterPostres"
+                             [matAutocomplete]="auto4">
+                        <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto4="matAutocomplete">
+                            <mat-option (click)="selectPostreTrue()" *ngFor="let option of filteredOptionsPostres | async" [value]="option.nombre">
+                              {{option.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                          <div class="invalid-feedback">
+                            Seleccione un postre de la lista
+                          </div>
+                      </div>
+                    </div>
+                <div class="d-flex m-t-25 m-b-10">
+                    <div class="divsbuttons align-content-center">
+                      <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosForm.pristine">Cancelar</button>
+                      <button class="input-submit" type="submit " id="enviar" [disabled]="datosForm.status == 'INVALID'"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Editamos Menus-->
+            <form class="form-horizontal m-t-20" *ngIf="!this.esnuevo && !wait_form" [formGroup]="datosFormEdit" (ngSubmit)="editPlato()">
+              <h2 style="text-align: center;"> Editar Menú </h2>
+              <div class="form-group mar-bottom1">
+                <label>Colegio</label>
+                <input type="text" placeholder="Colegio *" class="form-control" formControlName="colegio" id="colegio">
+              </div>
+              <div class="form-group mar-bottom1">
+                <label>Tipo de menú *</label>
+                <select class="select2 form-control custom-select" name="Elige un tipo de menu" [ngClass]="{'is-invalid': campoNoValido('nombre')}" formControlName="nombre" id="nombre">
+                  <option value="">Tipo de menu</option>
+                  <option value="estandar" selected>Menú estándar</option>
+                  <option value="alergicos">Menú alérgicos</option>
+                </select>
+                  <div class="invalid-feedback">
+                    Seleccione un tipo de menú de la lista
+                  </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Día *</label>
+              <input type="date" placeholder="Dia de menu *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('dia')}" formControlName="dia" id="dia">
+                  <div class="invalid-feedback">
+                      La día es obligatorio
+                  </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Primer plato *</label>
+              <div class="input-group">
+              <input type="text" id="plato1" (keyup)="selectPlato1TrueKey($event)"
+                     (input)="getPrimerPlato(); selectPlato1();"
+                     class="form-control" style="border-radius: 5px;"
+                     placeholder="Primer Plato *"
+                     [ngClass]="{'is-invalid' : select_plato1 && !datosFormEdit.get('plato1')?.pristine }"
+                     formControlName="plato1" [formControl]="filterPrimerPlato"
+                     [matAutocomplete]="auto">
+                <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto="matAutocomplete">
+                    <mat-option (click)="selectPlato1True()" *ngFor="let optio of filteredOptionsPrimerPlato | async" [value]="optio.nombre">
+                      {{optio.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                  <div class="invalid-feedback">
+                    Seleccione un plato de la lista
+                  </div>
+              </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Segundo plato *</label>
+              <div class="input-group">
+              <input type="text" (keyup)="selectPlato2TrueKey($event)"
+                     (input)="getSegundoPlato(); selectPlato2();" class="form-control"
+                     style="border-radius: 5px;" placeholder="Segundo Plato *"
+                     [ngClass]="{'is-invalid' : select_plato2 && !datosFormEdit.get('plato2')?.pristine }"
+                     formControlName="plato2" [formControl]="filterSegundoPlato"
+                     [matAutocomplete]="auto2">
+                <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto2="matAutocomplete">
+                    <mat-option (click)="selectPlato2True()" *ngFor="let option of filteredOptionsSegundoPlato | async" [value]="option.nombre">
+                      {{option.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                  <div class="invalid-feedback">
+                    seleccione un plato de la lista
+                  </div>
+              </div>
+            </div>
+            <div class="form-group mar-bottom1">
+              <label>Ensalada *</label>
+              <div class="input-group">
+              <input type="text" (keyup)="selectEnsaladaTrueKey($event)"
+                     (input)="getEnsaladas(); selectEnsalada();" class="form-control"
+                     style="border-radius: 5px;" placeholder="Ensalada *"
+                     [ngClass]="{'is-invalid' : select_ensalada && !datosFormEdit.get('ensalada')?.pristine }"
+                     formControlName="ensalada" [formControl]="filterEnsaladas"
+                     [matAutocomplete]="auto3">
+                <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto3="matAutocomplete">
+                    <mat-option (click)="selectEnsaladaTrue()" *ngFor="let option of filteredOptionsEnsaladas | async" [value]="option.nombre">
+                      {{option.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                  <div class="invalid-feedback">
+                    Seleccione una ensalada de la lista
+                  </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Postre *</label>
+              <div class="input-group">
+              <input type="text" (keyup)="selectPostreTrueKey($event)"
+                     (input)="getPostres(); selectPostre();" class="form-control"
+                     style="border-radius: 5px;" placeholder="Postre *"
+                     [ngClass]="{'is-invalid' : select_postre && !datosFormEdit.get('postre')?.pristine }"
+                     formControlName="postre" [formControl]="filterPostres"
+                     [matAutocomplete]="auto4">
+                <mat-autocomplete style="border-radius: 20px; border: 2px solid #f1f2f3;" #auto4="matAutocomplete">
+                    <mat-option (click)="selectPostreTrue()" *ngFor="let option of filteredOptionsPostres | async" [value]="option.nombre">
+                      {{option.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                  <div class="invalid-feedback">
+                    Seleccione un postre de la lista
+                  </div>
+              </div>
+            </div>
+            <div class="d-flex m-t-25 m-b-10">
+                <div class="divsbuttons align-content-center">
+                  <button class="btn btn-danger" type="button" (click)="cancelar()" id="cancelar" [disabled]="datosFormEdit.pristine">Cancelar</button>
+                  <button class="input-submit" type="submit " id="enviar" [disabled]="datosFormEdit.status == 'INVALID' || datosFormEdit.pristine"> <i *ngIf="waiting" style="margin-right: 10px;" class="fas fa-circle-notch fa-spin"></i> Enviar</button>
+                </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+  </div>
+</div>
+
+
