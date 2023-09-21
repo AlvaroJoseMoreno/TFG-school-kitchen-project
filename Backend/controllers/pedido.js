@@ -397,6 +397,13 @@ const recepcionarPedido = async(req, res = response) => {
             });
         }
 
+        if (!exist_pedido.visto_por) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No se puede recepcionar un pedido hasta que no lo vea su proveedor',
+            });
+        }
+
         // compara la longitudo del array de cantidades de los pedidos con el de la cantidad recepcionada
 
         if(exist_pedido.cantidad.length !== cantidad_recepcionada.length){
@@ -434,11 +441,12 @@ const recepcionarPedido = async(req, res = response) => {
 
         // ahora vamos a comprobar el estado en el que debemos poner el pedido una vez vemos
         // que la cantidad recepcionada total no supera la cantidad pedida
-
+        let visto = true;
         let estado_recepcion = false;
         for(let i = 0; i < cant_recep_total.length; i++){
             if(exist_pedido.cantidad[i] != cant_recep_total[i]){
                 estado_recepcion = true;
+                visto = false;
                 break;
             }
         }
@@ -447,7 +455,8 @@ const recepcionarPedido = async(req, res = response) => {
 
         const object = {
             cantidad_recepcionada: cant_recep_total,
-            estado: estado_final
+            estado: estado_final,
+            visto_por: visto
         }
 
         for(let i = 0; i < cantidad_recepcionada.length; i++){

@@ -112,9 +112,7 @@ export class PedidoCocineroComponent implements OnInit {
   }
 
   private filtro(): Usuario[] {
-    return this.proveedores.filter(option => option.nombre!.toLowerCase().includes(
-        (this.datosForm.value.proveedor.toLowerCase() || this.datosFormEdit.value.proveedor.toLowerCase())
-      )
+    return this.proveedores.filter(option => option.nombre!.toLowerCase().includes(this.datosForm.value?.proveedor?.toLowerCase())
     );
   }
 

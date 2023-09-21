@@ -4,5 +4,10 @@
 }
 .input-submit{
   margin-left: auto;
+  margin-right: auto;
   padding: .5em;
+}
+
+.asdads {
+  width: 100px;
 }

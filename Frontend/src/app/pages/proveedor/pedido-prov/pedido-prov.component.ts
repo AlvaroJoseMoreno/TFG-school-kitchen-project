@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Ingrediente } from 'src/app/modelos/ingrediente.model';
 import { Usuario } from 'src/app/modelos/usuario.model';
 import { PedidoService } from 'src/app/servicios/pedido.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pedido-prov',
@@ -54,6 +55,16 @@ export class PedidoProvComponent implements OnInit {
     } else {
       this.router.navigateByUrl('/prov/pedidos');
     }
+  }
+
+  autorizar(){
+    Swal.fire({
+      title: 'Recepcion de pedido autorizada',
+      text: `El pedido ${this.datosFormEdit.get('nombre')?.value} ya puede ser recepcionado`,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    });
   }
 
   getValuesPedido() {

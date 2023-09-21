@@ -9,25 +9,29 @@
                <!-- Creamos administradores-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearUsuario()">
                 <h2 style="text-align: center;"> Crear Usuario </h2>
-                    <div style="margin-top: 1.5rem;" class="form-group">
+                <div class="form-group mar-bottom1">
+                  <label>Nombre *</label>
                       <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': campoNoValido('nombre')}" id="nombre">
                           <div class="invalid-feedback">
                               El nombre es obligatorio y tiene que tener 8 caracteres como mínimo
                           </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Correo electrónico *</label>
                         <input type="text" placeholder="Correo electrónico *" class="form-control" formControlName="email" [ngClass]="{'is-invalid': campoNoValido('email')}" id="email">
                             <div class="invalid-feedback">
                                 El email es obligatorio, ejemplo: 'xxxx@xxx.xx'
                             </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Teléfono</label>
                       <input type="text" placeholder="Telefono" class="form-control" [ngClass]="{'is-invalid': campoNoValido('telefono')}" formControlName="telefono" id="telefono">
                           <div class="invalid-feedback">
                               El telefono tiene que ser un telefono
                           </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Rol *</label>
                         <select class="select2 form-control custom-select" name="Elige un rol" [ngClass]="{'is-invalid': campoNoValido('rol')}" formControlName="rol" id="rol">
                             <option value="" selected>Todos los roles</option>
                             <option value="ROL_ADMIN">Administrador</option>
@@ -37,7 +41,8 @@
                             El rol es obligatorio y solo se puede elegir entre administrador y supervisor
                           </div>
                     </div>
-                    <div *ngIf="this.datosForm.get('rol')?.value === 'ROL_SUPERVISOR'" class="form-group">
+                    <div *ngIf="this.datosForm.get('rol')?.value === 'ROL_SUPERVISOR'" class="form-group mar-bottom1">
+                      <label>Colegio *</label>
                       <div class="input-group">
                       <input type="text" (keyup)="selectColegioTrueKey($event)"
                             (input)="getColegios(); selectColegio()" class="form-control"
@@ -55,6 +60,7 @@
                       </div>
                     </div>
                     <div class="form-group">
+                      <label>Ciudad *</label>
                       <input type="text" placeholder="Ciudad *" class="form-control" formControlName="ciudad" [ngClass]="{'is-invalid': campoNoValido('ciudad')}" id="ciudad">
                           <div class="invalid-feedback">
                               La ciudad es obligatoria y debe tener 2 caracteres como mínimo

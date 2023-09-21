@@ -6,13 +6,15 @@
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearIngrediente()">
                 <h2 style="text-align: center; margin-bottom: 20px;"> Crear Ingrediente </h2>
                   <img for="fotosubidas" [src]="filePicture" alt="Image" class="shadow">
-                    <div style="margin-top: 1.5rem;" class="form-group">
+                  <div style="margin-top: 1.5rem;" class="form-group mar-bottom1">
+                    <label>Nombre *</label>
                       <input type="text" placeholder="Nombre *" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': campoNoValido('nombre')}" id="nombre">
                           <div class="invalid-feedback">
                               El nombre es obligatorio y debe tener 3 caracteres como mínimo
                           </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Unidad de medida *</label>
                       <select class="select2 form-control custom-select" name="un_medida" formControlName="unidad_medida" [ngClass]="{'is-invalid': campoNoValido('unidad_medida')}" id="unidad_medida">
                           <option value="" selected>Selecciona una unidad de medida</option>
                           <option value="kg">Kilos</option>
@@ -23,13 +25,15 @@
                           Seleccione una unidad de medida de la lista
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Precio (en €) *</label>
                       <input type="number" placeholder="Precio por unidad de medida *" class="form-control" [ngClass]="{'is-invalid': campoNoValido('precio')}" formControlName="precio" id="precio">
                           <div class="invalid-feedback">
                               El precio es obligatorio y debe ser un número mayor de 0.1
                           </div>
                     </div>
-                    <div class="form-group ">
+                    <div class="form-group">
+                      <label>Imagen</label>
                       <div class="custom-file">
                         <input type="file" class="custom-file-input"
                                formControlName="imagen" name="file" id="fotosubidas" (change)="cambioImagen($event)" >

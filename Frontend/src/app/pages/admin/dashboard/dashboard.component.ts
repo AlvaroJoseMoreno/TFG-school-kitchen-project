@@ -23,8 +23,8 @@ export class DashboardComponent implements OnInit {
   public total_pedidos = 0;
   public total_dinero = 0;
   public dateRangeComensales = new FormGroup({
-    start: new FormControl(new Date(2023, 5, 26)),
-    end: new FormControl(new Date(2023, 5, 30)),
+    start: new FormControl(new Date(2023, 6, 17)),
+    end: new FormControl(new Date(2023, 6, 23)),
   });
 
   constructor(private provinciaServicio: ProvinciaService,

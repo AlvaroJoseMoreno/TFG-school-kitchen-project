@@ -5,7 +5,8 @@
               <!-- Creamos Pedidos-->
               <form class="form-horizontal m-t-20" *ngIf="this.esnuevo && !wait_form" [formGroup]="datosForm" (ngSubmit)="crearPedido()">
                 <h2 style="text-align: center;"> Crear Pedido </h2>
-                <div style="margin-top: 1.5rem;" class="form-group">
+                <div class="form-group mar-bottom1">
+                  <label>Proveedor *</label>
                       <div class="input-group">
                       <input type="text" (input)="getProveedores(); selectProveedor()"
                              (keyup)="selecProveedorTrueKey($event)" class="form-control"
@@ -23,17 +24,20 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mar-bottom1">
+                      <label>Fecha esperada de entrega de pedido *</label>
                       <input type="text" placeholder="Fecha esperada *" onfocus="(this.type='date')" class="form-control" [ngClass]="{'is-invalid': campoNoValido('fecha_esperada')}" formControlName="fecha_esperada" id="nombre">
                           <div class="invalid-feedback">
                               La fecha esperada es obligatoria
                           </div>
                     </div>
-                    <div class="form-group">
-                        <textarea placeholder="Anotaciones (Carne fileteada, p.ej)" class="form-control" formControlName="anotaciones" id="anotaciones">
-                        </textarea>
+                    <div class="form-group mar-bottom1">
+                      <label>Anotaciones</label>
+                      <textarea placeholder="Anotaciones (Carne fileteada, p.ej)" class="form-control" formControlName="anotaciones" id="anotaciones">
+                      </textarea>
                     </div>
-                    <div *ngIf="proveedorIng.uid !== ''" class="form-group">
+                    <div *ngIf="proveedorIng.uid !== ''" class="form-group mar-bottom1">
+                      <label>Ingredientes *</label>
                       <div class="input-group">
                       <input type="text" (input)="getIngetot();" (keyup)="selecIngredienteTrueKey($event)" class="form-control" style="border-radius: 5px;" placeholder="Ingredientes *"
                           formControlName="ingredientes" [formControl]="filterIngredientes" [matAutocomplete]="auto">

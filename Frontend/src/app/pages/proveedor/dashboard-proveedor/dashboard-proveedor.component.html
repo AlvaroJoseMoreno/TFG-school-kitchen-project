@@ -10,7 +10,7 @@
                     </div>
                     <div style="width: 65%;">
                       <h2 class="text-white invoice-num center">{{total_pedidos_no_vistos}}</h2>
-                      <span style="display: block; width: 100%;" class="text-white fs-18 center">Pedidos nuevos sin ver</span>
+                      <span style="display: block; width: 100%;" class="text-white fs-18 center">Pedidos sin autorizar</span>
                       <span *ngIf="total_pedidos_no_vistos > 0" style="display: block; width: 100%;" class="text-white fs-18 center">Pincha <a [routerLink]="['/prov/pedidos']" [queryParams]="{visto_por: false}"> aquí </a> para verlos</span>
                     </div>
                   </div>
